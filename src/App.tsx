@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import theme from "./assets/theme";
+import Home from './pages/Home';
+import Error404 from "./pages/404";
 
 function App() {
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      {/* This resets the default styles of the browser */}
+      <CssBaseline />
+      <BrowserRouter>
+        {/* <Container maxWidth="lg" style={{maxWidth: "100%"}}> */}
+          <Routes>
+            {/* HOME */}
+            <Route path='/' element={<Home />} />
+            <Route path='*' element={<Error404 />} />
+          </Routes>
+        {/* </Container> */}
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
