@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from '@mui/material'
 // import { blue as primaryColor } from "@mui/material/colors"
 
 /**
@@ -8,8 +8,8 @@ import { createTheme } from "@mui/material";
 export default createTheme({
     palette: {
         primary: {
-            main: "#0077b6"
+            main: '#0077b6',
         },
-        contrastThreshold: 4.5
-    }
+        contrastThreshold: 4.5,
+    },
 })

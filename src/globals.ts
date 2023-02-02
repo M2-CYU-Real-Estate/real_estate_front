@@ -1,40 +1,36 @@
-
 const GLOBALS = {
-
     // Key for various item stored in local storage
     localStorage: {
-        userToken: "userToken",
-        rememberMe: "rememberMe"
+        userToken: 'userToken',
+        rememberMe: 'rememberMe',
     },
 
     roles: {
-        user: "ROLE_USER",
-        admin: "ROLE_ADMIN"
+        user: 'ROLE_USER',
+        admin: 'ROLE_ADMIN',
     },
 
     routes: {
         // ==== AUTH PAGES ====
-        login: () => "login",
-        register: () => "register",
-        passwordForgotten: () => "password-recovery",
+        login: () => 'login',
+        register: () => 'register',
+        passwordForgotten: () => 'password-recovery',
 
         // ==== WITHOUT REQUIRED LOGIN ====
-        home: () => "/",
-        
+        home: () => '/',
+
         // ---- HEADER ----
-        search: () => "search",
-        sell: () => "sell",
-        about: () => "about",
+        search: () => 'search',
+        sell: () => 'sell',
+        about: () => 'about',
 
         // ==== WITH REQUIRED LOGIN ====
     },
 
     apiRootPath: process.env.REACT_APP_API_ROOT,
 
-    // All routes that we can call 
-    apiRoutes: {
-        
-    }
-};
+    // All routes that we can call
+    apiRoutes: {},
+}
 
-export default GLOBALS;
+export default GLOBALS

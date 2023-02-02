@@ -1,4 +1,4 @@
-import Header from "../../components/Header";
+import Header from '../../components/Header'
 
 function notFoundPage() {
     return (
@@ -9,6 +9,6 @@ function notFoundPage() {
             </main>
         </>
     )
-};
+}
 
-export default notFoundPage;
+export default notFoundPage
