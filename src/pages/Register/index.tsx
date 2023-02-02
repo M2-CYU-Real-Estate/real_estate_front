@@ -1,5 +1,6 @@
 import MainIcon from "@mui/icons-material/House";
 import { Avatar, Box, Button, Grid, Link, Paper, TextField, Typography } from "@mui/material";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import HomeButton from "../../components/HomeButton";
 import SidePanel from "../../components/SidePanel";
@@ -26,6 +27,17 @@ const validationSchema = yup.object({
 });
 
 function Register() {
+    const formik = useFormik({
+        initialValues: {
+            name: "",
+            email: "",
+            password: "",
+            passwordConfirm: "",
+        },
+        validationSchema: validationSchema,
+        onSubmit: handleSumbit,
+    });
+
     return (
         <Grid container component="main" sx={{ height: "100vh" }}>
             <SidePanel />
@@ -66,7 +78,7 @@ function Register() {
                     <Box
                         component="form"
                         noValidate
-                        onSubmit={handleSumbit}
+                        onSubmit={formik.handleSubmit}
                         sx={{
                             mt: 1,
                         }}
@@ -78,7 +90,10 @@ function Register() {
                             id="name"
                             label="Nom"
                             name="name"
-                            autoComplete="nom"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
                             autoFocus
                         />
                         <TextField
@@ -88,7 +103,10 @@ function Register() {
                             id="email"
                             label="Adresse e-mail"
                             name="email"
-                            autoComplete="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                         />
                         <TextField
                             margin="normal"
@@ -98,6 +116,10 @@ function Register() {
                             type="password"
                             label="Mot de passe"
                             name="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
                         />
                         <TextField
                             margin="normal"
@@ -107,6 +129,15 @@ function Register() {
                             type="password"
                             label="Confirmation du mot de passe"
                             name="passwordConfirm"
+                            value={formik.values.passwordConfirm}
+                            onChange={formik.handleChange}
+                            error={
+                                formik.touched.passwordConfirm &&
+                                Boolean(formik.errors.passwordConfirm)
+                            }
+                            helperText={
+                                formik.touched.passwordConfirm && formik.errors.passwordConfirm
+                            }
                         />
                         <Button
                             type="submit"
@@ -117,9 +148,9 @@ function Register() {
                                 mb: 2,
                             }}
                         >
-                            Connexion
+                            Inscription
                         </Button>
-                        {/* Forgotten password / Sing up */}
+                        {/* Login url */}
                         <Grid container>
                             <Grid item>
                                 <Link href={GLOBALS.routes.login()} variant="body2">
@@ -142,9 +173,15 @@ function Register() {
     );
 }
 
-async function handleSumbit(e: any) {
+interface FormResponses {
+    name: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+}
+
+async function handleSumbit(e: FormResponses) {
     window.alert(JSON.stringify(e, null, 2));
-    e.preventDefault();
 }
 
 export default Register;

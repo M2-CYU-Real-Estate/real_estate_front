@@ -1,45 +1,46 @@
-import MainIcon from '@mui/icons-material/House'
+import MainIcon from "@mui/icons-material/House";
 import {
     Avatar,
     Box,
     Button,
-    Checkbox,
     FormControlLabel,
     Grid,
     Link,
     Paper,
+    Switch,
     TextField,
     Typography,
-} from '@mui/material'
-import { useFormik } from 'formik'
-import * as yup from 'yup'
-import HomeButton from '../../components/HomeButton'
-import SidePanel from '../../components/SidePanel'
-import GLOBALS from '../../globals'
+} from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import HomeButton from "../../components/HomeButton";
+import SidePanel from "../../components/SidePanel";
+import GLOBALS from "../../globals";
 
 const validationSchema = yup.object({
     email: yup
         .string()
-        .email('Une addresse e-mail valide est requise')
-        .required('Une addresse e-mail est attendue'),
+        .email("Une addresse e-mail valide est requise")
+        .required("Une addresse e-mail est attendue"),
     password: yup
         .string()
         .min(6, "Un mot de passe d'au moins 6 caractères est attendu")
-        .required('Un mot de passe est attendu'),
-})
+        .required("Un mot de passe est attendu"),
+});
 
 function Login() {
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
+            rememberMe: false,
         },
         validationSchema: validationSchema,
         onSubmit: handleSumbit,
-    })
+    });
 
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Grid container component="main" sx={{ height: "100vh" }}>
             <SidePanel />
             <Grid
                 container
@@ -60,14 +61,15 @@ function Login() {
                     sx={{
                         my: 8,
                         mx: 4,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                     }}
                 >
+                    {/* Little icon on top of form */}
                     <Avatar
                         sx={{
-                            backgroundColor: 'primary.main',
+                            backgroundColor: "primary.main",
                         }}
                     >
                         <MainIcon fontSize="large" />
@@ -75,14 +77,16 @@ function Login() {
                     <Typography component="h1" variant="h5">
                         Connexion
                     </Typography>
+                    {/* The real form */}
                     <Box
                         component="form"
                         noValidate
-                        onSubmit={handleSumbit}
+                        onSubmit={formik.handleSubmit}
                         sx={{
                             mt: 1,
                         }}
                     >
+                        {/* Email */}
                         <TextField
                             margin="normal"
                             required
@@ -90,9 +94,13 @@ function Login() {
                             id="email"
                             label="Adresse e-mail"
                             name="email"
-                            autoComplete="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                             autoFocus
                         />
+                        {/* Password */}
                         <TextField
                             margin="normal"
                             required
@@ -101,14 +109,25 @@ function Login() {
                             type="password"
                             label="Mot de passe"
                             name="password"
-                            autoComplete="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
                         />
+                        {/* Remember me */}
                         <FormControlLabel
                             control={
-                                <Checkbox value="remember" color="primary" />
+                                <Switch
+                                    id="rememberMe"
+                                    value="rememberMe"
+                                    color="primary"
+                                    onChange={formik.handleChange}
+                                    checked={formik.values.rememberMe}
+                                />
                             }
                             label="Se souvenir de moi"
                         />
+                        {/* Submit */}
                         <Button
                             type="submit"
                             fullWidth
@@ -120,29 +139,24 @@ function Login() {
                         >
                             Connexion
                         </Button>
-                        {/* Forgotten password / Sing up */}
+                        {/* Forgotten password / Sign up */}
                         <Grid container>
                             <Grid item xs>
-                                <Link
-                                    href={GLOBALS.routes.passwordForgotten()}
-                                    variant="body2"
-                                >
+                                <Link href={GLOBALS.routes.passwordForgotten()} variant="body2">
                                     Mot de passe oublié
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link
-                                    href={GLOBALS.routes.register()}
-                                    variant="body2"
-                                >
+                                <Link href={GLOBALS.routes.register()} variant="body2">
                                     Pas de compte ? En créer un.
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
+                {/* Website logo (with copyrights, normally) */}
                 <Box
-                    sx={{ backgroundColor: 'primary.main' }}
+                    sx={{ backgroundColor: "primary.main" }}
                     padding={1}
                     component={Paper}
                     elevation={6}
@@ -151,12 +165,17 @@ function Login() {
                 </Box>
             </Grid>
         </Grid>
-    )
+    );
 }
 
-async function handleSumbit(e: any) {
-    window.alert(JSON.stringify(e, null, 2))
-    e.preventDefault()
+interface FormResponses {
+    email: string;
+    password: string;
+    rememberMe: boolean;
 }
 
-export default Login
+async function handleSumbit(e: FormResponses) {
+    window.alert(JSON.stringify(e, null, 2));
+}
+
+export default Login;
