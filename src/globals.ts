@@ -16,6 +16,7 @@ const GLOBALS = {
         // ==== AUTH PAGES ====
         login: () => "login",
         register: () => "register",
+        passwordForgotten: () => "password-recovery",
 
         // ==== WITHOUT REQUIRED LOGIN ====
         home: () => "/",

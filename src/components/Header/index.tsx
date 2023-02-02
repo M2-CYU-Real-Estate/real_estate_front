@@ -1,22 +1,32 @@
-import React from "react";
-import MainIcon from '@mui/icons-material/House';
-import SellIcon from '@mui/icons-material/Sell';
-import InfoIcon from '@mui/icons-material/Info';
-import SearchIcon from '@mui/icons-material/Search';
-import LoginIcon from '@mui/icons-material/Login';
 import AccountIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
-import { AppBar, Button, Grid, Toolbar, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import GLOBALS from "../../globals";
+import InfoIcon from '@mui/icons-material/Info';
+import LoginIcon from '@mui/icons-material/Login';
+import SearchIcon from '@mui/icons-material/Search';
+import SellIcon from '@mui/icons-material/Sell';
+import { AppBar, Button, Grid, Toolbar } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import IconButton from "@mui/material/IconButton";
+import React from "react";
+import GLOBALS from "../../globals";
+import HomeButton from '../HomeButton';
 
-export default function Header() {
+interface HeaderProps {
+    /**
+     * The identifier of the user. If null, no user is logged in.
+     */
+    userId?: number;
+    userName?: string;
+}
 
-    // TODO fetch from API
-    const loggedIn: boolean = true;
+export default function Header({userId, userName}: HeaderProps) {
+
+    const loggedIn: boolean = userId != null;
+
+    if (loggedIn && userName == null) {
+        console.error("User id is defined but not the name");
+    }
 
     // Information about navigtion buttons
     const pages: Array<PageInfo> = createPageInfo();
@@ -27,14 +37,7 @@ export default function Header() {
                 <Grid container alignItems="center" justifyContent="center" style={{ width: "100%" }}>
                     <Grid item md={4} justifyContent="left">
                         {/* Home button (link to home page) */}
-                        <Typography variant="h4" color="inherit">
-                            <Link
-                                to={GLOBALS.routes.home()}
-                                style={{ color: "#fff", textDecoration: "none" }}
-                            >
-                                <MainIcon /> Smart Real Estate
-                            </Link>
-                        </Typography>
+                        <HomeButton />
                     </Grid>
                     <Grid container item md={6} justifyContent="space-evenly">
                         {/* Navigation list */}
@@ -49,9 +52,9 @@ export default function Header() {
                             </Button>
                         ))}
                     </Grid>
-                    <Grid container item md={2} justifyContent="flex-end">
+                    <Grid container item md={2} justifyContent={{"md": "flex-end", "xs": "center"}}>
                         {/* Relative to user */}
-                        {loggedIn ? UserMenu() : LoginButton()}
+                        {loggedIn ? UserMenu(userName) : LoginButton()}
                     </Grid>
                 </Grid>
             </Toolbar>
@@ -97,7 +100,7 @@ function createPageInfo(): Array<PageInfo> {
 }
 
 // User-relative section
-function UserMenu(userName: string = "Bernard") {
+function UserMenu(userName: string = "USER") {
 
     // Hook for menu management
     const [anchorElement, setAnchor] = React.useState<null | HTMLElement>(null);
@@ -143,7 +146,7 @@ function LoginButton() {
             color='inherit'
             startIcon={<LoginIcon />}
         >
-            Connection
+            Se connecter
         </Button>
     );
 }
