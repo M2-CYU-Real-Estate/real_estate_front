@@ -1,12 +1,12 @@
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import theme from './assets/theme'
-import Home from './pages/Home'
-import Error404 from './pages/404'
-import GLOBALS from './globals'
-import Login from './pages/Login'
-import Register from './pages/Register'
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
+import theme from './assets/theme';
+import Home from './pages/Home';
+import Error404 from './pages/404';
+import GLOBALS from './globals';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
     return (
@@ -32,7 +32,7 @@ function App() {
                 {/* </Container> */}
             </BrowserRouter>
         </ThemeProvider>
-    )
+    );
 }
 
-export default App
+export default App;

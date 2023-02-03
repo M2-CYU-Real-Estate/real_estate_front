@@ -1,5 +1,5 @@
-import { Grid } from '@mui/material'
-import houseImageDefault from '../../assets/images/house-default.jpg'
+import { Grid } from '@mui/material';
+import houseImageDefault from '../../assets/images/house-default.jpg';
 
 /**
  * A panel aside the main content that displays a random house image.
@@ -20,7 +20,7 @@ function SidePanel() {
                 backgroundPosition: 'center',
             }}
         />
-    )
+    );
 }
 
-export default SidePanel
+export default SidePanel;

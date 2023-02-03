@@ -1,4 +1,4 @@
-import Header from '../../components/Header'
+import Header from '../../components/Header';
 
 function Home() {
     return (
@@ -6,7 +6,7 @@ function Home() {
             <Header />
             <main>HOME</main>
         </>
-    )
+    );
 }
 
-export default Home
+export default Home;

@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material'
+import { createTheme } from '@mui/material';
 // import { blue as primaryColor } from "@mui/material/colors"
 
 /**
@@ -12,4 +12,4 @@ export default createTheme({
         },
         contrastThreshold: 4.5,
     },
-})
+});

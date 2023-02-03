@@ -31,6 +31,6 @@ const GLOBALS = {
 
     // All routes that we can call
     apiRoutes: {},
-}
+};
 
-export default GLOBALS
+export default GLOBALS;

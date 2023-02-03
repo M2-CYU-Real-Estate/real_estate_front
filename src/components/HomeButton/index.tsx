@@ -1,6 +1,6 @@
-import { Link, Typography } from '@mui/material'
-import MainIcon from '@mui/icons-material/House'
-import GLOBALS from '../../globals'
+import { Link, Typography } from '@mui/material';
+import MainIcon from '@mui/icons-material/House';
+import GLOBALS from '../../globals';
 
 function HomeButton() {
     return (
@@ -12,7 +12,7 @@ function HomeButton() {
                 <MainIcon /> Smart Real Estate
             </Link>
         </Typography>
-    )
+    );
 }
 
-export default HomeButton
+export default HomeButton;

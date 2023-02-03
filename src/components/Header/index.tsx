@@ -1,34 +1,34 @@
-import AccountIcon from '@mui/icons-material/AccountCircle'
-import HomeIcon from '@mui/icons-material/Home'
-import InfoIcon from '@mui/icons-material/Info'
-import LoginIcon from '@mui/icons-material/Login'
-import SearchIcon from '@mui/icons-material/Search'
-import SellIcon from '@mui/icons-material/Sell'
-import { AppBar, Button, Grid, Toolbar } from '@mui/material'
-import IconButton from '@mui/material/IconButton'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import React from 'react'
-import GLOBALS from '../../globals'
-import HomeButton from '../HomeButton'
+import AccountIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import LoginIcon from '@mui/icons-material/Login';
+import SearchIcon from '@mui/icons-material/Search';
+import SellIcon from '@mui/icons-material/Sell';
+import { AppBar, Button, Grid, Toolbar } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import React from 'react';
+import GLOBALS from '../../globals';
+import HomeButton from '../HomeButton';
 
 interface HeaderProps {
     /**
      * The identifier of the user. If null, no user is logged in.
      */
-    userId?: number
-    userName?: string
+    userId?: number;
+    userName?: string;
 }
 
 export default function Header({ userId, userName }: HeaderProps) {
-    const loggedIn: boolean = userId != null
+    const loggedIn: boolean = userId != null;
 
     if (loggedIn && userName == null) {
-        console.error('User id is defined but not the name')
+        console.error('User id is defined but not the name');
     }
 
     // Information about navigtion buttons
-    const pages: Array<PageInfo> = createPageInfo()
+    const pages: Array<PageInfo> = createPageInfo();
 
     return (
         <AppBar position="sticky" color="primary">
@@ -68,15 +68,15 @@ export default function Header({ userId, userName }: HeaderProps) {
                 </Grid>
             </Toolbar>
         </AppBar>
-    )
+    );
 }
 
 // Nav bar button's information
 interface PageInfo {
-    readonly key: string
-    readonly title: string
-    readonly link: string
-    readonly icon: JSX.Element
+    readonly key: string;
+    readonly title: string;
+    readonly link: string;
+    readonly icon: JSX.Element;
 }
 
 function createPageInfo(): Array<PageInfo> {
@@ -105,16 +105,16 @@ function createPageInfo(): Array<PageInfo> {
             link: GLOBALS.routes.about(),
             icon: <InfoIcon />,
         },
-    ]
+    ];
 }
 
 // User-relative section
 function UserMenu(userName: string = 'USER') {
     // Hook for menu management
-    const [anchorElement, setAnchor] = React.useState<null | HTMLElement>(null)
+    const [anchorElement, setAnchor] = React.useState<null | HTMLElement>(null);
 
-    const isMenuOpen = Boolean(anchorElement)
-    const closeMenu = () => setAnchor(null)
+    const isMenuOpen = Boolean(anchorElement);
+    const closeMenu = () => setAnchor(null);
     return (
         <>
             {/* The "open menu" button */}
@@ -139,7 +139,7 @@ function UserMenu(userName: string = 'USER') {
                 <MenuItem>Deconnection</MenuItem>
             </Menu>
         </>
-    )
+    );
 }
 
 function LoginButton() {
@@ -151,5 +151,5 @@ function LoginButton() {
         >
             Se connecter
         </Button>
-    )
+    );
 }
