@@ -4,7 +4,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import LoginIcon from '@mui/icons-material/Login';
 import SearchIcon from '@mui/icons-material/Search';
 import SellIcon from '@mui/icons-material/Sell';
-import { AppBar, Button, Grid, Toolbar } from '@mui/material';
+import { AppBar, Button, Grid, Paper, Toolbar } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,7 +31,14 @@ export default function Header({ userId, userName }: HeaderProps) {
     const pages: Array<PageInfo> = createPageInfo();
 
     return (
-        <AppBar position="sticky" color="primary">
+        <AppBar
+            position="sticky"
+            color="primary"
+            component={Paper}
+            elevation={10}
+            sx={{ borderRadius: 0 }}
+            square
+        >
             <Toolbar>
                 <Grid
                     container
