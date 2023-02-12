@@ -1,28 +1,28 @@
-import { Box, Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Grid, Button } from '@mui/material';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import * as Leaflet from 'leaflet';
 import Header from '../../components/Header';
+import LoadingBar from '../../components/LoadingBar';
 import './map.css';
 
 function Home() {
+    const [isLoading, setLoading] = useState(false);
+
+    // const enableLoading = () => setLoading(() => true);
+    // const disableLoading = () => setLoading(() => false);
+    const toggleLoading = () => setLoading((loadingState) => !loadingState);
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
             <Header />
-            {/* <main style={{ height: '100%' }}> */}
-            {/* TODO add a loading bar that take all width ? */}
+            <LoadingBar isLoading={isLoading} />
             <Grid container component="main" sx={{ height: '100%' }}>
-                {/* <LinearProgress /> */}
                 <Grid container item xs={12} md={6}>
                     <Map />
                 </Grid>
-                <Grid
-                    container
-                    item
-                    xs={12}
-                    md={6}
-                    style={{ backgroundColor: '#000000' }}
-                >
-                    coucou
+                <Grid container item xs={12} md={6}>
+                    <Button onClick={toggleLoading}>Clique batard</Button>
                 </Grid>
             </Grid>
             {/* </main> */}
@@ -30,6 +30,7 @@ function Home() {
     );
 }
 
+// TODO Put this in separate components (need to find what we have to pass though)
 function Map() {
     const bounds = Leaflet.latLngBounds(
         Leaflet.latLng(42.34461966276717, -4.63100446543711),
