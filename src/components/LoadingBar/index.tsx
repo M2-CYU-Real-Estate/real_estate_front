@@ -14,7 +14,6 @@ function LoadingBar({ isLoading, height = 5 }: LoadingBarProps) {
         <Box sx={{ height: height }}>
             <Fade
                 in={isLoading}
-                unmountOnExit
                 // A a little delay in order to not break user flow immediately
                 // (if response is fast, no loading is required)
                 style={{ transitionDelay: isLoading ? '200ms' : '0ms' }}
