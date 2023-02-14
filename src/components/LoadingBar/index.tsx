@@ -16,7 +16,7 @@ function LoadingBar({ isLoading, height = 5 }: LoadingBarProps) {
                 in={isLoading}
                 // A a little delay in order to not break user flow immediately
                 // (if response is fast, no loading is required)
-                style={{ transitionDelay: isLoading ? '200ms' : '0ms' }}
+                style={{ transitionDelay: isLoading ? '30ms' : '0ms' }}
             >
                 <LinearProgress sx={{ height: height }} />
             </Fade>

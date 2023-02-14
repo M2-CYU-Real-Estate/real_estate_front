@@ -8099,6 +8099,13 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-leaflet-heatmap-layer-v3@^3.0.3-beta-1:
+  version "3.0.3-beta-1"
+  resolved "https://registry.yarnpkg.com/react-leaflet-heatmap-layer-v3/-/react-leaflet-heatmap-layer-v3-3.0.3-beta-1.tgz#4c4fa264a6fdef23d5ab4565be6553b72c5b47d5"
+  integrity sha512-oNv6ul6JHxMIuBXqaGc5P/VM/P6bpiUYAeg1CMCmyeYxWkHfl2YiT4m8VdaJC4TjSxVoi/Ry2ChRTFjF5UsPsg==
+  dependencies:
+    simpleheat "^0.4.0"
+
 react-leaflet@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-4.2.0.tgz#6c2ee4b576209d9fe40e78006cfa37196c216eaa"
@@ -8708,6 +8715,11 @@ signal-exit@^3.0.2, signal-exit@^3.0.3:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
+
+simpleheat@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/simpleheat/-/simpleheat-0.4.0.tgz#e2de8d4548fcf1a6960b636bfa939d05bcd49a7b"
+  integrity sha512-tdg3I1NvzMdPKscWBrHbF0LBf+VWuBBazzGUPtFJjG5Q12VQX6gPY8jLy9hx5CbgAIVc5nfnePwJvAYK6z1rAA==
 
 sisteransi@^1.0.5:
   version "1.0.5"

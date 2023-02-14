@@ -1,0 +1,104 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.359317, 47.04906]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.359317, 47.04916]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.359317, 47.04906]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-4.63100446543711, 42.34461966276717]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-4.63100446543711, 42.34461966276717]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-4.63100446543711, 42.34461966276717]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-4.63100446543711, 42.34461966276717]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-4.63100446543711, 42.34461966276717]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-4.63100446543711, 42.34461966276717]
+            },
+            "properties": {
+                "rating": 3.2,
+                "restaurant_name": "Sonu Da Dhaba"
+            }
+        }
+    ]
+}

@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
+import { HeatmapLayer } from 'react-leaflet-heatmap-layer-v3';
 import * as Leaflet from 'leaflet';
 import './map.css';
-import Grid from '@mui/material/Grid';
 import { Box } from '@mui/material';
 
 const bounds = Leaflet.latLngBounds(
@@ -12,6 +13,18 @@ const bounds = Leaflet.latLngBounds(
 const center = Leaflet.latLng(47.04906, 2.359317);
 
 function Map() {
+    const [heatmap, setHeatmap] = useState<Array<HeatmapData>>(randomHeatmap());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log('Update map');
+            setHeatmap(() => randomHeatmap());
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
     return (
         <Box
             display="flex"
@@ -33,6 +46,18 @@ function Map() {
                 maxBounds={bounds}
                 placeholder={<PlaceHolder />}
             >
+                {/* Note: in OpenJSON, lon is before lat */}
+                {/* TODO create a wrapper for various heatmap formats */}
+                <HeatmapLayer
+                    points={heatmap}
+                    longitudeExtractor={(m: HeatmapData) => m.lon}
+                    latitudeExtractor={(m: HeatmapData) => m.lat}
+                    intensityExtractor={(m: HeatmapData) => m.intensity}
+                    radius={10}
+                    max={100}
+                    minOpacity={1}
+                    useLocalExtrema={true}
+                />
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             </MapContainer>
         </Box>
@@ -51,6 +76,24 @@ function PlaceHolder() {
             </noscript>
         </p>
     );
+}
+
+interface HeatmapData {
+    lat: number;
+    lon: number;
+    intensity: number;
+}
+
+function randomHeatmap(): Array<HeatmapData> {
+    return Array.from({ length: 100 }, () => ({
+        lat: randNum(42.34461966276717, 51.49738015273181),
+        lon: randNum(-4.63100446543711, 9.166492986643812),
+        intensity: randNum(1.0, 100.0),
+    }));
+}
+
+function randNum(min: number = 0.0, max: number = 1.0): number {
+    return Math.random() * (max - min + 1) + min;
 }
 
 export default Map;
