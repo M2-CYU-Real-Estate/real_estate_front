@@ -55,7 +55,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
         setTimeout(() => {
             endLoading();
             setTabValue(newValue);
-        }, 50);
+        }, 500);
     };
 
     return (

@@ -3,7 +3,7 @@ import RecommendationCard from './RecommendationCard';
 import mockRecommendations from './mockRecommendations';
 
 function RecommendationsPanel() {
-    const nbRecommendations = 20;
+    const nbRecommendations = mockRecommendations.length;
 
     return (
         <Box

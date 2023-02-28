@@ -20,6 +20,7 @@ interface RecommendationProps {
     price: number;
     description: string;
     isNotificationEnabled: boolean;
+    suggestionHint?: string;
     area?: number;
     rooms?: number;
     bedrooms?: number;
@@ -36,6 +37,7 @@ function RecommendationCard({
     price,
     description,
     isNotificationEnabled,
+    suggestionHint,
     area,
     rooms,
     bedrooms,
@@ -43,7 +45,9 @@ function RecommendationCard({
 }: RecommendationProps) {
     // TODO can we have a more generic card for using with last entries too ?
 
-    const [isNotificationActive, setNotificationActive] = useState(false);
+    const [isNotificationActive, setNotificationActive] = useState(
+        isNotificationEnabled
+    );
 
     const onNotificationClick = (e: React.MouseEvent) => {
         // Avoid that the "click on entire card" action is taken
@@ -52,9 +56,6 @@ function RecommendationCard({
         // Toggle the notification
         setNotificationActive((prev) => !prev);
     };
-
-    const longText =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.';
 
     return (
         <Card sx={{ width: '100%', height: '13em', mb: '2em', flexShrink: 0 }}>
@@ -73,7 +74,7 @@ function RecommendationCard({
                     <Grid item md={5}>
                         <CardMedia
                             sx={{ height: '100%', borderRadius: '5px' }}
-                            image="https://v.seloger.com/s/width/800/visuels/0/u/j/j/0ujjmzbxolmhn0v66tarvmbc9mzul426cp0ig8of4.jpg"
+                            image={imageUrl}
                         />
                     </Grid>
                     {/* Content */}
@@ -92,7 +93,7 @@ function RecommendationCard({
                                 color="primary.dark"
                                 maxWidth="70%"
                             >
-                                Une très jolie maison !
+                                {title}
                             </Typography>
                             <Box
                                 sx={{
@@ -101,7 +102,12 @@ function RecommendationCard({
                                     top: '0',
                                 }}
                             >
-                                <Tooltip title="Parce que vous êtes gentil">
+                                <Tooltip
+                                    title={
+                                        suggestionHint ||
+                                        'Pas de raison particulière...'
+                                    }
+                                >
                                     <IconButton
                                         size="large"
                                         style={{
@@ -126,7 +132,9 @@ function RecommendationCard({
                         </Box>
                         {/* Price */}
                         <Box width="100%">
-                            <Typography variant="body1">105.500€</Typography>
+                            <Typography variant="body1">
+                                {convertToCurrency(price)}
+                            </Typography>
                         </Box>
                         {/* Caracteristics (size etc.) */}
                         <Grid
@@ -138,20 +146,26 @@ function RecommendationCard({
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<OpenInFullIcon />}
-                                    text="132 m²"
+                                    text={convertToArea(area)}
                                 />
                             </Grid>
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<MeetingRoomIcon />}
-                                    text="3"
+                                    text={rooms?.toString()}
                                 />
                             </Grid>
                             <Grid item xs={3}>
-                                <TextWithIcon icon={<BedIcon />} text="2" />
+                                <TextWithIcon
+                                    icon={<BedIcon />}
+                                    text={bedrooms?.toString()}
+                                />
                             </Grid>
                             <Grid item xs={3}>
-                                <TextWithIcon icon={<ShowerIcon />} text="1" />
+                                <TextWithIcon
+                                    icon={<ShowerIcon />}
+                                    text={bathrooms?.toString()}
+                                />
                             </Grid>
                         </Grid>
                         {/* The text that will overflow if too long */}
@@ -167,7 +181,7 @@ function RecommendationCard({
                                     WebkitBoxOrient: 'vertical',
                                 }}
                             >
-                                {longText}
+                                {description}
                             </Typography>
                         </Box>
                     </Grid>
@@ -177,13 +191,30 @@ function RecommendationCard({
     );
 }
 
+function convertToCurrency(value?: number): string {
+    if (!value) {
+        return 'Prix non défini';
+    }
+    return value.toLocaleString('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+    });
+}
+
+function convertToArea(value?: number): string | undefined {
+    if (!value) {
+        return undefined;
+    }
+    return `${Math.round(value)} m²`;
+}
+
 interface TextIconProps {
     icon: JSX.Element;
     text?: string;
 }
 
 function TextWithIcon({ icon, text }: TextIconProps) {
-    const textToDisplay = text || 'X';
+    const textToDisplay = text || '...';
     return (
         <Typography
             variant="subtitle1"
