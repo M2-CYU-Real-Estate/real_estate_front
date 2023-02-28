@@ -18,6 +18,7 @@ const GLOBALS = {
 
         // ==== WITHOUT REQUIRED LOGIN ====
         home: () => '/',
+        estate: (id: number) => `estates/${id}`,
 
         // ---- HEADER ----
         search: () => 'search',

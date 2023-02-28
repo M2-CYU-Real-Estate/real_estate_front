@@ -1,5 +1,4 @@
-import { Box, Card, IconButton, Tooltip } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
+import { Box, Card, CardActionArea, IconButton, Tooltip } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -11,12 +10,14 @@ import InfoIcon from '@mui/icons-material/Info';
 import BedIcon from '@mui/icons-material/Bed';
 import ShowerIcon from '@mui/icons-material/Shower';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import GLOBALS from '../../globals';
 
 interface RecommendationProps {
     id: number;
     title: string;
     imageUrl: string;
-    price: string;
+    price: number;
     description: string;
     isNotificationEnabled: boolean;
     area?: number;
@@ -28,12 +29,27 @@ interface RecommendationProps {
 /**
  * One card representing one recommendation for the
  */
-function RecommendationCard() {
+function RecommendationCard({
+    id,
+    title,
+    imageUrl,
+    price,
+    description,
+    isNotificationEnabled,
+    area,
+    rooms,
+    bedrooms,
+    bathrooms,
+}: RecommendationProps) {
     // TODO can we have a more generic card for using with last entries too ?
 
     const [isNotificationActive, setNotificationActive] = useState(false);
 
-    const toggleNotification = () => {
+    const onNotificationClick = (e: React.MouseEvent) => {
+        // Avoid that the "click on entire card" action is taken
+        e.stopPropagation();
+        e.preventDefault();
+        // Toggle the notification
         setNotificationActive((prev) => !prev);
     };
 
@@ -42,110 +58,121 @@ function RecommendationCard() {
 
     return (
         <Card sx={{ width: '100%', height: '13em', mb: '2em', flexShrink: 0 }}>
-            <Grid
-                container
-                flexDirection="row"
-                height="100%"
-                columnSpacing="0.5em"
+            <CardActionArea
+                component={Link}
+                to={GLOBALS.routes.estate(id)}
+                sx={{ width: '100%', height: '100%' }}
             >
-                {/* Image */}
-                <Grid item md={5}>
-                    <CardMedia
-                        sx={{ height: '100%', borderRadius: '5px' }}
-                        image="https://v.seloger.com/s/width/800/visuels/0/u/j/j/0ujjmzbxolmhn0v66tarvmbc9mzul426cp0ig8of4.jpg"
-                    />
-                </Grid>
-                {/* Content */}
-                <Grid container item md={7}>
-                    {/* First row */}
-                    <Box
-                        display="flex"
-                        flexDirection="row"
-                        justifyContent="space-between"
-                        width="100%"
-                        position="relative"
-                    >
-                        <Typography
-                            variant="h5"
-                            fontWeight="bold"
-                            color="primary.dark"
-                            maxWidth="70%"
-                        >
-                            Une très jolie maison !
-                        </Typography>
+                <Grid
+                    container
+                    flexDirection="row"
+                    height="100%"
+                    columnSpacing="0.5em"
+                >
+                    {/* Image */}
+                    <Grid item md={5}>
+                        <CardMedia
+                            sx={{ height: '100%', borderRadius: '5px' }}
+                            image="https://v.seloger.com/s/width/800/visuels/0/u/j/j/0ujjmzbxolmhn0v66tarvmbc9mzul426cp0ig8of4.jpg"
+                        />
+                    </Grid>
+                    {/* Content */}
+                    <Grid container item md={7}>
+                        {/* First row */}
                         <Box
-                            sx={{
-                                position: 'absolute',
-                                right: '0',
-                                top: '0',
-                            }}
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                            position="relative"
                         >
-                            <Tooltip title="Parce que vous êtes gentil">
+                            <Typography
+                                variant="h5"
+                                fontWeight="bold"
+                                color="primary.dark"
+                                maxWidth="70%"
+                            >
+                                Une très jolie maison !
+                            </Typography>
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    right: '0',
+                                    top: '0',
+                                }}
+                            >
+                                <Tooltip title="Parce que vous êtes gentil">
+                                    <IconButton
+                                        size="large"
+                                        style={{
+                                            backgroundColor: 'transparent',
+                                        }}
+                                    >
+                                        <InfoIcon />
+                                    </IconButton>
+                                </Tooltip>
                                 <IconButton
                                     size="large"
-                                    style={{ backgroundColor: 'transparent' }}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onClick={onNotificationClick}
                                 >
-                                    <InfoIcon />
+                                    {isNotificationActive ? (
+                                        <NotificationsIcon />
+                                    ) : (
+                                        <NotificationsNoneIcon />
+                                    )}
                                 </IconButton>
-                            </Tooltip>
-                            <IconButton
-                                size="large"
-                                onClick={toggleNotification}
-                            >
-                                {isNotificationActive ? (
-                                    <NotificationsIcon />
-                                ) : (
-                                    <NotificationsNoneIcon />
-                                )}
-                            </IconButton>
+                            </Box>
                         </Box>
-                    </Box>
-                    {/* Price */}
-                    <Box width="100%">
-                        <Typography variant="body1">105.500€</Typography>
-                    </Box>
-                    {/* Caracteristics (size etc.) */}
-                    <Grid
-                        container
-                        display="flex"
-                        justifyContent="center"
-                        alignItems=""
-                    >
-                        <Grid item xs={3}>
-                            <TextWithIcon
-                                icon={<OpenInFullIcon />}
-                                text="132 m²"
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextWithIcon icon={<MeetingRoomIcon />} text="3" />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextWithIcon icon={<BedIcon />} text="2" />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextWithIcon icon={<ShowerIcon />} text="1" />
-                        </Grid>
-                    </Grid>
-                    {/* The text that will overflow if too long */}
-                    <Box width="100%">
-                        <Typography
-                            variant="body2"
-                            // Only 2 lines before cropping
-                            sx={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                display: '-webkit-box',
-                                WebkitLineClamp: '2',
-                                WebkitBoxOrient: 'vertical',
-                            }}
+                        {/* Price */}
+                        <Box width="100%">
+                            <Typography variant="body1">105.500€</Typography>
+                        </Box>
+                        {/* Caracteristics (size etc.) */}
+                        <Grid
+                            container
+                            display="flex"
+                            justifyContent="center"
+                            alignItems=""
                         >
-                            {longText}
-                        </Typography>
-                    </Box>
+                            <Grid item xs={3}>
+                                <TextWithIcon
+                                    icon={<OpenInFullIcon />}
+                                    text="132 m²"
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TextWithIcon
+                                    icon={<MeetingRoomIcon />}
+                                    text="3"
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TextWithIcon icon={<BedIcon />} text="2" />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TextWithIcon icon={<ShowerIcon />} text="1" />
+                            </Grid>
+                        </Grid>
+                        {/* The text that will overflow if too long */}
+                        <Box width="100%">
+                            <Typography
+                                variant="body2"
+                                // Only 2 lines before cropping
+                                sx={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: '2',
+                                    WebkitBoxOrient: 'vertical',
+                                }}
+                            >
+                                {longText}
+                            </Typography>
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
-            {/* <CardHeader avatar={<Avatar>Moi</Avatar>} /> */}
+            </CardActionArea>
         </Card>
     );
 }

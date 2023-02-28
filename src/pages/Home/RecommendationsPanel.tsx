@@ -1,5 +1,6 @@
 import { Box, Button, Grid, List, Typography } from '@mui/material';
 import RecommendationCard from './RecommendationCard';
+import mockRecommendations from './mockRecommendations';
 
 function RecommendationsPanel() {
     const nbRecommendations = 20;
@@ -43,8 +44,8 @@ function RecommendationsPanel() {
                 paddingTop="2em"
                 sx={{ overflowY: 'scroll' }}
             >
-                {[1, 2, 3, 4, 5].map((n) => (
-                    <RecommendationCard key={n} />
+                {mockRecommendations.map((r) => (
+                    <RecommendationCard key={r.id} {...r} />
                 ))}
             </Box>
         </Box>
