@@ -4,7 +4,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Header from '../../components/Header';
 import LoadingBar from '../../components/LoadingBar';
 import Map from '../../components/Map';
-import Recommendations from './Recommendations';
+import RecommendationsPanel from './RecommendationsPanel';
 import LastEntries from './LastEntries';
 
 function Home() {
@@ -27,7 +27,7 @@ function Home() {
                 <Grid container item xs={12} md={6}>
                     <Map />
                 </Grid>
-                <Grid container item xs={12} md={6}>
+                <Grid container item xs={12} md={6} sx={{ height: '100%' }}>
                     <TabsPanel
                         startLoading={enableLoading}
                         endLoading={disableLoading}
@@ -55,7 +55,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
         setTimeout(() => {
             endLoading();
             setTabValue(newValue);
-        }, 500);
+        }, 50);
     };
 
     return (
@@ -64,6 +64,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                 display="flex"
                 alignItems="stretch"
                 flexDirection="column"
+                height="100%"
                 width="100%"
             >
                 {/* The "tabs" bar */}
@@ -88,11 +89,11 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                     </TabList>
                 </Box>
                 {/* Each tab panel is really here */}
-                <Box>
-                    <TabPanel value="1">
-                        <Recommendations />
+                <Box height="100%">
+                    <TabPanel sx={{ padding: 0, height: '100%' }} value="1">
+                        <RecommendationsPanel />
                     </TabPanel>
-                    <TabPanel value="2">
+                    <TabPanel sx={{ padding: 0, height: '100%' }} value="2">
                         <LastEntries />
                     </TabPanel>
                 </Box>

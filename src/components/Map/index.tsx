@@ -15,15 +15,15 @@ const center = Leaflet.latLng(47.04906, 2.359317);
 function Map() {
     const [heatmap, setHeatmap] = useState<Array<HeatmapData>>(randomHeatmap());
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            console.log('Update map');
-            setHeatmap(() => randomHeatmap());
-        }, 1000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         console.log('Update map');
+    //         setHeatmap(() => randomHeatmap());
+    //     }, 1000);
+    //     return () => {
+    //         clearInterval(interval);
+    //     };
+    // }, []);
 
     return (
         <Box
@@ -46,7 +46,6 @@ function Map() {
                 maxBounds={bounds}
                 placeholder={<PlaceHolder />}
             >
-                {/* Note: in OpenJSON, lon is before lat */}
                 {/* TODO create a wrapper for various heatmap formats */}
                 <HeatmapLayer
                     points={heatmap}
@@ -85,6 +84,7 @@ interface HeatmapData {
 }
 
 function randomHeatmap(): Array<HeatmapData> {
+    /* Note: in OpenJSON, lon is before lat */
     return Array.from({ length: 100 }, () => ({
         lat: randNum(42.34461966276717, 51.49738015273181),
         lon: randNum(-4.63100446543711, 9.166492986643812),
