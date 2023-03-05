@@ -55,7 +55,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
         setTimeout(() => {
             endLoading();
             setTabValue(newValue);
-        }, 500);
+        }, 10);
     };
 
     return (
@@ -91,7 +91,10 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                 {/* Each tab panel is really here */}
                 <Box height="100%">
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="1">
-                        <RecommendationsPanel />
+                        <RecommendationsPanel
+                            enableLoading={startLoading}
+                            disableLoading={endLoading}
+                        />
                     </TabPanel>
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="2">
                         <LastEntries />

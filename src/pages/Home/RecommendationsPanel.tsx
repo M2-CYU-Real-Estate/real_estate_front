@@ -2,7 +2,15 @@ import { Box, Button, Grid, List, Typography } from '@mui/material';
 import RecommendationCard from './RecommendationCard';
 import mockRecommendations from './mockRecommendations';
 
-function RecommendationsPanel() {
+interface RecommendationProps {
+    enableLoading: () => void;
+    disableLoading: () => void;
+}
+
+function RecommendationsPanel({
+    enableLoading,
+    disableLoading,
+}: RecommendationProps) {
     const nbRecommendations = mockRecommendations.length;
 
     return (

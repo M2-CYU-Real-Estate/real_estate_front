@@ -1,17 +1,18 @@
+import BedIcon from '@mui/icons-material/Bed';
+import InfoIcon from '@mui/icons-material/Info';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import ShowerIcon from '@mui/icons-material/Shower';
 import { Box, Card, CardActionArea, IconButton, Tooltip } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import InfoIcon from '@mui/icons-material/Info';
-import BedIcon from '@mui/icons-material/Bed';
-import ShowerIcon from '@mui/icons-material/Shower';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GLOBALS from '../../globals';
+import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 
 interface RecommendationProps {
     id: number;
@@ -61,7 +62,7 @@ function RecommendationCard({
         <Card sx={{ width: '100%', height: '13em', mb: '2em', flexShrink: 0 }}>
             <CardActionArea
                 component={Link}
-                to={GLOBALS.routes.estate(id)}
+                to={GLOBALS.routes.estate(id.toString())}
                 sx={{ width: '100%', height: '100%' }}
             >
                 <Grid
@@ -189,23 +190,6 @@ function RecommendationCard({
             </CardActionArea>
         </Card>
     );
-}
-
-function convertToCurrency(value?: number): string {
-    if (!value) {
-        return 'Prix non défini';
-    }
-    return value.toLocaleString('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-    });
-}
-
-function convertToArea(value?: number): string | undefined {
-    if (!value) {
-        return undefined;
-    }
-    return `${Math.round(value)} m²`;
 }
 
 interface TextIconProps {
