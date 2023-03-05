@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import TextWithIcon from '../../components/TextWithIcon';
 import GLOBALS from '../../globals';
 import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 
@@ -189,23 +190,6 @@ function RecommendationCard({
                 </Grid>
             </CardActionArea>
         </Card>
-    );
-}
-
-interface TextIconProps {
-    icon: JSX.Element;
-    text?: string;
-}
-
-function TextWithIcon({ icon, text }: TextIconProps) {
-    const textToDisplay = text || '...';
-    return (
-        <Typography
-            variant="subtitle1"
-            sx={{ verticalAlign: 'middle', display: 'inline-flex' }}
-        >
-            {icon} {textToDisplay}
-        </Typography>
     );
 }
 

@@ -1,5 +1,14 @@
+import BedIcon from '@mui/icons-material/Bed';
+import InfoIcon from '@mui/icons-material/Info';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import ShowerIcon from '@mui/icons-material/Shower';
 import { EstateProperties } from '..';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
+import TextWithIcon from '../../../components/TextWithIcon';
+import { convertToArea, convertToCurrency } from '../../../utils/StringUtils';
 
 function MainEstatePanel(props: { estate: EstateProperties }) {
     const estate = props.estate;
@@ -29,6 +38,37 @@ function MainEstatePanel(props: { estate: EstateProperties }) {
                 <Typography variant="h5" color="primary.dark">
                     {estate.title}
                 </Typography>
+                <Grid
+                    container
+                    display="flex"
+                    justifyContent="center"
+                    alignItems=""
+                >
+                    <Grid item xs={3}>
+                        <TextWithIcon
+                            icon={<OpenInFullIcon />}
+                            text={convertToArea(estate.area)}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextWithIcon
+                            icon={<MeetingRoomIcon />}
+                            text={estate.rooms?.toString()}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextWithIcon
+                            icon={<BedIcon />}
+                            text={estate.bedrooms?.toString()}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextWithIcon
+                            icon={<ShowerIcon />}
+                            text={estate.bathrooms?.toString()}
+                        />
+                    </Grid>
+                </Grid>
             </Paper>
         </Box>
     );
