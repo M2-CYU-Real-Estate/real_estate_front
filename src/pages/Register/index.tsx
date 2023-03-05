@@ -12,7 +12,7 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import HomeButton from '../../components/HomeButton';
-import SidePanel from '../../components/SidePanel';
+import SidePanel from '../../components/SideImagePanel';
 import GLOBALS from '../../globals';
 
 const validationSchema = yup.object({

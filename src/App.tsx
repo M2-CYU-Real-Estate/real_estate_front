@@ -7,6 +7,7 @@ import Error404 from './pages/404';
 import GLOBALS from './globals';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Estate from './pages/Estate';
 
 function App() {
     return (
@@ -18,6 +19,12 @@ function App() {
                 <Routes>
                     {/* HOME */}
                     <Route path={GLOBALS.routes.home()} element={<Home />} />
+
+                    {/* ESTATES */}
+                    <Route
+                        path={GLOBALS.routes.estate(':id')}
+                        element={<Estate />}
+                    />
 
                     {/* LOGIN / REGISTER */}
                     <Route path={GLOBALS.routes.login()} element={<Login />} />
