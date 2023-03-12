@@ -23,11 +23,16 @@ function Home() {
             <Header />
             <LoadingBar isLoading={isLoading} />
             {/* The bottom panel take all the remaining space on grid */}
-            <Grid item container component="main" sx={{ height: '100%' }}>
-                <Grid container item xs={12} md={6}>
+            <Grid
+                container
+                component="main"
+                height="calc(100% - 69px)"
+                display="flex"
+            >
+                <Grid item xs={12} md={6} height="100%">
                     <Map />
                 </Grid>
-                <Grid container item xs={12} md={6} sx={{ height: '100%' }}>
+                <Grid item xs={12} md={6} height="100%">
                     <TabsPanel
                         startLoading={enableLoading}
                         endLoading={disableLoading}
@@ -61,6 +66,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
     return (
         <TabContext value={tabValue}>
             <Box
+                className="coucou"
                 display="flex"
                 alignItems="stretch"
                 flexDirection="column"
@@ -71,6 +77,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                 <Box
                     alignItems="right"
                     sx={{
+                        height: '3em',
                         borderBottom: 1,
                         borderColor: 'divider',
                     }}
@@ -78,7 +85,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                     <TabList
                         onChange={changeTab}
                         aria-label="Onglets"
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%', height: '3em' }}
                     >
                         <Tab
                             label="Recommendations"
@@ -89,7 +96,12 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                     </TabList>
                 </Box>
                 {/* Each tab panel is really here */}
-                <Box height="100%">
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    // Remove the height of the "tab list part"
+                    height="calc(100% - 3em)"
+                >
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="1">
                         <RecommendationsPanel
                             enableLoading={startLoading}
