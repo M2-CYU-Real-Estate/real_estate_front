@@ -1,14 +1,7 @@
-import BedIcon from '@mui/icons-material/Bed';
-import InfoIcon from '@mui/icons-material/Info';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import ShowerIcon from '@mui/icons-material/Shower';
 import { EstateProperties } from '..';
-import { Box, Grid, Paper, Typography } from '@mui/material';
-import TextWithIcon from '../../../components/TextWithIcon';
-import { convertToArea, convertToCurrency } from '../../../utils/StringUtils';
+import { Box, Link, Paper, Typography } from '@mui/material';
+import CaracteristicsBar from './CaracteristicsBar';
+import { convertToCurrency } from '../../../utils/StringUtils';
 
 function MainEstatePanel(props: { estate: EstateProperties }) {
     const estate = props.estate;
@@ -35,40 +28,38 @@ function MainEstatePanel(props: { estate: EstateProperties }) {
                     alt="Image de l'offre"
                     src={estate.imageUrl}
                 />
-                <Typography variant="h5" color="primary.dark">
-                    {estate.title}
-                </Typography>
-                <Grid
-                    container
+                <Box
+                    padding="1em"
                     display="flex"
-                    justifyContent="center"
-                    alignItems=""
+                    rowGap="1em"
+                    justifyContent="space-between"
+                    flexDirection="column"
                 >
-                    <Grid item xs={3}>
-                        <TextWithIcon
-                            icon={<OpenInFullIcon />}
-                            text={convertToArea(estate.area)}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextWithIcon
-                            icon={<MeetingRoomIcon />}
-                            text={estate.rooms?.toString()}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextWithIcon
-                            icon={<BedIcon />}
-                            text={estate.bedrooms?.toString()}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextWithIcon
-                            icon={<ShowerIcon />}
-                            text={estate.bathrooms?.toString()}
-                        />
-                    </Grid>
-                </Grid>
+                    <Box>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                        >
+                            <Typography variant="h5" color="primary.dark">
+                                {estate.title}
+                            </Typography>
+                            <Link component="a" href={estate.propertyUrl}>
+                                {"Voir le site de l'annonce"}
+                            </Link>
+                        </Box>
+                        <Typography variant="body1" fontWeight="bold">
+                            {convertToCurrency(estate.price)}
+                        </Typography>
+                    </Box>
+                    <CaracteristicsBar {...estate} />
+                    {/* Description */}
+                    <Box width="100%">
+                        <Typography variant="body2">
+                            {estate.description}
+                        </Typography>
+                    </Box>
+                </Box>
             </Paper>
         </Box>
     );

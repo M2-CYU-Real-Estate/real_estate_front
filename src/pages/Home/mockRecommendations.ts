@@ -8,6 +8,7 @@ const mockRecommendations = [
         title: 'Une très jolie maison, 95330',
         imageUrl:
             'https://v.seloger.com/s/width/800/visuels/0/u/j/j/0ujjmzbxolmhn0v66tarvmbc9mzul426cp0ig8of4.jpg',
+        propertyUrl: 'oui',
         price: 150000,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
@@ -23,6 +24,7 @@ const mockRecommendations = [
         title: 'Une pas jolie maison, 77777',
         imageUrl:
             'https://v.seloger.com/s/width/800/visuels/0/2/1/6/02164ah241qv61pwucf5ustv88weta3avmxhwivts.jpg',
+        propertyUrl: 'oui',
         price: 3333333,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
@@ -36,6 +38,7 @@ const mockRecommendations = [
         title: 'Une très jolie maison',
         imageUrl:
             'https://v.seloger.com/s/height/800/visuels/1/i/a/h/1iahogkbutfilfbv0pksvpnvoewflnow0i2wu5nai.jpg',
+        propertyUrl: 'oui',
         price: 222222,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
@@ -49,6 +52,7 @@ const mockRecommendations = [
         title: 'Une très jolie maison',
         imageUrl:
             'https://v.seloger.com/s/width/800/visuels/0/u/j/j/0ujjmzbxolmhn0v66tarvmbc9mzul426cp0ig8of4.jpg',
+        propertyUrl: 'oui',
         price: 11111111111111,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',

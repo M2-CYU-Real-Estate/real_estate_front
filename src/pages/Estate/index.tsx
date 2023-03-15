@@ -7,6 +7,7 @@ import LoadingBar from '../../components/LoadingBar';
 import mockRecommendations from '../Home/mockRecommendations';
 import MainEstatePanel from './MainEstatePanel';
 import SideEstatePanel from './SideEstatePanel';
+import { EstateProperties } from '../../types/estate';
 
 /**
  * The url parameters to fetch for the page
@@ -65,12 +66,12 @@ function EstatePanel(props: { estate: EstateProperties }) {
     return (
         <Grid container rowSpacing="2em">
             {/* The main panel with informations of the estate */}
-            <Grid item xl={8} xs={12}>
+            <Grid item xl={7} xs={12}>
                 <MainEstatePanel {...props} />
             </Grid>
             {/* The side panel with statistics etc.*/}
             {/* TODO create another component for this (or separate both in two sub-components) */}
-            <Grid item xl={4} xs={12}>
+            <Grid item xl={5} xs={12}>
                 <SideEstatePanel {...props} />
             </Grid>
         </Grid>
@@ -78,18 +79,6 @@ function EstatePanel(props: { estate: EstateProperties }) {
 }
 
 // TEMP: To remove when fetching will be better
-
-interface EstateProperties {
-    title: string;
-    imageUrl: string;
-    price: number;
-    description: string;
-    isNotificationEnabled: boolean;
-    area?: number;
-    rooms?: number;
-    bedrooms?: number;
-    bathrooms?: number;
-}
 
 // TODO delete this, this is not real
 function fetchEstate(id?: string): Promise<EstateProperties> {

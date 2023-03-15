@@ -10,6 +10,9 @@ export default createTheme({
         primary: {
             main: '#0077b6',
         },
+        secondary: {
+            main: '#0098E9',
+        },
         contrastThreshold: 4.5,
     },
 });
