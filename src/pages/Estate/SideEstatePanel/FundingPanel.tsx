@@ -168,9 +168,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                         fullWidth
                         value={contribution}
                         onChange={(e) =>
-                            setContribution(
-                                parseInt(e.target.value.replaceAll(/\s+/g, ''))
-                            )
+                            setContribution(parseMaybeEmptyInt(e.target.value))
                         }
                         // Add the "€" icon at the beginning
                         InputProps={{
@@ -218,7 +216,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                         defaultValue={creditRate}
                         onChange={(e, v) => setCreditRate(extractNumber(v))}
                         step={0.05}
-                        min={0}
+                        min={0.1}
                         max={10}
                         marks={createSteppedMarks(0, 10, 2, '%')}
                     />
@@ -257,7 +255,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                             legend: {
                                 display: true,
                                 align: 'center',
-                                position: 'bottom',
+                                position: 'top',
                             },
                             doughnutTextCenter: {
                                 centerText: `${splitThousands(
@@ -323,6 +321,12 @@ function computeCosts(
 
 function extractNumber(n: number | number[]): number {
     return Array.isArray(n) ? n[0] : n;
+}
+
+// If string is empty or invalid, returns 0
+function parseMaybeEmptyInt(s: string): number {
+    const cleanedString = s.replaceAll(/\s+/g, '');
+    return parseInt(cleanedString) || 0;
 }
 
 function createSteppedMarks(

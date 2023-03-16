@@ -1,4 +1,4 @@
-import { Chart, DoughnutController, Plugin, registry } from 'chart.js';
+import { DoughnutController, Plugin } from 'chart.js';
 
 export const textCenterPlugin: Plugin<'doughnut'> = {
     id: 'doughnutTextCenter',
