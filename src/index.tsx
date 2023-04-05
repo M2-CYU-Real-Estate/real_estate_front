@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { store } from './app/store';
+import { persistor, store } from './app/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import CircularCenteredLoading from './components/loading/CircularCenteredLoading';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -12,7 +14,13 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App />
+            {/* Used for handling persisted state properties */}
+            <PersistGate
+                loading={<CircularCenteredLoading />}
+                persistor={persistor}
+            >
+                <App />
+            </PersistGate>
         </Provider>
     </React.StrictMode>
 );

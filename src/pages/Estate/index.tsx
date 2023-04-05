@@ -3,7 +3,7 @@ import { Box, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Error404 from '../../pages/404';
 import Header from '../../components/Header';
-import LoadingBar from '../../components/LoadingBar';
+import LoadingBar from '../../components/loading/LoadingBar';
 import mockRecommendations from '../Home/mockRecommendations';
 import MainEstatePanel from './MainEstatePanel';
 import SideEstatePanel from './SideEstatePanel';

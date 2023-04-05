@@ -43,6 +43,13 @@ const GLOBALS = {
         login: () => `${GLOBALS.apiRoutes.auth()}/login`,
         register: () => `${GLOBALS.apiRoutes.auth()}/register`,
     },
+
+    // The local storage keys
+    storageKeys: {
+        token: 'token',
+        tokenExpiration: 'expiration',
+        rememberMe: 'rememberMe',
+    },
 };
 
 export default GLOBALS;

@@ -27,7 +27,9 @@ interface RegisterResponse {
 }
 
 export const authApi = createApi({
+    reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
+        credentials: 'same-origin',
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).authUser.token;
             if (token) {

@@ -1,6 +1,7 @@
 import MainIcon from '@mui/icons-material/House';
-import { Alert, LoadingButton } from '@mui/lab';
+import { LoadingButton } from '@mui/lab';
 import {
+    Alert,
     Avatar,
     Box,
     FormControlLabel,
@@ -15,6 +16,7 @@ import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useLoginMutation } from '../../api/authentication/authenticationApi';
 import { setUserCredentials } from '../../app/features/authentication/authenticationSlice';
@@ -22,7 +24,6 @@ import { useAppDispatch } from '../../app/store';
 import HomeButton from '../../components/HomeButton';
 import SidePanel from '../../components/SideImagePanel';
 import GLOBALS from '../../globals';
-import { toast } from 'react-toastify';
 
 const validationSchema = yup.object({
     email: yup

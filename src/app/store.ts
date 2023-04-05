@@ -1,31 +1,60 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { authApi } from '../api/authentication/authenticationApi';
-import {
-    authenticationReducer,
-    AuthenticationState,
-} from './features/authentication/authenticationSlice';
+import { persistedAuthReducer } from './features/authentication/authenticationSlice';
 
-import storageSession from 'redux-persist/lib/storage/session';
-import { PersistConfig, persistReducer } from 'redux-persist';
+import { persistStore } from 'redux-persist';
+import * as persistConstants from 'redux-persist/es/constants';
 
-const persistConfig: PersistConfig<AuthenticationState> = {
-    key: 'persist_root',
-    storage: storageSession,
-};
+// On login / logout, we want to save / remove the token etc.
+// Create middleware for this, that will be used on store creation
+// const authenticationMiddleware: Middleware<{}, RootState> =
+//     (store) => (next) => (action) => {
+//         // If we logged in
+//         if (authenticationActions.setUserCredentials.match(action)) {
+//             localStorage.setItem(GLOBALS.storageKeys.token, )
+//         }
+//     };
 
-// TODO : how do we define properly this ? Do we really want to use redux-presist ?
+// Combine all wanted reducers into one
+const rootReducer = combineReducers({
+    authUser: persistedAuthReducer,
+    [authApi.reducerPath]: authApi.reducer,
+});
 
+// Wrap it with the persistor
+// const persistedReducer = persistReducer(
+//     {
+//         key: 'root',
+//         storage: storage,
+//         // Only want some reducers to be handled
+//         whitelist: ['authUser'],
+//     },
+//     rootReducer
+// );
+
+// Finally, we can create our store
 export const store = configureStore({
-    reducer: {
-        authUser: authenticationReducer,
-        [authApi.reducerPath]: authApi.reducer,
-    },
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(authApi.middleware),
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    persistConstants.FLUSH,
+                    persistConstants.REHYDRATE,
+                    persistConstants.PAUSE,
+                    persistConstants.PERSIST,
+                    persistConstants.PURGE,
+                    persistConstants.REGISTER,
+                ],
+            },
+        }).concat(authApi.middleware),
     // Permit to access devtools when not in production environment
     devTools: process.env.NODE_ENV !== 'production',
 });
+
+// Used for defining PersistGate in the index.tsx component
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
