@@ -8,10 +8,16 @@ import GLOBALS from './globals';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Estate from './pages/Estate';
+// Setup the toast notifications to be available on all pages
+// see https://blog.logrocket.com/using-react-toastify-style-toast-messages/
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
         <ThemeProvider theme={theme}>
+            {/* Setup the toast notifications */}
+            <ToastContainer />
             {/* This resets the default styles of the browser */}
             <CssBaseline />
             <BrowserRouter>

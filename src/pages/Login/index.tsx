@@ -1,8 +1,8 @@
 import MainIcon from '@mui/icons-material/House';
+import { Alert, LoadingButton } from '@mui/lab';
 import {
     Avatar,
     Box,
-    Button,
     FormControlLabel,
     Grid,
     Link,
@@ -11,11 +11,18 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { useLoginMutation } from '../../api/authentication/authenticationApi';
+import { setUserCredentials } from '../../app/features/authentication/authenticationSlice';
+import { useAppDispatch } from '../../app/store';
 import HomeButton from '../../components/HomeButton';
 import SidePanel from '../../components/SideImagePanel';
 import GLOBALS from '../../globals';
+import { toast } from 'react-toastify';
 
 const validationSchema = yup.object({
     email: yup
@@ -29,6 +36,10 @@ const validationSchema = yup.object({
 });
 
 function Login() {
+    const [login, { isLoading, error }] = useLoginMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -36,7 +47,26 @@ function Login() {
             rememberMe: false,
         },
         validationSchema: validationSchema,
-        onSubmit: handleSumbit,
+        onSubmit: (values, actions) => {
+            console.log({ values, actions });
+            actions.setSubmitting(true);
+            // Login and handle the response (not the error, no need)
+            login(values)
+                .unwrap()
+                .then((response) => {
+                    dispatch(
+                        setUserCredentials({
+                            ...response,
+                            rememberMe: values.rememberMe,
+                        })
+                    );
+                    toast.success(`Bienvenue, ${response.user.name} !`, {
+                        position: 'bottom-center',
+                    });
+                    navigate(GLOBALS.routes.home());
+                })
+                .finally(() => actions.setSubmitting(false));
+        },
     });
 
     return (
@@ -139,7 +169,8 @@ function Login() {
                             label="Se souvenir de moi"
                         />
                         {/* Submit */}
-                        <Button
+                        <LoadingButton
+                            loading={isLoading}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -149,7 +180,7 @@ function Login() {
                             }}
                         >
                             Connexion
-                        </Button>
+                        </LoadingButton>
                         {/* Forgotten password / Sign up */}
                         <Grid container>
                             <Grid item xs>
@@ -170,6 +201,14 @@ function Login() {
                             </Grid>
                         </Grid>
                     </Box>
+                    {/* Error message (if exists) */}
+                    {error && (
+                        <Box width="100%" marginTop="0.5em">
+                            <Alert severity="error">
+                                {createErrorMessage(error)}
+                            </Alert>
+                        </Box>
+                    )}
                 </Box>
                 {/* Website logo (with copyrights, normally) */}
                 <Box
@@ -185,14 +224,16 @@ function Login() {
     );
 }
 
-interface FormResponses {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-}
-
-async function handleSumbit(e: FormResponses) {
-    window.alert(JSON.stringify(e, null, 2));
+function createErrorMessage(
+    error: FetchBaseQueryError | SerializedError | undefined
+): string {
+    if (error === undefined || 'stack' in error) {
+        return 'Une erreur inconnue a eu lieu';
+    }
+    if ('status' in error && typeof error.status === 'string') {
+        return 'Impossible de communiquer avec le serveur';
+    }
+    return "L'identifiant ou le mot de passe est invalide";
 }
 
 export default Login;

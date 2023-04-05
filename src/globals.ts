@@ -14,28 +14,35 @@ const GLOBALS = {
     // The possible urls that user can access (they are mapped to specific pages)
     routes: {
         // ==== AUTH PAGES ====
-        login: () => 'login',
-        register: () => 'register',
-        passwordForgotten: () => 'password-recovery',
+        login: () => '/login',
+        register: () => '/register',
+        passwordForgotten: () => '/password-recovery',
 
         // ==== WITHOUT REQUIRED LOGIN ====
         home: () => '/',
-        estate: (id: string) => `estates/${id}`,
-        error404: () => 'error404',
+        estate: (id: string) => `/estates/${id}`,
+        error404: () => '/error404',
 
         // ---- HEADER ----
-        search: () => 'search',
-        sell: () => 'sell',
-        about: () => 'about',
+        search: () => '/search',
+        sell: () => '/sell',
+        about: () => '/about',
 
         // ==== WITH REQUIRED LOGIN ====
+        userProfile: (id: number) => `/users/${id}`,
+        // ---- ADMIN PART ----
     },
 
     // The root url of all api calls, for example : 'http://localhost:8080'
     apiRootPath: process.env.REACT_APP_API_ROOT,
 
     // All routes that we can call
-    apiRoutes: {},
+    apiRoutes: {
+        // ==== AUTH ====
+        auth: () => `${GLOBALS.apiRootPath}/auth`,
+        login: () => `${GLOBALS.apiRoutes.auth()}/login`,
+        register: () => `${GLOBALS.apiRoutes.auth()}/register`,
+    },
 };
 
 export default GLOBALS;
