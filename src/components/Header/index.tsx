@@ -3,14 +3,22 @@ import InfoIcon from '@mui/icons-material/Info';
 import LoginIcon from '@mui/icons-material/Login';
 import SearchIcon from '@mui/icons-material/Search';
 import SellIcon from '@mui/icons-material/Sell';
-import { AppBar, Button, Grid, Paper, Toolbar } from '@mui/material';
-import { useAppSelector } from '../../app/store';
+import {
+    AppBar,
+    Button,
+    CircularProgress,
+    Grid,
+    Paper,
+    Toolbar,
+} from '@mui/material';
+import { useCurrentUserQuery } from '../../api/user/userApi';
 import GLOBALS from '../../globals';
+import { User } from '../../types/user';
 import HomeButton from '../HomeButton';
 import UserMenu from './UserMenu';
 
 export default function Header() {
-    const user = useAppSelector((state) => state.authUser.user);
+    const { data: user, isLoading, error } = useCurrentUserQuery();
 
     // Information about navigtion buttons
     const pages: Array<PageInfo> = createPageInfo();
@@ -61,7 +69,7 @@ export default function Header() {
                         justifyContent={{ md: 'flex-end', xs: 'center' }}
                     >
                         {/* Relative to user */}
-                        {user ? <UserMenu user={user} /> : <LoginButton />}
+                        <UserPart isLoading={isLoading} user={user} />
                     </Grid>
                 </Grid>
             </Toolbar>
@@ -116,4 +124,19 @@ function LoginButton() {
             Se connecter
         </Button>
     );
+}
+
+interface UserPartProps {
+    user?: User;
+    isLoading: boolean;
+}
+
+function UserPart({ user, isLoading }: UserPartProps) {
+    if (isLoading) {
+        return <CircularProgress color="secondary" />;
+    }
+    if (user) {
+        return <UserMenu user={user} />;
+    }
+    return <LoginButton />;
 }

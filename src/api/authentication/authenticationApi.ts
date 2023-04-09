@@ -29,26 +29,20 @@ interface RegisterResponse {
 export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
+        baseUrl: GLOBALS.apiRoutes.auth(),
         credentials: 'same-origin',
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as RootState).authUser.token;
-            if (token) {
-                headers.set('authentication', `${token}`);
-            }
-            return headers;
-        },
     }),
     endpoints: (builder) => ({
         login: builder.mutation<AuthResponse, AuthRequest>({
             query: (request) => ({
-                url: GLOBALS.apiRoutes.login(),
+                url: 'login',
                 method: 'POST',
                 body: request,
             }),
         }),
         register: builder.mutation<RegisterResponse, RegisterRequest>({
             query: (request) => ({
-                url: GLOBALS.apiRoutes.register(),
+                url: 'register',
                 method: 'POST',
                 body: request,
             }),

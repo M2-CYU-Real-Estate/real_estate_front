@@ -1,44 +1,23 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { authApi } from '../api/authentication/authenticationApi';
 import { persistedAuthReducer } from './features/authentication/authenticationSlice';
 
 import { persistStore } from 'redux-persist';
 import * as persistConstants from 'redux-persist/es/constants';
+import { userApi } from '../api/user/userApi';
 
-// On login / logout, we want to save / remove the token etc.
-// Create middleware for this, that will be used on store creation
-// const authenticationMiddleware: Middleware<{}, RootState> =
-//     (store) => (next) => (action) => {
-//         // If we logged in
-//         if (authenticationActions.setUserCredentials.match(action)) {
-//             localStorage.setItem(GLOBALS.storageKeys.token, )
-//         }
-//     };
-
-// Combine all wanted reducers into one
-const rootReducer = combineReducers({
-    authUser: persistedAuthReducer,
-    [authApi.reducerPath]: authApi.reducer,
-});
-
-// Wrap it with the persistor
-// const persistedReducer = persistReducer(
-//     {
-//         key: 'root',
-//         storage: storage,
-//         // Only want some reducers to be handled
-//         whitelist: ['authUser'],
-//     },
-//     rootReducer
-// );
-
-// Finally, we can create our store
+// Create our store
 export const store = configureStore({
-    reducer: rootReducer,
+    reducer: {
+        authUser: persistedAuthReducer,
+        [authApi.reducerPath]: authApi.reducer,
+        [userApi.reducerPath]: userApi.reducer,
+    },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {
+                // Avoid throwing errors when Reduc Persist dispatch events
                 ignoredActions: [
                     persistConstants.FLUSH,
                     persistConstants.REHYDRATE,
@@ -48,7 +27,10 @@ export const store = configureStore({
                     persistConstants.REGISTER,
                 ],
             },
-        }).concat(authApi.middleware),
+        })
+            // Add all api middlewares afterwards
+            .concat(authApi.middleware)
+            .concat(userApi.middleware),
     // Permit to access devtools when not in production environment
     devTools: process.env.NODE_ENV !== 'production',
 });

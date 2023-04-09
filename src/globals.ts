@@ -40,8 +40,7 @@ const GLOBALS = {
     apiRoutes: {
         // ==== AUTH ====
         auth: () => `${GLOBALS.apiRootPath}/auth`,
-        login: () => `${GLOBALS.apiRoutes.auth()}/login`,
-        register: () => `${GLOBALS.apiRoutes.auth()}/register`,
+        users: () => `${GLOBALS.apiRootPath}/users`,
     },
 
     // The local storage keys
