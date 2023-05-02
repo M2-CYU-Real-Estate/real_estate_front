@@ -50,6 +50,11 @@ function Register() {
         onSubmit: handleSumbit,
     });
 
+    // TODO : 3 steps registration :
+    // 1. email
+    // 2. password + password confirm
+    // 3. (optional) user profile
+
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
             <SidePanel />

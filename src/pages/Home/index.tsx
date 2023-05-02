@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Box, Grid, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box, Grid, Tab } from '@mui/material';
+import React, { useState } from 'react';
 import Header from '../../components/Header';
-import LoadingBar from '../../components/loading/LoadingBar';
 import Map from '../../components/Map';
-import RecommendationsPanel from './RecommendationsPanel';
+import LoadingBar from '../../components/loading/LoadingBar';
+import HomeContext from './HomeContext';
 import LastEntries from './LastEntries';
+import RecommendationsPanel from './RecommendationsPanel';
 
 function Home() {
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -33,34 +34,29 @@ function Home() {
                     <Map />
                 </Grid>
                 <Grid item xs={12} md={6} height="100%">
-                    <TabsPanel
-                        startLoading={enableLoading}
-                        endLoading={disableLoading}
-                    />
+                    {/* Provide the context for passing down loading functions */}
+                    <HomeContext.Provider
+                        value={{
+                            enableLoading: enableLoading,
+                            disableLoading: disableLoading,
+                        }}
+                    >
+                        <TabsPanel />
+                    </HomeContext.Provider>
                 </Grid>
             </Grid>
         </Box>
     );
 }
 
-interface TabsProps {
-    startLoading: () => void;
-    endLoading: () => void;
-}
-
-function TabsPanel({ startLoading, endLoading }: TabsProps) {
+function TabsPanel() {
     const [tabValue, setTabValue] = useState<string>('1');
 
     const changeTab = (
         e: React.SyntheticEvent<Element, Event>,
         newValue: string
     ) => {
-        // TODO only for testing purposes, this is intended to be removed
-        startLoading();
-        setTimeout(() => {
-            endLoading();
-            setTabValue(newValue);
-        }, 10);
+        setTabValue(newValue);
     };
 
     return (
@@ -103,10 +99,7 @@ function TabsPanel({ startLoading, endLoading }: TabsProps) {
                     height="calc(100% - 3em)"
                 >
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="1">
-                        <RecommendationsPanel
-                            enableLoading={startLoading}
-                            disableLoading={endLoading}
-                        />
+                        <RecommendationsPanel />
                     </TabPanel>
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="2">
                         <LastEntries />

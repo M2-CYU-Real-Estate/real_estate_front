@@ -1,17 +1,13 @@
+import { useContext } from 'react';
 import { Box, Button, Grid, List, Typography } from '@mui/material';
 import RecommendationCard from './RecommendationCard';
 import mockRecommendations from './mockRecommendations';
+import HomeContext from './HomeContext';
 
-interface RecommendationProps {
-    enableLoading: () => void;
-    disableLoading: () => void;
-}
-
-function RecommendationsPanel({
-    enableLoading,
-    disableLoading,
-}: RecommendationProps) {
+function RecommendationsPanel() {
     const nbRecommendations = mockRecommendations.length;
+
+    const { enableLoading, disableLoading } = useContext(HomeContext);
 
     return (
         <Box
