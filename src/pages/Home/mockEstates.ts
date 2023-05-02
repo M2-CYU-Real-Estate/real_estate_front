@@ -2,7 +2,7 @@
  * Only contains some entries for the recommendation list
  */
 
-const mockRecommendations = [
+const mockEstates = [
     {
         id: 1,
         title: 'Une très jolie maison, 95330',
@@ -64,4 +64,4 @@ const mockRecommendations = [
     },
 ];
 
-export default mockRecommendations;
+export default mockEstates;

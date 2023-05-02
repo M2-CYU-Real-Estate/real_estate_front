@@ -1,55 +1,49 @@
+// An estate card containing all what is important on an estate
+
 import BedIcon from '@mui/icons-material/Bed';
-import InfoIcon from '@mui/icons-material/Info';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import ShowerIcon from '@mui/icons-material/Shower';
-import { Box, Card, CardActionArea, IconButton, Tooltip } from '@mui/material';
+import { Box, Card, CardActionArea, IconButton, Zoom } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import TextWithIcon from '../../components/TextWithIcon';
 import GLOBALS from '../../globals';
 import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
+import TextWithIcon from '../TextWithIcon';
 
-interface RecommendationProps {
+interface EstateCardProps {
     id: number;
     title: string;
     imageUrl: string;
     price: number;
     description: string;
     isNotificationEnabled: boolean;
-    suggestionHint?: string;
     area?: number;
     rooms?: number;
     bedrooms?: number;
     bathrooms?: number;
 }
 
-/**
- * One card representing one recommendation for the
- */
-function RecommendationCard({
+function EstateCard({
     id,
     title,
     imageUrl,
     price,
     description,
     isNotificationEnabled,
-    suggestionHint,
     area,
     rooms,
     bedrooms,
     bathrooms,
-}: RecommendationProps) {
-    // TODO can we have a more generic card for using with last entries too ?
+}: EstateCardProps) {
+    // TODO: context for favorite functions ?
 
-    const [isNotificationActive, setNotificationActive] = useState(
-        isNotificationEnabled
-    );
+    const [isFavorite, setNotificationActive] = useState(isNotificationEnabled);
 
     const onNotificationClick = (e: React.MouseEvent) => {
         // Avoid that the "click on entire card" action is taken
@@ -57,6 +51,7 @@ function RecommendationCard({
         e.preventDefault();
         // Toggle the notification
         setNotificationActive((prev) => !prev);
+        // TODO: perform the API call
     };
 
     return (
@@ -97,6 +92,7 @@ function RecommendationCard({
                             >
                                 {title}
                             </Typography>
+                            {/* Favorite icon */}
                             <Box
                                 sx={{
                                     position: 'absolute',
@@ -104,31 +100,25 @@ function RecommendationCard({
                                     top: '0',
                                 }}
                             >
-                                <Tooltip
-                                    title={
-                                        suggestionHint ||
-                                        'Pas de raison particulière...'
-                                    }
-                                >
-                                    <IconButton
-                                        size="large"
-                                        style={{
-                                            backgroundColor: 'transparent',
-                                        }}
-                                    >
-                                        <InfoIcon />
-                                    </IconButton>
-                                </Tooltip>
                                 <IconButton
                                     size="large"
                                     onMouseDown={(e) => e.stopPropagation()}
                                     onClick={onNotificationClick}
                                 >
-                                    {isNotificationActive ? (
-                                        <NotificationsIcon />
-                                    ) : (
-                                        <NotificationsNoneIcon />
-                                    )}
+                                    {/* Provide a smooth transition between both states */}
+                                    <Zoom in={isFavorite}>
+                                        <FavoriteIcon
+                                            sx={{ color: '#C51104' }}
+                                        />
+                                    </Zoom>
+                                    <Zoom
+                                        in={!isFavorite}
+                                        // Set as position absolute in order to be
+                                        // at the same position as the other icon
+                                        style={{ position: 'absolute' }}
+                                    >
+                                        <FavoriteBorderIcon />
+                                    </Zoom>
                                 </IconButton>
                             </Box>
                         </Box>
@@ -193,4 +183,4 @@ function RecommendationCard({
     );
 }
 
-export default RecommendationCard;
+export default EstateCard;

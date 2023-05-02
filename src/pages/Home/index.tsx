@@ -5,8 +5,9 @@ import Header from '../../components/Header';
 import Map from '../../components/Map';
 import LoadingBar from '../../components/loading/LoadingBar';
 import HomeContext from './HomeContext';
-import LastEntries from './LastEntries';
-import RecommendationsPanel from './RecommendationsPanel';
+import LastEntries from './last_entries/LastEntries';
+import RecommendationsPanel from './recommendations/RecommendationsPanel';
+import { useCurrentUserQuery } from '../../api/user/userApi';
 
 function Home() {
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -81,14 +82,17 @@ function TabsPanel() {
                     <TabList
                         onChange={changeTab}
                         aria-label="Onglets"
-                        sx={{ width: '100%', height: '3em' }}
+                        sx={{
+                            width: '100%',
+                            height: '3em',
+                            // Align tabs to the right
+                            '& .MuiButtonBase-root:first-child': {
+                                marginLeft: 'auto',
+                            },
+                        }}
                     >
-                        <Tab
-                            label="Recommendations"
-                            value="1"
-                            sx={{ marginLeft: 'auto' }}
-                        />
-                        <Tab label="Dernières annonces" value="2" />
+                        <Tab label="Dernières annonces" value="1" />
+                        <Tab label="Recommendations" value="2" />
                     </TabList>
                 </Box>
                 {/* Each tab panel is really here */}
@@ -99,10 +103,10 @@ function TabsPanel() {
                     height="calc(100% - 3em)"
                 >
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="1">
-                        <RecommendationsPanel />
+                        <LastEntries />
                     </TabPanel>
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="2">
-                        <LastEntries />
+                        <RecommendationsPanel />
                     </TabPanel>
                 </Box>
             </Box>

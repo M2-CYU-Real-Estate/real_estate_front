@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import Error404 from '../../pages/404';
 import Header from '../../components/Header';
 import LoadingBar from '../../components/loading/LoadingBar';
-import mockRecommendations from '../Home/mockRecommendations';
+import mockEstates from '../Home/mockEstates';
 import MainEstatePanel from './MainEstatePanel';
 import SideEstatePanel from './SideEstatePanel';
 import { EstateProperties } from '../../types/estate';
@@ -87,7 +87,7 @@ function fetchEstate(id?: string): Promise<EstateProperties> {
     }
     // We just fetch the property with the right id, handling simple promise
     const idNumber = Number.parseInt(id);
-    const property = mockRecommendations.find((r) => r.id == idNumber);
+    const property = mockEstates.find((r) => r.id == idNumber);
     if (property) {
         return Promise.resolve(property);
     }

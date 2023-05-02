@@ -1,13 +1,15 @@
+import { Box, Button, Typography } from '@mui/material';
 import { useContext } from 'react';
-import { Box, Button, Grid, List, Typography } from '@mui/material';
-import RecommendationCard from './RecommendationCard';
-import mockRecommendations from './mockRecommendations';
-import HomeContext from './HomeContext';
+import EstateCard from '../../../components/EstateCard';
+import HomeContext from '../HomeContext';
+import mockEstates from '../mockEstates';
 
 function RecommendationsPanel() {
-    const nbRecommendations = mockRecommendations.length;
+    const nbRecommendations = mockEstates.length;
 
     const { enableLoading, disableLoading } = useContext(HomeContext);
+
+    enableLoading();
 
     return (
         <Box
@@ -48,8 +50,8 @@ function RecommendationsPanel() {
                 paddingTop="2em"
                 sx={{ overflowY: 'scroll' }}
             >
-                {mockRecommendations.map((r) => (
-                    <RecommendationCard key={r.id} {...r} />
+                {mockEstates.map((r) => (
+                    <EstateCard key={r.id} {...r} />
                 ))}
             </Box>
         </Box>
