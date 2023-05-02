@@ -39,7 +39,7 @@ export default function Header() {
                     justifyContent="center"
                     style={{ width: '100%' }}
                 >
-                    <Grid item md={4} justifyContent="left">
+                    <Grid item md={3} justifyContent="left">
                         {/* Home button (link to home page) */}
                         <HomeButton />
                     </Grid>
@@ -47,7 +47,7 @@ export default function Header() {
                         component="nav"
                         container
                         item
-                        md={6}
+                        md={7}
                         justifyContent="space-evenly"
                     >
                         {/* Navigation list */}
@@ -92,12 +92,6 @@ function createPageInfo(): Array<PageInfo> {
             title: 'Accueil',
             link: GLOBALS.routes.home(),
             icon: <HomeIcon />,
-        },
-        {
-            key: 'search',
-            title: 'Rechercher',
-            link: GLOBALS.routes.search(),
-            icon: <SearchIcon />,
         },
         {
             key: 'sell',
