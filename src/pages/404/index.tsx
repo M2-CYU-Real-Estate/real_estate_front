@@ -1,6 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header';
-import { Link } from 'react-router-dom';
 import GLOBALS from '../../globals';
 
 function notFoundPage() {

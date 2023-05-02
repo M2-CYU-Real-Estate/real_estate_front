@@ -2,9 +2,21 @@ import { EstateProperties } from '..';
 import { Box, Link, Paper, Typography } from '@mui/material';
 import CaracteristicsBar from './CaracteristicsBar';
 import { convertToCurrency } from '../../../utils/StringUtils';
+import { useState } from 'react';
+import FavoriteButton from '../../../components/FavoriteButton';
 
 function MainEstatePanel(props: { estate: EstateProperties }) {
     const estate = props.estate;
+    const [isFavoriteEnabled, setFavoriteEnabled] = useState(estate.isFavorite);
+
+    const onNotificationClick = (e: React.MouseEvent) => {
+        // Avoid that the "click on entire card" action is taken
+        e.stopPropagation();
+        e.preventDefault();
+        // Toggle the notification
+        setFavoriteEnabled((prev) => !prev);
+        // TODO: perform the API call
+    };
 
     return (
         //  A box for centering the panel and setting a little margin
@@ -48,9 +60,19 @@ function MainEstatePanel(props: { estate: EstateProperties }) {
                                 {"Voir le site de l'annonce"}
                             </Link>
                         </Box>
-                        <Typography variant="body1" fontWeight="bold">
-                            {convertToCurrency(estate.price)}
-                        </Typography>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                        >
+                            <Typography variant="body1" fontWeight="bold">
+                                {convertToCurrency(estate.price)}
+                            </Typography>
+                            <FavoriteButton
+                                isFavorite={isFavoriteEnabled}
+                                onToggle={onNotificationClick}
+                            />
+                        </Box>
                     </Box>
                     <CaracteristicsBar {...estate} />
                     {/* Description */}

@@ -41,10 +41,6 @@ function Estate() {
         );
     }, []);
 
-    const [isFavoriteEnabled, setFavoriteEnabled] = useState(
-        estate?.isFavorite || false
-    );
-
     return (
         <>
             {/* If we cannot find the estate, show the 404 error page */}
