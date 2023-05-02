@@ -31,6 +31,7 @@ const GLOBALS = {
         // ==== WITH REQUIRED LOGIN ====
         userProfile: (id: number) => `/users/${id}`,
         // ---- ADMIN PART ----
+        adminDashboard: () => '/admin-dashboard',
     },
 
     // The root url of all api calls, for example : 'http://localhost:8080'
