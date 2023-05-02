@@ -7,7 +7,6 @@ import LoadingBar from '../../components/loading/LoadingBar';
 import HomeContext from './HomeContext';
 import LastEntries from './last_entries/LastEntries';
 import RecommendationsPanel from './recommendations/RecommendationsPanel';
-import { useCurrentUserQuery } from '../../api/user/userApi';
 
 function Home() {
     const [isLoading, setLoading] = useState<boolean>(false);

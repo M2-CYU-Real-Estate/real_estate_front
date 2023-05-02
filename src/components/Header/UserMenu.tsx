@@ -78,6 +78,15 @@ function UserMenu({ user }: UserMenuProps) {
                 >
                     Profil
                 </MenuItem>
+                {/* If admin, we want an extra menu */}
+                {user.role === 'ADMIN' && (
+                    <MenuItem
+                        LinkComponent={Link}
+                        href={GLOBALS.routes.adminDashboard()}
+                    >
+                        Tableau de bord
+                    </MenuItem>
+                )}
                 <MenuItem onClick={handleLogout}>Deconnection</MenuItem>
             </Menu>
         </>

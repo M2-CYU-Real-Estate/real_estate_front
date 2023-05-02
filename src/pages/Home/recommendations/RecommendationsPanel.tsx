@@ -9,8 +9,6 @@ function RecommendationsPanel() {
 
     const { enableLoading, disableLoading } = useContext(HomeContext);
 
-    enableLoading();
-
     return (
         <Box
             p={0}
@@ -26,20 +24,12 @@ function RecommendationsPanel() {
                 justifyItems="stretch"
                 justifyContent="center"
             >
-                <Typography>
-                    {nbRecommendations} recommendations pour vous
+                <Typography variant="h5">
+                    <Typography display="inline" variant="h5" fontWeight="600">
+                        {`${nbRecommendations} `}
+                    </Typography>
+                    recommendations pour vous
                 </Typography>
-                <Box
-                    width="100%"
-                    display="flex"
-                    justifyContent="center"
-                    alignContent="center"
-                >
-                    <Button>Filtre 1</Button>
-                    <Button>Filtre 2</Button>
-                    <Button>Filtre 3</Button>
-                    <Button>Filtre 4</Button>
-                </Box>
             </Box>
             {/* The scrollable items part */}
             <Box

@@ -12,7 +12,7 @@ const mockEstates = [
         price: 150000,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
-        isNotificationEnabled: false,
+        isFavorite: false,
         area: 120,
         rooms: 5,
         suggestionHint: 'Parce que vous aimez la sécurité',
@@ -28,7 +28,7 @@ const mockEstates = [
         price: 3333333,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
-        isNotificationEnabled: false,
+        isFavorite: false,
         suggestionHint: 'Parce que vous êtes riche',
         area: 333,
         rooms: 3,
@@ -42,7 +42,7 @@ const mockEstates = [
         price: 222222,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
-        isNotificationEnabled: true,
+        isFavorite: true,
         suggestionHint: 'Parce que vous sentez bon',
         rooms: 2,
         bathrooms: 2,
@@ -56,7 +56,7 @@ const mockEstates = [
         price: 11111111111111,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
-        isNotificationEnabled: true,
+        isFavorite: true,
         suggestionHint: 'Parce que vous êtes TRES riche',
         area: 999,
         rooms: 666,

@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useContext } from 'react';
 import EstateCard from '../../../components/EstateCard';
 import HomeContext from '../HomeContext';
@@ -7,8 +7,6 @@ import mockEstates from '../mockEstates';
 function LastEntries() {
     // TODO: api call for fetching estates
     const { enableLoading, disableLoading } = useContext(HomeContext);
-
-    disableLoading();
 
     return (
         <Box

@@ -4,7 +4,7 @@ export interface EstateProperties {
     propertyUrl: string;
     price: number;
     description: string;
-    isNotificationEnabled: boolean;
+    isFavorite: boolean;
     area?: number;
     rooms?: number;
     bedrooms?: number;

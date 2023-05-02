@@ -25,8 +25,6 @@ function Estate() {
     const [isError, setError] = useState(false);
     const [estate, setEstate] = useState<EstateProperties>();
 
-    console.debug(`Go to estate ${id}`);
-
     // TODO fetch estate data for real :)
     useEffect(() => {
         setLoading(true);
@@ -42,6 +40,10 @@ function Estate() {
             1000
         );
     }, []);
+
+    const [isFavoriteEnabled, setFavoriteEnabled] = useState(
+        estate?.isFavorite || false
+    );
 
     return (
         <>

@@ -1,8 +1,6 @@
 // An estate card containing all what is important on an estate
 
 import BedIcon from '@mui/icons-material/Bed';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import ShowerIcon from '@mui/icons-material/Shower';
@@ -15,6 +13,7 @@ import { Link } from 'react-router-dom';
 import GLOBALS from '../../globals';
 import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 import TextWithIcon from '../TextWithIcon';
+import FavoriteButton from '../FavoriteButton';
 
 interface EstateCardProps {
     id: number;
@@ -22,7 +21,7 @@ interface EstateCardProps {
     imageUrl: string;
     price: number;
     description: string;
-    isNotificationEnabled: boolean;
+    isFavorite: boolean;
     area?: number;
     rooms?: number;
     bedrooms?: number;
@@ -35,7 +34,7 @@ function EstateCard({
     imageUrl,
     price,
     description,
-    isNotificationEnabled,
+    isFavorite,
     area,
     rooms,
     bedrooms,
@@ -43,14 +42,14 @@ function EstateCard({
 }: EstateCardProps) {
     // TODO: context for favorite functions ?
 
-    const [isFavorite, setNotificationActive] = useState(isNotificationEnabled);
+    const [isFavoriteEnabled, setFavoriteEnabled] = useState(isFavorite);
 
     const onNotificationClick = (e: React.MouseEvent) => {
         // Avoid that the "click on entire card" action is taken
         e.stopPropagation();
         e.preventDefault();
         // Toggle the notification
-        setNotificationActive((prev) => !prev);
+        setFavoriteEnabled((prev) => !prev);
         // TODO: perform the API call
     };
 
@@ -100,26 +99,10 @@ function EstateCard({
                                     top: '0',
                                 }}
                             >
-                                <IconButton
-                                    size="large"
-                                    onMouseDown={(e) => e.stopPropagation()}
-                                    onClick={onNotificationClick}
-                                >
-                                    {/* Provide a smooth transition between both states */}
-                                    <Zoom in={isFavorite}>
-                                        <FavoriteIcon
-                                            sx={{ color: '#C51104' }}
-                                        />
-                                    </Zoom>
-                                    <Zoom
-                                        in={!isFavorite}
-                                        // Set as position absolute in order to be
-                                        // at the same position as the other icon
-                                        style={{ position: 'absolute' }}
-                                    >
-                                        <FavoriteBorderIcon />
-                                    </Zoom>
-                                </IconButton>
+                                <FavoriteButton
+                                    isFavorite={isFavoriteEnabled}
+                                    onToggle={onNotificationClick}
+                                />
                             </Box>
                         </Box>
                         {/* Price */}
