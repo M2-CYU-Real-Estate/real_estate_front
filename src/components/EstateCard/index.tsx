@@ -4,17 +4,17 @@ import BedIcon from '@mui/icons-material/Bed';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import ShowerIcon from '@mui/icons-material/Shower';
-import { Box, Card, CardActionArea, IconButton, Zoom } from '@mui/material';
+import { Box, Card, CardActionArea } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GLOBALS from '../../globals';
-import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 import { toFrenchDate } from '../../utils/DateUtils';
-import TextWithIcon from '../TextWithIcon';
+import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 import FavoriteButton from '../FavoriteButton';
+import TextWithIcon from '../TextWithIcon';
 
 interface EstateCardProps {
     id: number;
@@ -114,21 +114,17 @@ function EstateCard({
                             flexDirection="row"
                             justifyContent="space-between"
                             width="100%"
+                            mr="1em"
                         >
                             <Typography variant="body1">
                                 {convertToCurrency(price)}
                             </Typography>
-                            <Typography variant="body2">
+                            <Typography variant="body2" fontStyle="italic">
                                 {toFrenchDate(date)}
                             </Typography>
                         </Box>
                         {/* Caracteristics (size etc.) */}
-                        <Grid
-                            container
-                            display="flex"
-                            justifyContent="center"
-                            alignItems=""
-                        >
+                        <Grid container display="flex" justifyContent="center">
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<OpenInFullIcon />}

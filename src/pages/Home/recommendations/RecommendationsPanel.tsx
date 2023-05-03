@@ -1,13 +1,25 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useContext } from 'react';
 import EstateCard from '../../../components/EstateCard';
 import HomeContext from '../HomeContext';
 import mockEstates from '../mockEstates';
+import { useCurrentUserQuery } from '../../../api/user/userApi';
+import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
+import NotConnectedRestriction from '../not_connected_restriction';
 
 function RecommendationsPanel() {
+    const { data: user, isLoading } = useCurrentUserQuery();
     const nbRecommendations = mockEstates.length;
 
     const { enableLoading, disableLoading } = useContext(HomeContext);
+
+    if (isLoading) {
+        return <CircularCenteredLoading />;
+    }
+
+    if (!user) {
+        return <NotConnectedRestriction />;
+    }
 
     return (
         <Box

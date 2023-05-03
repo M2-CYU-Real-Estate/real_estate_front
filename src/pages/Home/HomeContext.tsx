@@ -1,5 +1,7 @@
+/**
+ * Define a context for use in the home page (for passing loading functions for example)
+ */
 import { createContext } from 'react';
-// Define a context for use in the home page (for passing loading functions for example)
 
 interface HomeContextType {
     enableLoading: () => void;

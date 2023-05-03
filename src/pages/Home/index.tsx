@@ -7,6 +7,7 @@ import LoadingBar from '../../components/loading/LoadingBar';
 import HomeContext from './HomeContext';
 import LastEntries from './last_entries/LastEntries';
 import RecommendationsPanel from './recommendations/RecommendationsPanel';
+import SearchByProfile from './search_by_profile';
 
 function Home() {
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -90,8 +91,9 @@ function TabsPanel() {
                             },
                         }}
                     >
-                        <Tab label="Dernières annonces" value="1" />
+                        <Tab label="Toutes les annonces" value="1" />
                         <Tab label="Recommendations" value="2" />
+                        <Tab label="Recherche par profil" value="3" />
                     </TabList>
                 </Box>
                 {/* Each tab panel is really here */}
@@ -106,6 +108,9 @@ function TabsPanel() {
                     </TabPanel>
                     <TabPanel sx={{ padding: 0, height: '100%' }} value="2">
                         <RecommendationsPanel />
+                    </TabPanel>
+                    <TabPanel sx={{ padding: 0, height: '100%' }} value="3">
+                        <SearchByProfile />
                     </TabPanel>
                 </Box>
             </Box>
