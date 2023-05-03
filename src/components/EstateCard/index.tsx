@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GLOBALS from '../../globals';
 import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
+import { toFrenchDate } from '../../utils/DateUtils';
 import TextWithIcon from '../TextWithIcon';
 import FavoriteButton from '../FavoriteButton';
 
@@ -26,6 +27,7 @@ interface EstateCardProps {
     rooms?: number;
     bedrooms?: number;
     bathrooms?: number;
+    date: Date;
 }
 
 function EstateCard({
@@ -39,6 +41,7 @@ function EstateCard({
     rooms,
     bedrooms,
     bathrooms,
+    date,
 }: EstateCardProps) {
     // TODO: context for favorite functions ?
 
@@ -105,10 +108,18 @@ function EstateCard({
                                 />
                             </Box>
                         </Box>
-                        {/* Price */}
-                        <Box width="100%">
+                        {/* Price & Date*/}
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                        >
                             <Typography variant="body1">
                                 {convertToCurrency(price)}
+                            </Typography>
+                            <Typography variant="body2">
+                                {toFrenchDate(date)}
                             </Typography>
                         </Box>
                         {/* Caracteristics (size etc.) */}

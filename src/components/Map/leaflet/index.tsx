@@ -37,6 +37,7 @@ function Map() {
             <div>Filters bar</div>
             {/* The map take the remaining space */}
             <MapContainer
+                preferCanvas={true}
                 style={{ height: '100%', width: '100%' }}
                 center={center}
                 minZoom={6}

@@ -2,7 +2,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Grid, Tab } from '@mui/material';
 import React, { useState } from 'react';
 import Header from '../../components/Header';
-import Map from '../../components/Map';
+import Map from '../../components/Map/leaflet';
 import LoadingBar from '../../components/loading/LoadingBar';
 import HomeContext from './HomeContext';
 import LastEntries from './last_entries/LastEntries';

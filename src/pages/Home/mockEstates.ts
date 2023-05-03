@@ -18,6 +18,7 @@ const mockEstates = [
         suggestionHint: 'Parce que vous aimez la sécurité',
         bedrooms: 2,
         bathrooms: 3,
+        date: new Date('2023-03-05T18:25:43.511Z'),
     },
     {
         id: 2,
@@ -32,6 +33,7 @@ const mockEstates = [
         suggestionHint: 'Parce que vous êtes riche',
         area: 333,
         rooms: 3,
+        date: new Date('2023-02-05T18:25:43.511Z'),
     },
     {
         id: 3,
@@ -46,6 +48,7 @@ const mockEstates = [
         suggestionHint: 'Parce que vous sentez bon',
         rooms: 2,
         bathrooms: 2,
+        date: new Date('2023-01-05T18:25:43.511Z'),
     },
     {
         id: 4,
@@ -61,6 +64,7 @@ const mockEstates = [
         area: 999,
         rooms: 666,
         bedrooms: 1,
+        date: new Date('2023-01-04T18:25:43.511Z'),
     },
 ];
 

@@ -87,7 +87,7 @@ function UserMenu({ user }: UserMenuProps) {
                         Tableau de bord
                     </MenuItem>
                 )}
-                <MenuItem onClick={handleLogout}>Deconnection</MenuItem>
+                <MenuItem onClick={handleLogout}>Deconnexion</MenuItem>
             </Menu>
         </>
     );
