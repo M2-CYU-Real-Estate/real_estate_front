@@ -15,11 +15,25 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint"],
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "rules": {
-        "indent": ["error", 4],
-        "linebreak-style": ["error", "unix"],
-        "semi": ["error", "always"],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
         "react/react-in-jsx-scope": "off",
         "@typescript-eslint/no-inferrable-types": "off"
     }

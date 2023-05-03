@@ -18,10 +18,21 @@ import { Box, Button } from '@mui/material';
 import { useCurrentUserQuery } from '../../../api/user/userApi';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
 import NotConnectedRestriction from '../not_connected_restriction';
+import { useState } from 'react';
+import SearchInitialChoice from './SearchInitialChoice';
+import { useStateTransition } from './stateTransition';
 
 function SearchByProfile() {
     const { data: user, isLoading } = useCurrentUserQuery();
 
+    const [currentState, [goToIntialChoice, goToProfileCreation, goToResults]] =
+        useStateTransition();
+
+    const [profileChosen, setProfileChosen] = useState<string | undefined>(
+        undefined
+    );
+
+    // If loading or no user found, we cannot display the panel
     if (isLoading) {
         return <CircularCenteredLoading />;
     }
@@ -30,20 +41,21 @@ function SearchByProfile() {
         return <NotConnectedRestriction />;
     }
 
-    return (
-        <Box
-            width="100%"
-            height="100%"
-            maxHeight="100%"
-            display="flex"
-            flexDirection="column"
-            alignItems="space-around"
-        >
-            <Button>Choice 1</Button>
-            <Button>Choice 2</Button>
-            <Button>Choice 3</Button>
-        </Box>
-    );
+    // Return the JSX element depending on the state
+    switch (currentState) {
+        case 'initialChoice':
+            return (
+                <SearchInitialChoice
+                    goToProfileCreation={goToProfileCreation}
+                    goToResults={goToResults}
+                    setProfileChosen={setProfileChosen}
+                />
+            );
+        case 'profileCreation':
+            return <div>Profile creation</div>;
+        case 'results':
+            return <div>RESULTS</div>;
+    }
 }
 
 export default SearchByProfile;
