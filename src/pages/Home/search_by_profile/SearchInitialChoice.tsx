@@ -1,35 +1,46 @@
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import PersonIcon from '@mui/icons-material/Person';
 import {
+    Avatar,
     Box,
-    Button,
-    Dialog,
-    DialogTitle,
+    IconButton,
     List,
     ListItem,
-    ListItemButton,
     ListItemAvatar,
+    ListItemButton,
     ListItemText,
-    Avatar,
+    ListSubheader,
     Typography,
 } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import { useState } from 'react';
 import { mockProfiles } from '../../../api/mocks/mockProfiles';
 import { UserProfile } from '../../../types/user';
 
 interface InitialChoiceProps {
-    goToProfileCreation: () => void;
     goToResults: () => void;
     setProfileChosen: (profileId: number) => void;
 }
 
 function SearchInitialChoice({
-    goToProfileCreation,
     goToResults,
     setProfileChosen,
 }: InitialChoiceProps) {
-    const [isProfileDialogOpen, setProfileDialogOpen] = useState(false);
-    const openDialog = () => setProfileDialogOpen(true);
-    const closeDialog = () => setProfileDialogOpen(false);
+    const profiles = mockProfiles;
+
+    // When user click on one of the profiles, the state must be changed in order to launch the search
+    const onProfileChoice = (profile: UserProfile) => () => {
+        setProfileChosen(profile.id);
+        goToResults();
+    };
+
+    // TODO: go to profile creation
+    const goToProfileCreation = () => {
+        window.alert('Go to profile creation !');
+    };
+    // TODO: go to profile update
+    const goToProfileUpdate = (profileId: number) => () => {
+        window.alert(`Go to profile update on id ${profileId} !`);
+    };
 
     return (
         <>
@@ -42,94 +53,89 @@ function SearchInitialChoice({
                 justifyContent="center"
                 alignItems="center"
             >
-                <Button
-                    variant="contained"
-                    sx={{ my: '2em' }}
-                    onClick={openDialog}
+                <Box
+                    style={{
+                        maxHeight: '80%',
+                        overflowY: 'auto',
+                    }}
                 >
-                    Utiliser un profil créé
-                </Button>
-                <Button
-                    variant="contained"
-                    sx={{ my: '2em' }}
-                    onClick={goToProfileCreation}
-                >
-                    {/* TODO: better to redirect to user profile ? */}
-                    Créer un nouveau profil
-                </Button>
-            </Box>
-            <ProfileChoiceDialog
-                isOpened={isProfileDialogOpen}
-                close={closeDialog}
-                setProfileChosen={setProfileChosen}
-                goToResults={goToResults}
-            />
-        </>
-    );
-}
-
-interface ProfileChoiceDialogProps {
-    isOpened: boolean;
-    close: () => void;
-    setProfileChosen: (profileId: number) => void;
-    goToResults: () => void;
-}
-
-function ProfileChoiceDialog({
-    isOpened,
-    close,
-    setProfileChosen,
-    goToResults,
-}: ProfileChoiceDialogProps) {
-    // TODO api call for this
-    const profiles = mockProfiles;
-
-    // First, put the main one on top
-    profiles.sort(
-        (p1, p2) => Number(p2.isMainProfile) - Number(p1.isMainProfile)
-    );
-
-    // When user click on one of the profiles, the state must be changed in order to launch the search
-    const onProfileChoice = (profile: UserProfile) => () => {
-        setProfileChosen(profile.id);
-        close();
-        goToResults();
-    };
-
-    return (
-        <Dialog open={isOpened} onClose={close}>
-            <DialogTitle>Choix du profil</DialogTitle>
-            <List>
-                {profiles.map((profile) => (
-                    <ListItem key={profile.id} disableGutters>
-                        <ListItemButton onClick={onProfileChoice(profile)}>
-                            <ListItemAvatar>
-                                <Avatar
-                                    sx={{
-                                        bgcolor: 'primary.main',
-                                        color: 'primary.light',
-                                    }}
-                                >
-                                    <PersonIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText>
-                                {profile.name}
-                                {/* If it's the main account, say it ! */}
-                                {profile.isMainProfile && (
-                                    <Typography
-                                        variant="caption"
-                                        fontStyle="italic"
+                    <List
+                        sx={{ width: '100%', maxWidth: '480px' }}
+                        subheader={
+                            <ListSubheader component="div">
+                                Choix du profil
+                            </ListSubheader>
+                        }
+                    >
+                        {profiles.map((profile) => (
+                            <ListItem
+                                key={profile.id}
+                                disablePadding
+                                secondaryAction={
+                                    <IconButton
+                                        edge="end"
+                                        onClick={goToProfileUpdate(profile.id)}
                                     >
-                                        {' (Principal)'}
-                                    </Typography>
-                                )}
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-        </Dialog>
+                                        <EditIcon />
+                                    </IconButton>
+                                }
+                            >
+                                <ListItemButton
+                                    onClick={onProfileChoice(profile)}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            sx={{
+                                                bgcolor: 'primary',
+                                                color: 'primary.light',
+                                            }}
+                                        >
+                                            <PersonIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primaryTypographyProps={{
+                                            sx: {
+                                                wordWrap: 'break-word',
+                                            },
+                                        }}
+                                    >
+                                        {profile.name}
+                                        {/* If it's the main account, say it ! */}
+                                        {profile.isMainProfile && (
+                                            <Typography
+                                                variant="caption"
+                                                fontStyle="italic"
+                                            >
+                                                {' (Principal)'}
+                                            </Typography>
+                                        )}
+                                    </ListItemText>
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                        {/* Last button for adding a profile */}
+                        <ListItem key={-1} disableGutters>
+                            <ListItemButton onClick={goToProfileCreation}>
+                                <ListItemAvatar>
+                                    <Avatar
+                                        sx={{
+                                            bgcolor: 'primary.main',
+                                            color: 'primary.light',
+                                        }}
+                                    >
+                                        <AddIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    Créer un nouveau profil
+                                </ListItemText>
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </Box>
+            </Box>
+        </>
     );
 }
 

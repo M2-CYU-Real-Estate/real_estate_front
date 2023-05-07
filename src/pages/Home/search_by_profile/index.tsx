@@ -46,7 +46,6 @@ function SearchByProfile() {
         case 'initialChoice':
             return (
                 <SearchInitialChoice
-                    goToProfileCreation={goToProfileCreation}
                     goToResults={goToResults}
                     setProfileChosen={setProfileChosen}
                 />

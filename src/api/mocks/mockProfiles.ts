@@ -12,7 +12,7 @@ export const mockProfiles: UserProfile[] = [
     {
         id: 2,
         isMainProfile: false,
-        name: 'profile_2',
+        name: 'profile_2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
         caracteristics: {
             surface: 150,
         },
@@ -20,7 +20,7 @@ export const mockProfiles: UserProfile[] = [
     {
         id: 3,
         isMainProfile: false,
-        name: 'profile_3',
+        name: 'profile_3 qzd qzd jqkzd qkzjdb zqbdv hqzdv hjqzdhjqzdhj qzhjdv hgvqzhdg vqzhgdv hgqvzd hgqzv dhgv',
         caracteristics: {
             surface: 150,
         },
