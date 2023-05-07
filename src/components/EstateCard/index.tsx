@@ -15,20 +15,7 @@ import { toFrenchDate } from '../../utils/DateUtils';
 import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 import FavoriteButton from '../FavoriteButton';
 import TextWithIcon from '../TextWithIcon';
-
-interface EstateCardProps {
-    id: number;
-    title: string;
-    imageUrl: string;
-    price: number;
-    description: string;
-    isFavorite: boolean;
-    area?: number;
-    rooms?: number;
-    bedrooms?: number;
-    bathrooms?: number;
-    date: Date;
-}
+import { EstateProperties } from '../../types/estate';
 
 function EstateCard({
     id,
@@ -42,7 +29,7 @@ function EstateCard({
     bedrooms,
     bathrooms,
     date,
-}: EstateCardProps) {
+}: EstateProperties) {
     // TODO: context for favorite functions ?
 
     const [isFavoriteEnabled, setFavoriteEnabled] = useState(isFavorite);

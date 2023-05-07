@@ -14,13 +14,13 @@
  *      - Button for clearing search
  */
 
-import { Box, Button } from '@mui/material';
 import { useCurrentUserQuery } from '../../../api/user/userApi';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
 import NotConnectedRestriction from '../not_connected_restriction';
 import { useState } from 'react';
 import SearchInitialChoice from './SearchInitialChoice';
 import { useStateTransition } from './stateTransition';
+import ProfileResults from './ProfileResults';
 
 function SearchByProfile() {
     const { data: user, isLoading } = useCurrentUserQuery();
@@ -28,7 +28,7 @@ function SearchByProfile() {
     const [currentState, [goToIntialChoice, goToProfileCreation, goToResults]] =
         useStateTransition();
 
-    const [profileChosen, setProfileChosen] = useState<string | undefined>(
+    const [profileChosen, setProfileChosen] = useState<number | undefined>(
         undefined
     );
 
@@ -54,7 +54,13 @@ function SearchByProfile() {
         case 'profileCreation':
             return <div>Profile creation</div>;
         case 'results':
-            return <div>RESULTS</div>;
+            // Little check for avoiding going in 'results' state without having a profile set
+            return (
+                <ProfileResults
+                    profileId={profileChosen}
+                    goToIntialChoice={goToIntialChoice}
+                />
+            );
     }
 }
 

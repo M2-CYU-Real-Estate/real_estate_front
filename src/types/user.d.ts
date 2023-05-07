@@ -8,3 +8,10 @@ export interface User {
     creationDate: Date;
     lastLoginDate: Date;
 }
+
+export interface UserProfile {
+    id: number;
+    name: string;
+    isMainProfile: boolean = false;
+    caracteristics: object;
+}

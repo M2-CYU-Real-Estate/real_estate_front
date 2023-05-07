@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import Error404 from '../../pages/404';
 import Header from '../../components/Header';
 import LoadingBar from '../../components/loading/LoadingBar';
-import mockEstates from '../Home/mockEstates';
+import mockEstates from '../../api/mocks/mockEstates';
 import MainEstatePanel from './MainEstatePanel';
 import SideEstatePanel from './SideEstatePanel';
 import { EstateProperties } from '../../types/estate';

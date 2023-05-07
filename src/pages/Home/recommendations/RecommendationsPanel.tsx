@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { useContext } from 'react';
 import EstateCard from '../../../components/EstateCard';
 import HomeContext from '../HomeContext';
-import mockEstates from '../mockEstates';
+import mockEstates from '../../../api/mocks/mockEstates';
 import { useCurrentUserQuery } from '../../../api/user/userApi';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
 import NotConnectedRestriction from '../not_connected_restriction';

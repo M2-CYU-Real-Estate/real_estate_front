@@ -2,10 +2,12 @@ import { Box, Button } from '@mui/material';
 import { useContext } from 'react';
 import EstateCard from '../../../components/EstateCard';
 import HomeContext from '../HomeContext';
-import mockEstates from '../mockEstates';
+import mockEstates from '../../../api/mocks/mockEstates';
 
 function LastEntries() {
     // TODO: api call for fetching estates
+    const estates = mockEstates;
+
     const { enableLoading, disableLoading } = useContext(HomeContext);
 
     return (
@@ -44,8 +46,8 @@ function LastEntries() {
                 paddingTop="2em"
                 sx={{ overflowY: 'scroll' }}
             >
-                {mockEstates.map((r) => (
-                    <EstateCard key={r.id} {...r} />
+                {estates.map((estate) => (
+                    <EstateCard key={estate.id} {...estate} />
                 ))}
             </Box>
         </Box>

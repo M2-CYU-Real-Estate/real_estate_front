@@ -1,4 +1,5 @@
 export interface EstateProperties {
+    id: number;
     title: string;
     imageUrl: string;
     propertyUrl: string;
@@ -9,4 +10,5 @@ export interface EstateProperties {
     rooms?: number;
     bedrooms?: number;
     bathrooms?: number;
+    date: Date;
 }

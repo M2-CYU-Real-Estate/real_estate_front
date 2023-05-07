@@ -2,7 +2,9 @@
  * Only contains some entries for the recommendation list
  */
 
-const mockEstates = [
+import { EstateProperties } from '../../types/estate';
+
+const mockEstates: EstateProperties[] = [
     {
         id: 1,
         title: 'Une très jolie maison, 95330',
@@ -15,7 +17,7 @@ const mockEstates = [
         isFavorite: false,
         area: 120,
         rooms: 5,
-        suggestionHint: 'Parce que vous aimez la sécurité',
+        // suggestionHint: 'Parce que vous aimez la sécurité',
         bedrooms: 2,
         bathrooms: 3,
         date: new Date('2023-03-05T18:25:43.511Z'),
@@ -30,7 +32,7 @@ const mockEstates = [
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
         isFavorite: false,
-        suggestionHint: 'Parce que vous êtes riche',
+        // suggestionHint: 'Parce que vous êtes riche',
         area: 333,
         rooms: 3,
         date: new Date('2023-02-05T18:25:43.511Z'),
@@ -45,7 +47,7 @@ const mockEstates = [
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
         isFavorite: true,
-        suggestionHint: 'Parce que vous sentez bon',
+        // suggestionHint: 'Parce que vous sentez bon',
         rooms: 2,
         bathrooms: 2,
         date: new Date('2023-01-05T18:25:43.511Z'),
@@ -60,7 +62,7 @@ const mockEstates = [
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et molestie turpis. Nulla lobortis leo a magna interdum, in luctus elit efficitur. Praesent dapibus ex eget lorem euismod, at malesuada enim aliquet. Duis commodo ante quis enim scelerisque, nec luctus augue ultrices. Nulla malesuada velit orci, sit amet euismod justo feugiat et. Suspendisse vehicula laoreet dui, vitae pellentesque orci tempor sed. Curabitur facilisis rhoncus nunc in accumsan.',
         isFavorite: true,
-        suggestionHint: 'Parce que vous êtes TRES riche',
+        // suggestionHint: 'Parce que vous êtes TRES riche',
         area: 999,
         rooms: 666,
         bedrooms: 1,
