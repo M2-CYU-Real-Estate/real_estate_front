@@ -1,12 +1,11 @@
+import { Box, Button, Typography } from '@mui/material';
+import GLOBALS from '../../globals';
+
 /**
  * This panel is displayed if the user is not connected.
  *
  * This ask him to connect or create an account.
  */
-
-import { Box, Button, Typography } from '@mui/material';
-import GLOBALS from '../../../globals';
-
 function NotConnectedRestriction() {
     return (
         <Box
@@ -24,7 +23,7 @@ function NotConnectedRestriction() {
                 </Typography>
                 <Typography variant="body1" textAlign="center">
                     {'Veuillez vous connecter ou créer un nouveau compte' +
-                        ' pour profiter de ces fonctionnalités'}
+                        ' pour profiter de cette fonctionnalité (et des autres !)'}
                 </Typography>
             </Box>
             <Box

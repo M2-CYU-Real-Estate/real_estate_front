@@ -5,7 +5,7 @@ import HomeContext from '../HomeContext';
 import mockEstates from '../../../api/mocks/mockEstates';
 import { useCurrentUserQuery } from '../../../api/user/userApi';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
-import NotConnectedRestriction from '../not_connected_restriction';
+import NotConnectedRestriction from '../../../components/NotConnectedRestriction';
 
 function RecommendationsPanel() {
     const { data: user, isLoading } = useCurrentUserQuery();

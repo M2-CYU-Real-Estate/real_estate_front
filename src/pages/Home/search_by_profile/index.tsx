@@ -16,7 +16,7 @@
 
 import { useCurrentUserQuery } from '../../../api/user/userApi';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
-import NotConnectedRestriction from '../not_connected_restriction';
+import NotConnectedRestriction from '../../../components/NotConnectedRestriction';
 import { useState } from 'react';
 import SearchInitialChoice from './SearchInitialChoice';
 import { useStateTransition } from './stateTransition';
