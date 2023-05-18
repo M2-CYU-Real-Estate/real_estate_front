@@ -42,7 +42,7 @@ function App() {
 
                     {/* USER ROUTES */}
                     <Route
-                        path={GLOBALS.routes.userProfile(':id')}
+                        path={GLOBALS.routes.userProfile()}
                         element={<UserProfilePage />}
                     />
 

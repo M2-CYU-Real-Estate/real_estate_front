@@ -71,10 +71,7 @@ function UserMenu({ user }: UserMenuProps) {
             >
                 {user.name}
                 {/* <Link href={GLOBALS.routes.userProfile(user.id.toString())}> */}
-                <MenuItem
-                    component={Link}
-                    to={GLOBALS.routes.userProfile(user.id.toString())}
-                >
+                <MenuItem component={Link} to={GLOBALS.routes.userProfile()}>
                     Profil
                 </MenuItem>
                 {/* </Link> */}
