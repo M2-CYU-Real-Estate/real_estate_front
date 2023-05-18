@@ -1,8 +1,8 @@
-import { Box, Grid, Paper, Typography, keyframes } from '@mui/material';
+import { Box, Grid, keyframes } from '@mui/material';
 import { useCurrentUserQuery } from '../../api/user/userApi';
+import Header from '../../components/Header';
 import NotConnectedRestriction from '../../components/NotConnectedRestriction';
 import CircularCenteredLoading from '../../components/loading/CircularCenteredLoading';
-import Header from '../../components/Header';
 import UserDetailsPanel from './UserDetailsPanel';
 import UserTabsPanel from './UserTabsPanel';
 

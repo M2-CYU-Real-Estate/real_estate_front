@@ -19,13 +19,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "indent": [
-            "error",
-            4,
-            {
-                "SwitchCase": 1
-            }
-        ],
         "linebreak-style": [
             "error",
             "unix"
@@ -35,6 +28,16 @@
             "always"
         ],
         "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/no-inferrable-types": "off"
+        "@typescript-eslint/no-inferrable-types": "off",
+        "indent": [
+            "off"
+        ],
+        "@typescript-eslint/indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ]
     }
 }

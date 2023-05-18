@@ -1,6 +1,9 @@
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { AppBar, Box, Paper, Tab } from '@mui/material';
 import { useState } from 'react';
+import UserFavoritesTabPanel from './_UserFavoritesTabPanel';
+import UserStatisticsTabPanel from './_UserStatisticsTabPanel';
+import UserProfilesTabPanel from './_UserProfilesTabPanel';
 
 type TabValues = 'favorites' | 'profiles' | 'statistics';
 
@@ -59,19 +62,19 @@ function UserTabsPanel() {
                                 sx={{ padding: 0, height: '100%' }}
                                 value="favorites"
                             >
-                                Favorites
+                                <UserFavoritesTabPanel />
                             </TabPanel>
                             <TabPanel
                                 sx={{ padding: 0, height: '100%' }}
                                 value="profiles"
                             >
-                                Profiles
+                                <UserProfilesTabPanel />
                             </TabPanel>
                             <TabPanel
                                 sx={{ padding: 0, height: '100%' }}
                                 value="statistics"
                             >
-                                Statistiques
+                                <UserStatisticsTabPanel />
                             </TabPanel>
                         </Box>
                     </Box>
