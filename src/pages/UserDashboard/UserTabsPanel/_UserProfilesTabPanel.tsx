@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import PersonIcon from '@mui/icons-material/Person';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PrincipalIcon from '@mui/icons-material/SwitchAccount';
 import {
     Avatar,
     Box,
@@ -11,9 +12,12 @@ import {
     ListItemButton,
     ListItemText,
     ListSubheader,
+    Tooltip,
     Typography,
+    Zoom,
 } from '@mui/material';
 import { mockProfiles } from '../../../api/mocks/mockProfiles';
+import GLOBALS from '../../../globals';
 
 function UserProfilesTabPanel() {
     // TODO: API call
@@ -36,7 +40,7 @@ function UserProfilesTabPanel() {
                     <List
                         sx={{ width: '100%' }}
                         subheader={
-                            <ListSubheader component="div">
+                            <ListSubheader component="p">
                                 {nbProfiles} profils disponibles
                             </ListSubheader>
                         }
@@ -46,16 +50,42 @@ function UserProfilesTabPanel() {
                                 key={profile.id}
                                 disablePadding
                                 secondaryAction={
-                                    <IconButton
-                                        edge="end"
-                                        // onClick={goToProfileUpdate(profile.id)}
-                                    >
-                                        <EditIcon />
-                                    </IconButton>
+                                    // TODO add icon (set as principal)
+                                    <>
+                                        {/* If the profile is not the main profile, show the button to switch */}
+                                        {!profile.isMainProfile && (
+                                            <Tooltip
+                                                placement="left"
+                                                title={`Faire de "${profile.name}" le profil principal`}
+                                            >
+                                                <IconButton
+                                                    edge="start"
+                                                    // TODO confirmation popup > API call > reload page
+                                                    // onClick={goToProfileUpdate(profile.id)}
+                                                >
+                                                    <PrincipalIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
+                                        <Tooltip
+                                            placement="left"
+                                            title={`Supprime le profil "${profile.name}"`}
+                                        >
+                                            <IconButton
+                                                edge="end"
+                                                // TODO confirmation popup > API call > reload page
+                                                // onClick={goToProfileUpdate(profile.id)}
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </>
                                 }
                             >
                                 <ListItemButton
-                                // onClick={onProfileChoice(profile)}
+                                    href={GLOBALS.routes.userProfile(
+                                        profile.id.toString()
+                                    )}
                                 >
                                     <ListItemAvatar>
                                         <Avatar
@@ -70,6 +100,7 @@ function UserProfilesTabPanel() {
                                     <ListItemText
                                         primaryTypographyProps={{
                                             sx: {
+                                                marginRight: '3em',
                                                 wordWrap: 'break-word',
                                             },
                                         }}

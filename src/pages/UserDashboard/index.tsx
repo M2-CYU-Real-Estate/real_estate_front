@@ -34,7 +34,7 @@ const papersFadeInAnimation = keyframes`
     }
 `;
 
-function UserProfilePage() {
+function UserDashboard() {
     const { data: user, isLoading } = useCurrentUserQuery();
 
     if (isLoading) {
@@ -101,4 +101,4 @@ function UserProfilePage() {
     );
 }
 
-export default UserProfilePage;
+export default UserDashboard;

@@ -4,17 +4,36 @@ import { useState } from 'react';
 import UserFavoritesTabPanel from './_UserFavoritesTabPanel';
 import UserStatisticsTabPanel from './_UserStatisticsTabPanel';
 import UserProfilesTabPanel from './_UserProfilesTabPanel';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-type TabValues = 'favorites' | 'profiles' | 'statistics';
+// Some training on types that I will forget soon (permit to check if string is part of type)
+const TAB_VALUES = ['favorites', 'profiles', 'statistics'] as const;
+type TabTuple = typeof TAB_VALUES;
+type TabValue = TabTuple[number];
+
+function isTabValue(s: string | null): s is TabValue {
+    if (!s) {
+        return false;
+    }
+    return TAB_VALUES.includes(s as TabValue);
+}
 
 function UserTabsPanel() {
-    const [tabValue, setTabValue] = useState<TabValues>('favorites');
+    // The navigation between tabs will be handled with query params
+    // This will permit to go to the last tab seen when going to the previous page
+    const [params, setParams] = useSearchParams('favorites');
+    let tab = params.get('tab');
+
+    if (!isTabValue(tab)) {
+        // Set to default
+        tab = 'favorites';
+    }
 
     const changeTab = (
         e: React.SyntheticEvent<Element, Event>,
-        newValue: TabValues
+        newValue: TabValue
     ) => {
-        setTabValue(newValue);
+        setParams({ ['tab']: newValue });
     };
 
     return (
@@ -29,7 +48,7 @@ function UserTabsPanel() {
                 flexDirection="column"
                 alignItems="center"
             >
-                <TabContext value={tabValue}>
+                <TabContext value={tab}>
                     <Box height="100%" width="100%">
                         <AppBar
                             position="static"

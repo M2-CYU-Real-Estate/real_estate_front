@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import Error404 from '../../pages/404';
+import Error404 from '../Error404';
 import Header from '../../components/Header';
 import LoadingBar from '../../components/loading/LoadingBar';
 import mockEstates from '../../api/mocks/mockEstates';

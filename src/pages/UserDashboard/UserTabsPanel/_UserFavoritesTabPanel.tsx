@@ -24,7 +24,7 @@ function UserFavoritesTabPanel() {
             sx={{ overflowY: 'scroll' }}
         >
             <Typography variant="h5" textAlign="center">
-                <Typography display="inline" variant="h5" fontWeight="600">
+                <Typography display="inline" variant="inherit" fontWeight="600">
                     {`${nbFavorites} `}
                 </Typography>
                 Favoris enregistrés

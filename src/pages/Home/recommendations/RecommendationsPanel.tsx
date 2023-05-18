@@ -37,7 +37,11 @@ function RecommendationsPanel() {
                 justifyContent="center"
             >
                 <Typography variant="h5">
-                    <Typography display="inline" variant="h5" fontWeight="600">
+                    <Typography
+                        display="inline"
+                        variant="inherit"
+                        fontWeight="600"
+                    >
                         {`${nbRecommendations} `}
                     </Typography>
                     recommendations pour vous

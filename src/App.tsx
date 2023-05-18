@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import theme from './assets/theme';
 import Home from './pages/Home';
-import Error404 from './pages/404';
+import Error404 from './pages/Error404';
 import GLOBALS from './globals';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,7 +12,8 @@ import Estate from './pages/Estate';
 // see https://blog.logrocket.com/using-react-toastify-style-toast-messages/
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import UserProfilePage from './pages/UserProfilePage';
+import UserDashboard from './pages/UserDashboard';
+import Profile from './pages/Profile';
 
 function App() {
     return (
@@ -42,8 +43,12 @@ function App() {
 
                     {/* USER ROUTES */}
                     <Route
-                        path={GLOBALS.routes.userProfile()}
-                        element={<UserProfilePage />}
+                        path={GLOBALS.routes.userDashboard()}
+                        element={<UserDashboard />}
+                    />
+                    <Route
+                        path={GLOBALS.routes.userProfile(':id')}
+                        element={<Profile />}
                     />
 
                     {/* ADMIN ROUTES */}
