@@ -29,7 +29,7 @@ const GLOBALS = {
         about: () => '/about',
 
         // ==== WITH REQUIRED LOGIN ====
-        userProfile: (id: number) => `/users/${id}`,
+        userProfile: (id: string) => `/users/${id}`,
         // ---- ADMIN PART ----
         adminDashboard: () => '/admin-dashboard',
     },

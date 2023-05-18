@@ -1,9 +1,7 @@
 import AccountIcon from '@mui/icons-material/AccountCircle';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Menu, MenuItem } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -72,17 +70,19 @@ function UserMenu({ user }: UserMenuProps) {
                 onClose={closeMenu}
             >
                 {user.name}
+                {/* <Link href={GLOBALS.routes.userProfile(user.id.toString())}> */}
                 <MenuItem
-                    LinkComponent={Link}
-                    href={GLOBALS.routes.userProfile(user.id)}
+                    component={Link}
+                    to={GLOBALS.routes.userProfile(user.id.toString())}
                 >
                     Profil
                 </MenuItem>
+                {/* </Link> */}
                 {/* If admin, we want an extra menu */}
                 {user.role === 'ADMIN' && (
                     <MenuItem
-                        LinkComponent={Link}
-                        href={GLOBALS.routes.adminDashboard()}
+                        component={Link}
+                        to={GLOBALS.routes.adminDashboard()}
                     >
                         Tableau de bord
                     </MenuItem>

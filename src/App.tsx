@@ -12,6 +12,7 @@ import Estate from './pages/Estate';
 // see https://blog.logrocket.com/using-react-toastify-style-toast-messages/
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfilePage from './pages/UserProfilePage';
 
 function App() {
     return (
@@ -38,6 +39,14 @@ function App() {
                         path={GLOBALS.routes.register()}
                         element={<Register />}
                     />
+
+                    {/* USER ROUTES */}
+                    <Route
+                        path={GLOBALS.routes.userProfile(':id')}
+                        element={<UserProfilePage />}
+                    />
+
+                    {/* ADMIN ROUTES */}
 
                     {/* 404 Error (if no route can match) */}
                     <Route path="*" element={<Error404 />} />
