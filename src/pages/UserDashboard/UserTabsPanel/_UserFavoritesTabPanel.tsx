@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import EstateCard from '../../../components/EstateCard';
 import mockEstates from '../../../api/mocks/mockEstates';
-import { useState } from 'react';
+import EstateCard from '../../../components/EstateCard';
 
 function UserFavoritesTabPanel() {
     // TODO: real API call
@@ -10,7 +9,10 @@ function UserFavoritesTabPanel() {
     // The goal is to change the number of favorites in real time
     // when the use click on a button for example
     // (if a favorite is set on an other page, this will not work obvioulsy)
-    const [nbFavorites, setNbFavorites] = useState(estates.length);
+    const nbFavorites = estates.reduce(
+        (total, e) => (e.isFavorite ? total + 1 : total),
+        0
+    );
 
     // ELSE : use a query for this
     // (the mutation query should invalidate the "numberFavorites" query)

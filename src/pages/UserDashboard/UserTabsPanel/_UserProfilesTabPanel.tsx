@@ -75,7 +75,6 @@ function UserProfilesTabPanel() {
                                 key={profile.id}
                                 disablePadding
                                 secondaryAction={
-                                    // TODO add icon (set as principal)
                                     <>
                                         {/* If the profile is not the main profile, show the button to switch */}
                                         {!profile.isMainProfile && (
@@ -157,7 +156,7 @@ function UserProfilesTabPanel() {
                         {/* Last button for adding a profile */}
                         <ListItem key={-1} disableGutters>
                             <ListItemButton
-                            // onClick={goToProfileCreation}
+                                href={GLOBALS.routes.userNewProfile()}
                             >
                                 <ListItemAvatar>
                                     <Avatar

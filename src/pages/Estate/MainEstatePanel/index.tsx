@@ -56,7 +56,11 @@ function MainEstatePanel(props: { estate: EstateProperties }) {
                             <Typography variant="h5" color="primary.dark">
                                 {estate.title}
                             </Typography>
-                            <Link component="a" href={estate.propertyUrl}>
+                            <Link
+                                component="a"
+                                href={estate.propertyUrl}
+                                target="blank"
+                            >
                                 {"Voir le site de l'annonce"}
                             </Link>
                         </Box>
