@@ -12,7 +12,7 @@ interface UserDetailsProps {
  */
 function UserDetailsPanel({ user }: UserDetailsProps) {
     return (
-        <Paper elevation={7} sx={{ margin: '2em', mt: '3em' }}>
+        <Paper elevation={7} sx={{ margin: '2em', mt: '2em' }}>
             <Box
                 width="100%"
                 display="flex"

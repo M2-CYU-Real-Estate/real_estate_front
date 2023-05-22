@@ -39,7 +39,7 @@ function UserTabsPanel() {
     return (
         <Paper
             elevation={2}
-            sx={{ margin: '2em', mt: '3em', minHeight: '50%' }}
+            sx={{ margin: '2em', mt: '2em', minHeight: '50%' }}
         >
             <Box
                 width="100%"
@@ -49,7 +49,7 @@ function UserTabsPanel() {
                 alignItems="center"
             >
                 <TabContext value={tab}>
-                    <Box height="100%" width="100%">
+                    <Box height="80vh" maxHeight="80vh" width="100%">
                         <AppBar
                             position="static"
                             color="primary"

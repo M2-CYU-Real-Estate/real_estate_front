@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
-import PersonIcon from '@mui/icons-material/Person';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PersonIcon from '@mui/icons-material/Person';
 import PrincipalIcon from '@mui/icons-material/SwitchAccount';
 import {
     Avatar,
@@ -14,12 +14,37 @@ import {
     ListSubheader,
     Tooltip,
     Typography,
-    Zoom,
 } from '@mui/material';
 import { mockProfiles } from '../../../api/mocks/mockProfiles';
 import GLOBALS from '../../../globals';
+import ConfirmDialog from '../../../components/Dialogs/ConfirmDialog';
+import { useState } from 'react';
+
+interface SelectedProfile {
+    id: number;
+    name: string;
+}
 
 function UserProfilesTabPanel() {
+    // Permits to display on dialogs the selected profile
+    const [selectedProfile, setSelectedProfile] = useState<SelectedProfile>({
+        id: -1,
+        name: '.',
+    });
+    // maybe select by id, or a state object....
+    const [isPrincipalDialogOpen, setPrincipalDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    // TODO: complete "on principal switch" function
+    const switchPrincipal = () => {
+        window.alert(`Switch to profile ${selectedProfile}`);
+    };
+
+    // TODO: complete "on delete" function
+    const deleteProfile = () => {
+        window.alert(`Delete profile ${selectedProfile}`);
+    };
+
     // TODO: API call
     const profiles = mockProfiles;
 
@@ -61,7 +86,14 @@ function UserProfilesTabPanel() {
                                                 <IconButton
                                                     edge="start"
                                                     // TODO confirmation popup > API call > reload page
-                                                    // onClick={goToProfileUpdate(profile.id)}
+                                                    onClick={() => {
+                                                        setPrincipalDialogOpen(
+                                                            true
+                                                        );
+                                                        setSelectedProfile(
+                                                            profile
+                                                        );
+                                                    }}
                                                 >
                                                     <PrincipalIcon />
                                                 </IconButton>
@@ -74,7 +106,10 @@ function UserProfilesTabPanel() {
                                             <IconButton
                                                 edge="end"
                                                 // TODO confirmation popup > API call > reload page
-                                                // onClick={goToProfileUpdate(profile.id)}
+                                                onClick={() => {
+                                                    setDeleteDialogOpen(true);
+                                                    setSelectedProfile(profile);
+                                                }}
                                             >
                                                 <DeleteIcon />
                                             </IconButton>
@@ -142,6 +177,28 @@ function UserProfilesTabPanel() {
                     </List>
                 </Box>
             </Box>
+            {/* DIALOGS */}
+            {/* TODO add both dialogs (set principal & delete) */}
+            <ConfirmDialog
+                title="Choisir comme profil principal ?"
+                isOpen={isPrincipalDialogOpen}
+                setOpen={setPrincipalDialogOpen}
+                onConfirm={switchPrincipal}
+            >
+                <p>
+                    {`Voulez-vous vraiment choisir le profil "${selectedProfile.name}" comme profil principal ?`}
+                </p>
+            </ConfirmDialog>
+            <ConfirmDialog
+                title="Supprimer le profil"
+                isOpen={isDeleteDialogOpen}
+                setOpen={setDeleteDialogOpen}
+                onConfirm={deleteProfile}
+            >
+                <p>
+                    {`Voulez-vous vraiment supprimer le profil "${selectedProfile.name}" ? Cette action sera définitive.`}
+                </p>
+            </ConfirmDialog>
         </>
     );
 }

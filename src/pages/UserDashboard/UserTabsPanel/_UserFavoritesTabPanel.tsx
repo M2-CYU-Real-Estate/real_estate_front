@@ -16,13 +16,7 @@ function UserFavoritesTabPanel() {
     // (the mutation query should invalidate the "numberFavorites" query)
 
     return (
-        <Box
-            width="100%"
-            height="100%"
-            maxHeight="100%"
-            p="0.5em"
-            sx={{ overflowY: 'scroll' }}
-        >
+        <Box width="100%" height="100%" p="0.5em" sx={{ overflowY: 'scroll' }}>
             <Typography variant="h5" textAlign="center">
                 <Typography display="inline" variant="inherit" fontWeight="600">
                     {`${nbFavorites} `}

@@ -70,20 +70,17 @@ function UserMenu({ user }: UserMenuProps) {
                 onClose={closeMenu}
             >
                 {user.name}
-                {/* <Link href={GLOBALS.routes.userProfile(user.id.toString())}> */}
                 <MenuItem component={Link} to={GLOBALS.routes.userDashboard()}>
                     Tableau de bord
                 </MenuItem>
-                {/* </Link> */}
-                {/* If admin, we want an extra menu */}
-                {user.role === 'ADMIN' && (
+                {/* {user.role === 'ADMIN' && (
                     <MenuItem
                         component={Link}
                         to={GLOBALS.routes.adminDashboard()}
                     >
                         Administration
                     </MenuItem>
-                )}
+                )} */}
                 <MenuItem onClick={handleLogout}>Deconnexion</MenuItem>
             </Menu>
         </>
