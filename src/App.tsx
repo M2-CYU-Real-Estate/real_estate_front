@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserDashboard from './pages/UserDashboard';
 import Profile from './pages/Profile';
+import Sell from './pages/Sell';
 
 function App() {
     return (
@@ -33,6 +34,9 @@ function App() {
                         path={GLOBALS.routes.estate(':id')}
                         element={<Estate />}
                     />
+
+                    {/* SELL */}
+                    <Route path={GLOBALS.routes.sell()} element={<Sell />} />
 
                     {/* LOGIN / REGISTER */}
                     <Route path={GLOBALS.routes.login()} element={<Login />} />
