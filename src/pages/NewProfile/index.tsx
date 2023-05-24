@@ -1,8 +1,14 @@
 import { Box } from '@mui/material';
 import Header from '../../components/Header';
+import MultiStepForm, { FormStep } from './MultiStepForm';
+
+const STEP_NAMES = [
+    'Choix du profil de base',
+    'Informations basiques',
+    'Besoins et priorités',
+];
 
 function NewProfile() {
-    // TODO !!!!! Multi stage profile creation !!!!
     return (
         <Box
             display="flex"
@@ -11,6 +17,17 @@ function NewProfile() {
             height="100vh"
         >
             <Header />
+            {/* Display steps */}
+            <MultiStepForm
+                initialValues={{}}
+                onSubmit={async (values) => {
+                    window.alert(values);
+                }}
+            >
+                <FormStep stepName="Choix du profil de base">TODO</FormStep>
+                <FormStep stepName="Informations basiques"></FormStep>
+                <FormStep stepName="Besoins et priorités"></FormStep>
+            </MultiStepForm>
         </Box>
     );
 }

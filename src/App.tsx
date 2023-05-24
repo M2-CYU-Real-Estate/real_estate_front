@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserDashboard from './pages/UserDashboard';
 import Profile from './pages/Profile';
+import NewProfile from './pages/NewProfile';
 
 function App() {
     return (
@@ -45,6 +46,10 @@ function App() {
                     <Route
                         path={GLOBALS.routes.userDashboard()}
                         element={<UserDashboard />}
+                    />
+                    <Route
+                        path={GLOBALS.routes.userNewProfile()}
+                        element={<NewProfile />}
                     />
                     <Route
                         path={GLOBALS.routes.userProfile(':id')}
