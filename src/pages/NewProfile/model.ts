@@ -30,6 +30,11 @@ export interface FormValues {
     fittedKitchen: boolean;
     city: string;
     cityDistanceKm: number;
+    securityScore: number;
+    educationScore: number;
+    hobbiesScore: number;
+    environmentScore: number;
+    practicalityScore: number;
 }
 
 export interface BaseProfile {
@@ -54,6 +59,11 @@ export const profiles: BaseProfile[] = [
             fittedKitchen: false,
             city: 'Paris-1Er-Arrondissement (75001)',
             cityDistanceKm: 100,
+            securityScore: 2,
+            educationScore: 2,
+            hobbiesScore: 2,
+            environmentScore: 2,
+            practicalityScore: 2,
         },
     },
     {
@@ -72,6 +82,11 @@ export const profiles: BaseProfile[] = [
             fittedKitchen: false,
             city: 'Paris-1Er-Arrondissement (75001)',
             cityDistanceKm: 100,
+            securityScore: 2,
+            educationScore: 2,
+            hobbiesScore: 2,
+            environmentScore: 2,
+            practicalityScore: 2,
         },
     },
     {
@@ -90,6 +105,11 @@ export const profiles: BaseProfile[] = [
             fittedKitchen: false,
             city: 'Paris-1Er-Arrondissement (75001)',
             cityDistanceKm: 100,
+            securityScore: 2,
+            educationScore: 2,
+            hobbiesScore: 2,
+            environmentScore: 2,
+            practicalityScore: 2,
         },
     },
     {
@@ -108,6 +128,11 @@ export const profiles: BaseProfile[] = [
             fittedKitchen: false,
             city: 'Paris-1Er-Arrondissement (75001)',
             cityDistanceKm: 100,
+            securityScore: 2,
+            educationScore: 2,
+            hobbiesScore: 2,
+            environmentScore: 2,
+            practicalityScore: 2,
         },
     },
 ];

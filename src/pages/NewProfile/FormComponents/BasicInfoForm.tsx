@@ -283,6 +283,16 @@ function BasicInfoForm() {
                         max={energyClassMarks.length}
                         marks={energyClassMarks}
                         step={1}
+                        sx={{
+                            '& .MuiSlider-track': {
+                                backgroundImage:
+                                    'linear-gradient(.25turn, #f00, #0f0)',
+                            },
+                            '& .MuiSlider-rail': {
+                                backgroundImage:
+                                    'linear-gradient(.25turn, #f00, #0f0)',
+                            },
+                        }}
                     />
                 </Grid>
                 {/* Balcony and fitted kitchen */}

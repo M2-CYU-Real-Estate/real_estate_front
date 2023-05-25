@@ -8,6 +8,7 @@ import BasicInfoForm, {
     basicInfoValidationSchema,
 } from './FormComponents/BasicInfoForm';
 import NeedsForm from './FormComponents/NeedsForm';
+import SummaryStep from './FormComponents/SummaryStep';
 
 function NewProfile() {
     // const [initialValues, setInitialValues] = useState(
@@ -47,16 +48,15 @@ function NewProfile() {
                 <FormStep
                     stepName="Informations basiques"
                     validationSchema={basicInfoValidationSchema}
-                    onSubmit={(values, actions) => {
-                        window.alert(JSON.stringify(values));
-                    }}
                 >
                     <BasicInfoForm />
                 </FormStep>
                 <FormStep stepName="Besoins et priorités">
                     <NeedsForm />
                 </FormStep>
-                {/* TODO : summary step */}
+                <FormStep stepName="Résumé">
+                    <SummaryStep />
+                </FormStep>
             </MultiStepForm>
         </Box>
     );
