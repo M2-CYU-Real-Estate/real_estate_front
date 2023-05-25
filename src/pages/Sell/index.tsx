@@ -9,8 +9,6 @@ import {
     Typography,
     Drawer
 } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
-
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import HomeButton from '../../components/HomeButton';
@@ -36,11 +34,7 @@ const validationSchema = yup.object({
         .number()
         .min(1, 'Le nombre de toilletes doit au moins avoir 1 caractères')
         .required('Un mot de passe est attendu'),
-
-    ville: yup
-        .string()
-        .min(3, 'La ville doit au moins avoir 3 caractères')
-        .required('Un mot de passe est attendu'),
+   
 });
 
 function Sell() {
@@ -50,18 +44,36 @@ function Sell() {
             surfaceTerrain: 0,
             nbPiece: 0,
             nbToillet: 0,
-            ville: '',
-            codepostal: 0,
+            lat: '',
+            long: '',
+            coord: '',
         },
         validationSchema: validationSchema,
         onSubmit: handleSumbit,
     });
     const [isOpen, setOpen] = React.useState(false);
-    async function handleSumbit(e: FormResponses) {
+    async function handleSumbit() {
         // TODO handle submit
         // window.alert(JSON.stringify(e, null, 2));
         setOpen(true);
     }
+
+    const handleBlur = () => {
+        const { lat, long } = formik.values;
+        if (lat && long) {
+            formik.setFieldValue('coord', `${lat},${long}`);
+        } else {
+            const { coord } = formik.values;
+            if (coord) {
+                const [lat, long] = coord.split(',');
+                formik.setFieldValue('lat', lat);
+                formik.setFieldValue('long', long);
+            }else{
+                formik.setFieldValue('coord', '');
+            }
+            
+        }
+    };
       
     return (
         <Box
@@ -207,31 +219,70 @@ function Sell() {
                             </Grid>
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
-                                    <Autocomplete
-                                        disablePortal
-                                        options={Villes}
-                                        renderInput={(params) => 
-                                            <TextField
-                                                {...params} label="Ville"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                id="ville"
-                                                type="string"
-                                                name="ville"
-                                                value={formik.values.ville}
-                                                onChange={formik.handleChange}
-                                                error={
-                                                    formik.touched.ville &&
-                                                    Boolean(formik.errors.ville)
-                                                }
-                                                helperText={
-                                                    formik.touched.ville &&
-                                                    formik.errors.ville
-                                                } />}
-                                    />
+                                    <TextField
+                                        label="Latitude"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="lat"
+                                        type="string"
+                                        name="lat"
+                                        value={formik.values.lat}
+                                        onChange={formik.handleChange}
+                                        onBlur={handleBlur} // Calculate coord on blur
+                                        error={
+                                            formik.touched.lat &&
+                                                    Boolean(formik.errors.lat)
+                                        }
+                                        helperText={
+                                            formik.touched.lat &&
+                                                    formik.errors.lat
+                                        } />
                                 </Grid>
-                               
+                                <Grid item xs={6}>
+                                    <TextField
+                                        label="Longitude"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="long"
+                                        type="string"
+                                        name="long"
+                                        value={formik.values.long}
+                                        onChange={formik.handleChange}
+                                        onBlur={handleBlur}
+                                        error={
+                                            formik.touched.long &&
+                                                    Boolean(formik.errors.long)
+                                        }
+                                        helperText={
+                                            formik.touched.long &&
+                                                    formik.errors.long
+                                        } />
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={2}>
+                                <Grid item xs={9}>
+                                    <TextField
+                                        label="Coordonnées géographique"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="coord"
+                                        type="string"
+                                        name="coord"
+                                        value={formik.values.coord}
+                                        onChange={formik.handleChange}
+                                        onBlur={handleBlur}
+                                        error={
+                                            formik.touched.coord &&
+                                            Boolean(formik.errors.coord)
+                                        }
+                                        helperText={
+                                            formik.touched.coord &&
+                                            formik.errors.coord
+                                        } />
+                                </Grid>
                             </Grid>
 
                             <Button
@@ -280,14 +331,10 @@ interface FormResponses {
     surfaceTerrain: number;
     nbPiece: number;
     nbToillet: number;
-    ville: string;
+    lat: string;
+    long: string;
+    coord:string;
 }
 
-const Villes = [
-    {label: '95000 - Cergy'},
-    {label: '92000 - Nanterre'},
-    {label: '95300 - Pontoise'},
-    {label: '93000 - Saint-Denis'}
-];
 
 export default Sell;
