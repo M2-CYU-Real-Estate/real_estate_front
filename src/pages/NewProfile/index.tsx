@@ -8,9 +8,11 @@ import BasicInfoForm from './FormComponents/BasicInfoForm';
 import NeedsForm from './FormComponents/NeedsForm';
 
 function NewProfile() {
-    const [initialValues, setInitialValues] = useState(
-        profiles[0].initialValues
-    );
+    // const [initialValues, setInitialValues] = useState(
+    //     profiles[0].initialValues
+    // );
+
+    const defaultPreset = profiles[0].initialValues;
 
     return (
         <Box
@@ -22,7 +24,7 @@ function NewProfile() {
             <Header />
             {/* Display steps */}
             <MultiStepForm
-                initialValues={{ ...initialValues, presetId: 0 }}
+                initialValues={defaultPreset}
                 onSubmit={async (values) => {
                     window.alert(values);
                 }}
@@ -31,11 +33,11 @@ function NewProfile() {
                 as the MultiStepForm relies on direct children only */}
                 <FormStep
                     stepName="Choix du préréglage initial"
-                    onSubmit={(values) => {
+                    onSubmit={(values, actions) => {
                         // Depending on the chosen radio, we want to reset the initial values
                         const presetId = values.presetId;
-                        window.alert(JSON.stringify(values));
-                        setInitialValues(profiles[presetId].initialValues);
+                        // Reset all values for the ones stored in chosen preset
+                        actions.setValues(profiles[presetId].initialValues);
                     }}
                 >
                     <PresetIdChoice />
@@ -46,6 +48,7 @@ function NewProfile() {
                 <FormStep stepName="Besoins et priorités">
                     <NeedsForm />
                 </FormStep>
+                {/* TODO : summary step */}
             </MultiStepForm>
         </Box>
     );

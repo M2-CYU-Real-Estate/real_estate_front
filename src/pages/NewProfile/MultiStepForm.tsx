@@ -65,7 +65,6 @@ function MultiStepForm({
 
     return (
         <Formik
-            enableReinitialize={true}
             initialValues={snapshot}
             onSubmit={handleSubmit}
             validationSchema={currentStepProps.validationSchema}
@@ -93,6 +92,7 @@ function MultiStepForm({
                                 >
                                     Création du profil
                                 </Typography>
+                                {/* Display the steps with progress */}
                                 <Stepper
                                     activeStep={stepNumber}
                                     orientation="horizontal"
@@ -112,10 +112,12 @@ function MultiStepForm({
                                 </Stepper>
                             </Box>
                             <Box>
+                                {/* All the steps are always redered, permitting to wipe between them */}
                                 <SwipeableViews index={stepNumber}>
                                     {steps.map((step, index) => (
                                         <Box
                                             key={index}
+                                            height="100%"
                                             display="flex"
                                             justifyContent="center"
                                         >
@@ -124,6 +126,7 @@ function MultiStepForm({
                                     ))}
                                 </SwipeableViews>
                             </Box>
+                            {/* The buttons for "next step" / "back" */}
                             <FormNavigation
                                 isLastStep={isLastStep}
                                 hasPrevious={stepNumber > 0}
