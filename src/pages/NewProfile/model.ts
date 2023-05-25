@@ -2,7 +2,7 @@
  * Defines all types and definitions for profile and forms.
  */
 
-export const enum PriceRange {
+export enum PriceRange {
     LOW = 'low',
     MEDIUM = 'medium',
     NORMAL = 'normal',
@@ -10,7 +10,7 @@ export const enum PriceRange {
     VERY_RICH = 'very_rich',
 }
 
-export const enum EnergyClass {
+export enum EnergyClass {
     E = 1,
     D,
     C,

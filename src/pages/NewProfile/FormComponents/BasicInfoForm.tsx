@@ -14,7 +14,54 @@ import {
 } from '@mui/material';
 import { useField } from 'formik';
 import { EnergyClass, PriceRange } from '../model';
+import * as yup from 'yup';
 import cities from '../../../assets/data/correspondance_ville_partial.json';
+
+export const basicInfoValidationSchema = yup.object({
+    priceRange: yup
+        .mixed<PriceRange>()
+        .oneOf(
+            Object.values(PriceRange),
+            'Valeur non reconnue, assurez-vous de choisir parmi les valeurs proposées'
+        )
+        .required('Le budget est attendu')
+        .typeError('Le budget est attendu'),
+    houseAreaSqrtM: yup
+        .number()
+        .required('La surface voulue est attendue')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    rooms: yup
+        .number()
+        .required('Le nombre de pièces voulu est attendu')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    bedrooms: yup
+        .number()
+        .required('Le nombre de chambres voulu est attendu')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    bathrooms: yup
+        .number()
+        .required('Le nombre de salles de bains voulu est attendu')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    energyClass: yup
+        .mixed<EnergyClass>()
+        .required('La classe énergétique est attendue'),
+    balcony: yup.boolean(),
+    fittedKitchen: yup.boolean(),
+    city: yup
+        .string()
+        // Maybe add a oneOf here ?
+        .required('La ville souhaitée est attendue')
+        .typeError("Assurez-vous d'écrire un nom de ville valide"),
+    cityDistanceKm: yup
+        .number()
+        .required('La distance acceptable par rapport à la ville est attendue')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+});
 
 const priceRangeLabels = {
     [PriceRange.LOW]: 'Petit budget (moins de 100 000€)',
@@ -245,12 +292,14 @@ function BasicInfoForm() {
                             control={<Switch />}
                             label="Balcon"
                             labelPlacement="start"
+                            checked={balconyField.value}
                             {...balconyField}
                         />
                         <FormControlLabel
                             control={<Switch />}
                             label="Cuisine équipée"
                             labelPlacement="start"
+                            checked={fittedKitchenField.value}
                             {...fittedKitchenField}
                         />
                     </FormGroup>

@@ -4,7 +4,9 @@ import Header from '../../components/Header';
 import PresetIdChoice from './FormComponents/PresetIdChoice';
 import MultiStepForm, { FormStep } from './MultiStepForm';
 import { profiles } from './model';
-import BasicInfoForm from './FormComponents/BasicInfoForm';
+import BasicInfoForm, {
+    basicInfoValidationSchema,
+} from './FormComponents/BasicInfoForm';
 import NeedsForm from './FormComponents/NeedsForm';
 
 function NewProfile() {
@@ -42,7 +44,13 @@ function NewProfile() {
                 >
                     <PresetIdChoice />
                 </FormStep>
-                <FormStep stepName="Informations basiques">
+                <FormStep
+                    stepName="Informations basiques"
+                    validationSchema={basicInfoValidationSchema}
+                    onSubmit={(values, actions) => {
+                        window.alert(JSON.stringify(values));
+                    }}
+                >
                     <BasicInfoForm />
                 </FormStep>
                 <FormStep stepName="Besoins et priorités">
