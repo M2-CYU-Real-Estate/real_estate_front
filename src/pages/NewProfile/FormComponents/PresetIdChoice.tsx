@@ -1,6 +1,7 @@
 import InfoIcon from '@mui/icons-material/Info';
 import {
     Box,
+    FormControl,
     FormControlLabel,
     FormLabel,
     Radio,
@@ -9,51 +10,52 @@ import {
     Typography,
 } from '@mui/material';
 import { useField } from 'formik';
-import React from 'react';
 import { BaseProfile, profiles } from '../model';
 
 function PresetIdChoice() {
     const [field] = useField('presetId');
 
     return (
-        <RadioGroup
-            sx={{
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-            }}
-            defaultValue={0}
-            {...field}
-        >
-            {/* Center the radio elements if thay are small enough */}
-            <Box
-                display="flex"
-                height="100%"
-                flexDirection="row"
-                justifyContent="center"
-                sx={{ overflowY: 'auto' }}
+        <FormControl component="fieldset" sx={{ height: '100%' }}>
+            <RadioGroup
+                sx={{
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+                defaultValue={0}
+                {...field}
             >
+                {/* Center the radio elements if thay are small enough */}
                 <Box
                     display="flex"
-                    flexDirection="column"
+                    height="100%"
+                    flexDirection="row"
                     justifyContent="center"
+                    sx={{ overflowY: 'auto' }}
                 >
-                    <FormLabel sx={{ color: 'primary.main' }}>
-                        Préréglages{' '}
-                        <Tooltip title="Ce choix permettra de définir des valeurs par défaut dans les champs des prochaines étapes">
-                            <InfoIcon />
-                        </Tooltip>
-                    </FormLabel>
-                    {profiles.map((profile, index) => (
-                        <ProfileRadio
-                            key={index}
-                            index={index}
-                            profile={profile}
-                        />
-                    ))}
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                    >
+                        <FormLabel sx={{ color: 'primary.main' }}>
+                            Préréglages{' '}
+                            <Tooltip title="Ce choix permettra de définir des valeurs par défaut dans les champs des prochaines étapes">
+                                <InfoIcon />
+                            </Tooltip>
+                        </FormLabel>
+                        {profiles.map((profile, index) => (
+                            <ProfileRadio
+                                key={index}
+                                index={index}
+                                profile={profile}
+                            />
+                        ))}
+                    </Box>
                 </Box>
-            </Box>
-        </RadioGroup>
+            </RadioGroup>
+        </FormControl>
     );
 }
 

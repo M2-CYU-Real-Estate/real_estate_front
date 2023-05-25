@@ -4,6 +4,8 @@ import Header from '../../components/Header';
 import PresetIdChoice from './FormComponents/PresetIdChoice';
 import MultiStepForm, { FormStep } from './MultiStepForm';
 import { profiles } from './model';
+import BasicInfoForm from './FormComponents/BasicInfoForm';
+import NeedsForm from './FormComponents/NeedsForm';
 
 function NewProfile() {
     const [initialValues, setInitialValues] = useState(
@@ -25,25 +27,24 @@ function NewProfile() {
                     window.alert(values);
                 }}
             >
-                {/* https://github.com/Ebazhanov/multi-steps-form-formik-mui/tree/main */}
+                {/* The onSubmit functions are handled only in this component, 
+                as the MultiStepForm relies on direct children only */}
                 <FormStep
                     stepName="Choix du préréglage initial"
-                    onSubmit={(v, a) => {
+                    onSubmit={(values) => {
                         // Depending on the chosen radio, we want to reset the initial values
-                        const presetId = v.presetId;
-                        window.alert(JSON.stringify(v));
+                        const presetId = values.presetId;
+                        window.alert(JSON.stringify(values));
                         setInitialValues(profiles[presetId].initialValues);
                     }}
                 >
-                    <FormControl component="fieldset" sx={{ height: '100%' }}>
-                        <PresetIdChoice />
-                    </FormControl>
+                    <PresetIdChoice />
                 </FormStep>
                 <FormStep stepName="Informations basiques">
-                    <div>coucou</div>
+                    <BasicInfoForm />
                 </FormStep>
                 <FormStep stepName="Besoins et priorités">
-                    <div>besoins</div>
+                    <NeedsForm />
                 </FormStep>
             </MultiStepForm>
         </Box>

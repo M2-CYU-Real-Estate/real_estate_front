@@ -1,12 +1,7 @@
 import { Box, Step, StepLabel, Stepper, Typography } from '@mui/material';
-import {
-    Formik,
-    FormikConfig,
-    FormikHelpers,
-    FormikValues,
-    useFormik,
-} from 'formik';
+import { Formik, FormikConfig, FormikHelpers, FormikValues } from 'formik';
 import React, { useState } from 'react';
+import SwipeableViews from 'react-swipeable-views';
 import FormNavigation from './FormNavigation';
 
 // Create a simplified wrapper for substeps
@@ -68,13 +63,6 @@ function MultiStepForm({
         }
     };
 
-    // const formik = useFormik({
-    //     enableReinitialize: true,
-    //     initialValues: snapshot,
-    //     validationSchema: currentStepProps.validationSchema,
-    //     onSubmit: handleSubmit,
-    // });
-
     return (
         <Formik
             enableReinitialize={true}
@@ -87,18 +75,24 @@ function MultiStepForm({
                     <Box
                         display="flex"
                         justifyContent="center"
-                        padding="1em"
+                        padding="2em"
                         height="90vh"
                     >
                         <Box
                             display="flex"
-                            justifyContent="center"
+                            justifyContent="space-between"
                             flexDirection="column"
                             width="100vw"
                             maxWidth="860px"
                         >
-                            <Box marginBottom="auto">
-                                <Typography>Création du profil</Typography>
+                            <Box marginBottom="0">
+                                <Typography
+                                    textAlign="center"
+                                    variant="h5"
+                                    color="primary.main"
+                                >
+                                    Création du profil
+                                </Typography>
                                 <Stepper
                                     activeStep={stepNumber}
                                     orientation="horizontal"
@@ -117,7 +111,19 @@ function MultiStepForm({
                                     })}
                                 </Stepper>
                             </Box>
-                            {currentStep}
+                            <Box>
+                                <SwipeableViews index={stepNumber}>
+                                    {steps.map((step, index) => (
+                                        <Box
+                                            key={index}
+                                            display="flex"
+                                            justifyContent="center"
+                                        >
+                                            {step}
+                                        </Box>
+                                    ))}
+                                </SwipeableViews>
+                            </Box>
                             <FormNavigation
                                 isLastStep={isLastStep}
                                 hasPrevious={stepNumber > 0}
