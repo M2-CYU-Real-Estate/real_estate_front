@@ -29,7 +29,14 @@ function NewProfile() {
             <MultiStepForm
                 initialValues={defaultPreset}
                 onSubmit={async (values) => {
-                    window.alert(values);
+                    // TODO api call for register profile !
+                    window.alert(
+                        `Here are the values registered : ${JSON.stringify(
+                            values,
+                            null,
+                            2
+                        )}`
+                    );
                 }}
             >
                 {/* The onSubmit functions are handled only in this component, 

@@ -1,19 +1,5 @@
-import { Box, FormControl, Slider, Typography } from '@mui/material';
+import { Box, FormControl, Rating, Typography } from '@mui/material';
 import { FieldInputProps, useField } from 'formik';
-
-const gradientStyle = {
-    '& .MuiSlider-track': {
-        backgroundImage: 'linear-gradient(.25turn, #f00, #0f0)',
-    },
-    '& .MuiSlider-rail': {
-        backgroundImage: 'linear-gradient(.25turn, #f00, #0f0)',
-    },
-};
-
-const marks = Array.from({ length: 5 }).map((v, i) => ({
-    value: i + 1,
-    label: (i + 1).toString(),
-}));
 
 function NeedsForm() {
     const [securityField] = useField<number>('securityScore');
@@ -52,18 +38,20 @@ function NeedsForm() {
                 display="flex"
                 flexDirection="column"
                 justifyContent="space-evenly"
+                padding="2em"
+                paddingTop="4em"
             >
-                <QualitySlider label="Sécurité" fieldProps={securityField} />
-                <QualitySlider label="Éducation" fieldProps={educationField} />
-                <QualitySlider
+                <QualityRating label="Sécurité" fieldProps={securityField} />
+                <QualityRating label="Éducation" fieldProps={educationField} />
+                <QualityRating
                     label="Sports et loisirs"
                     fieldProps={hobbiesField}
                 />
-                <QualitySlider
+                <QualityRating
                     label="Environnement"
                     fieldProps={environmentField}
                 />
-                <QualitySlider
+                <QualityRating
                     label="Vie pratique"
                     fieldProps={practicalityField}
                 />
@@ -72,24 +60,20 @@ function NeedsForm() {
     );
 }
 
-interface QualitySliderProps {
+interface QualityRatingProps {
     label: string;
     fieldProps: FieldInputProps<number>;
 }
 
-function QualitySlider({ label, fieldProps }: QualitySliderProps) {
+function QualityRating({ label, fieldProps }: QualityRatingProps) {
     return (
         <Box padding="1em">
-            <Typography gutterBottom>{label}</Typography>
-            <Slider
-                size="medium"
-                {...fieldProps}
-                min={1}
-                max={5}
-                marks={marks}
-                step={1}
-                sx={{ ...gradientStyle }}
-            />
+            <Typography gutterBottom textAlign="center">
+                {label}
+            </Typography>
+            <Box display="flex" justifyContent="center">
+                <Rating size="large" {...fieldProps} precision={0.5} />
+            </Box>
         </Box>
     );
 }
