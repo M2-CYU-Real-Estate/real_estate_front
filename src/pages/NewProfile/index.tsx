@@ -1,8 +1,22 @@
-import { Box } from '@mui/material';
+import { Box, FormControl } from '@mui/material';
+import { useState } from 'react';
 import Header from '../../components/Header';
+import PresetIdChoice from './FormComponents/PresetIdChoice';
+import MultiStepForm, { FormStep } from './MultiStepForm';
+import { profiles } from './model';
+import BasicInfoForm, {
+    basicInfoValidationSchema,
+} from './FormComponents/BasicInfoForm';
+import NeedsForm from './FormComponents/NeedsForm';
+import SummaryStep from './FormComponents/SummaryStep';
 
 function NewProfile() {
-    // TODO !!!!! Multi stage profile creation !!!!
+    // const [initialValues, setInitialValues] = useState(
+    //     profiles[0].initialValues
+    // );
+
+    const defaultPreset = profiles[0].initialValues;
+
     return (
         <Box
             display="flex"
@@ -11,6 +25,46 @@ function NewProfile() {
             height="100vh"
         >
             <Header />
+            {/* Display steps */}
+            <MultiStepForm
+                initialValues={defaultPreset}
+                onSubmit={async (values) => {
+                    // TODO api call for register profile !
+                    window.alert(
+                        `Here are the values registered : ${JSON.stringify(
+                            values,
+                            null,
+                            2
+                        )}`
+                    );
+                }}
+            >
+                {/* The onSubmit functions are handled only in this component, 
+                as the MultiStepForm relies on direct children only */}
+                <FormStep
+                    stepName="Choix du préréglage initial"
+                    onSubmit={(values, actions) => {
+                        // Depending on the chosen radio, we want to reset the initial values
+                        const presetId = values.presetId;
+                        // Reset all values for the ones stored in chosen preset
+                        actions.setValues(profiles[presetId].initialValues);
+                    }}
+                >
+                    <PresetIdChoice />
+                </FormStep>
+                <FormStep
+                    stepName="Informations basiques"
+                    validationSchema={basicInfoValidationSchema}
+                >
+                    <BasicInfoForm />
+                </FormStep>
+                <FormStep stepName="Besoins et priorités">
+                    <NeedsForm />
+                </FormStep>
+                <FormStep stepName="Résumé">
+                    <SummaryStep />
+                </FormStep>
+            </MultiStepForm>
         </Box>
     );
 }
