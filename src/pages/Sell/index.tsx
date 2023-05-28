@@ -21,31 +21,41 @@ const validationSchema = yup.object({
     surface: yup
         .number()
         .min(1, 'La surface doit au moins avoir 1 caractères')
-        .required('Un nom est attendu'),
+        .required('la surface est attendue'),
     surfaceTerrain: yup
         .number()
-        .min(1, 'La surface du terrain  doit au moins avoir 1 caractères')
-        .required('Une addresse e-mail est attendue'),
+        .min(1, 'La surface du terrain  doit au moins avoir 1 caractères'),
     nbPiece: yup
         .number()
         .min(1, 'Le nombre de pièces doit au moins avoir 1 caractères')
-        .required('Un mot de passe est attendu'),
+        .required('Le nombre de pièce est attendu'),
     nbToillet: yup
         .number()
         .min(1, 'Le nombre de toilletes doit au moins avoir 1 caractères')
+        .required('Le nombre de toilletes est attendu'),
+    lat: yup
+        .string()
+        .min(2, 'Il faut au moins 2 caractères pour latitude')
+        .matches(/^\d{1,2}\.\d+$/,'Les coordonnées sont incorrecte')
         .required('Un mot de passe est attendu'),
+        
+    long: yup
+        .string()
+        .min(2, 'Il faut au moins 2 caractères pour longitude')
+        .matches(/^\d{1,2}\.\d+$/,'Les coordonnées sont incorrecte')
+        .required('la longitude est attendu'),
    
 });
 
 function Sell() {
     const formik = useFormik({
         initialValues: {
-            surface: 0,
-            surfaceTerrain: 0,
-            nbPiece: 0,
-            nbToillet: 0,
-            lat: '',
-            long: '',
+            surface: 101,
+            surfaceTerrain: 150,
+            nbPiece: 3,
+            nbToillet: 2,
+            lat: 11.22,
+            long: 22.77,
             coord: '',
         },
         validationSchema: validationSchema,
@@ -58,23 +68,27 @@ function Sell() {
         setOpen(true);
     }
 
-    const handleBlur = () => {
+    const handleBlurLatLong = () => {
         const { lat, long } = formik.values;
         if (lat && long) {
             formik.setFieldValue('coord', `${lat},${long}`);
-        } else {
-            const { coord } = formik.values;
-            if (coord) {
-                const [lat, long] = coord.split(',');
-                formik.setFieldValue('lat', lat);
-                formik.setFieldValue('long', long);
-            }else{
-                formik.setFieldValue('coord', '');
-            }
-            
         }
     };
-      
+
+    const handleBlurCoord= () => {
+        const { coord } = formik.values;
+        if (coord) {
+            const [lat, long] = coord.split(',');
+            if (lat && long) {
+                formik.setFieldValue('lat', lat);
+                formik.setFieldValue('long', long);
+            } else {
+                console.error('Invalid coordinate format');
+            }
+        }
+            
+    };
+
     return (
         <Box
             display="flex"
@@ -229,7 +243,7 @@ function Sell() {
                                         name="lat"
                                         value={formik.values.lat}
                                         onChange={formik.handleChange}
-                                        onBlur={handleBlur} // Calculate coord on blur
+                                        onBlur={handleBlurLatLong} // Calculate coord on blur
                                         error={
                                             formik.touched.lat &&
                                                     Boolean(formik.errors.lat)
@@ -250,7 +264,7 @@ function Sell() {
                                         name="long"
                                         value={formik.values.long}
                                         onChange={formik.handleChange}
-                                        onBlur={handleBlur}
+                                        onBlur={handleBlurLatLong}
                                         error={
                                             formik.touched.long &&
                                                     Boolean(formik.errors.long)
@@ -273,7 +287,7 @@ function Sell() {
                                         name="coord"
                                         value={formik.values.coord}
                                         onChange={formik.handleChange}
-                                        onBlur={handleBlur}
+                                        onBlur={handleBlurCoord}
                                         error={
                                             formik.touched.coord &&
                                             Boolean(formik.errors.coord)
