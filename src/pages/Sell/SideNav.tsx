@@ -138,11 +138,9 @@ const data = {
                     borderColor: 'white' // Specify the color of the line here
                 }
             },
-            options: {
-                legend: {
-                    display: false
-                }
-            },
+            lineTension: 0.2,
+            pointBorderColor: '#111',
+            pointBorderWidth: 2,
         }
     ]
 };
