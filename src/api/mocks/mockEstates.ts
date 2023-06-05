@@ -2,9 +2,9 @@
  * Only contains some entries for the recommendation list
  */
 
-import { EstateProperties } from '../../types/estate';
+// import { EstateProperties } from '../../types/estate';
 
-const mockEstates: EstateProperties[] = [
+const mockEstates = [
     {
         id: 1,
         title: 'Une très jolie maison, 95330',

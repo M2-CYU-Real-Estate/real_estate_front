@@ -44,6 +44,7 @@ const GLOBALS = {
         // ==== AUTH ====
         auth: () => `${GLOBALS.apiRootPath}/auth`,
         users: () => `${GLOBALS.apiRootPath}/users`,
+        estates: () => `${GLOBALS.apiRootPath}/estates`
     },
 
     // The local storage keys

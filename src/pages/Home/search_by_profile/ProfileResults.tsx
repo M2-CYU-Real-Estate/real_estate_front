@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
-import EstateCard from '../../../components/EstateCard';
-import mockEstates from '../../../api/mocks/mockEstates';
+import { useEstatesPageQuery } from '../../../api/estate/estateApi';
+import EstatePageContent from '../EstatePageContent';
 
 interface ProfileResultsProps {
     profileId?: number;
@@ -13,10 +13,7 @@ function ProfileResults({ profileId, goToIntialChoice }: ProfileResultsProps) {
         return <NoProfileIdSet goToIntialChoice={goToIntialChoice} />;
     }
     return (
-        <EstateResults
-            profileId={profileId}
-            goToIntialChoice={goToIntialChoice}
-        />
+        <EstateResults profileId={profileId} goToIntialChoice={goToIntialChoice} />
     );
 }
 
@@ -26,8 +23,8 @@ interface EstateResultsProps {
 }
 
 function EstateResults({ profileId, goToIntialChoice }: EstateResultsProps) {
-    // TODO:  API call (not paging it ?)
-    const estates = mockEstates;
+    // TODO fetch REAL profile API call (we will want a single query on user endpoint)
+    const { data: estatePage, isFetching, isError } = useEstatesPageQuery({});
 
     return (
         <Box
@@ -54,7 +51,7 @@ function EstateResults({ profileId, goToIntialChoice }: EstateResultsProps) {
                     {/* TODO add number of results */}
                     <Box>Profil choisi : {profileId}</Box>
                     <Button variant="contained" onClick={goToIntialChoice}>
-                        Retour au choix du profil
+            Retour au choix du profil
                     </Button>
                 </Box>
             </Box>
@@ -67,9 +64,11 @@ function EstateResults({ profileId, goToIntialChoice }: EstateResultsProps) {
                 paddingTop="2em"
                 sx={{ overflowY: 'scroll' }}
             >
-                {estates.map((estate) => (
-                    <EstateCard key={estate.id} {...estate} />
-                ))}
+                <EstatePageContent
+                    estates={estatePage?.content}
+                    isLoading={isFetching}
+                    isError={isError}
+                />
             </Box>
         </Box>
     );
@@ -96,7 +95,7 @@ function NoProfileIdSet({ goToIntialChoice }: NoProfileIdSetProps) {
                 </Typography>
                 <Typography variant="body1" textAlign="center">
                     {'Veuillez vous connecter ou créer un nouveau compte' +
-                        ' pour profiter de ces fonctionnalités'}
+            ' pour profiter de cette fonctionnalité'}
                 </Typography>
             </Box>
             <Box
@@ -107,7 +106,7 @@ function NoProfileIdSet({ goToIntialChoice }: NoProfileIdSetProps) {
                 mt="1em"
             >
                 <Button variant="contained" onClick={goToIntialChoice}>
-                    Retour
+          Retour
                 </Button>
             </Box>
         </Box>

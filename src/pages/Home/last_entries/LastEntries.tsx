@@ -1,14 +1,15 @@
 import { Box, Button } from '@mui/material';
-import { useContext } from 'react';
-import EstateCard from '../../../components/EstateCard';
-import HomeContext from '../HomeContext';
-import mockEstates from '../../../api/mocks/mockEstates';
+import { useState } from 'react';
+import { useEstatesPageQuery } from '../../../api/estate/estateApi';
+import EstatePageContent from '../EstatePageContent';
 
 function LastEntries() {
-    // TODO: api call for fetching estates
-    const estates = mockEstates;
-
-    const { enableLoading, disableLoading } = useContext(HomeContext);
+    const [page, setPage] = useState<number>(0);
+    const {
+        data: estatePage,
+        isFetching,
+        isError,
+    } = useEstatesPageQuery({ page: page });
 
     return (
         <Box
@@ -46,9 +47,11 @@ function LastEntries() {
                 paddingTop="2em"
                 sx={{ overflowY: 'scroll' }}
             >
-                {estates.map((estate) => (
-                    <EstateCard key={estate.id} {...estate} />
-                ))}
+                <EstatePageContent
+                    estates={estatePage?.content}
+                    isLoading={isFetching}
+                    isError={isError}
+                />
             </Box>
         </Box>
     );

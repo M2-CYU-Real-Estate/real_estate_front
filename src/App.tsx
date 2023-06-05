@@ -7,7 +7,7 @@ import Error404 from './pages/Error404';
 import GLOBALS from './globals';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Estate from './pages/Estate';
+import EstatePage from './pages/Estate';
 // Setup the toast notifications to be available on all pages
 // see https://blog.logrocket.com/using-react-toastify-style-toast-messages/
 import { ToastContainer } from 'react-toastify';
@@ -16,7 +16,6 @@ import UserDashboard from './pages/UserDashboard';
 import Profile from './pages/Profile';
 import Sell from './pages/Sell';
 import NewProfile from './pages/NewProfile';
-
 
 function App() {
     return (
@@ -32,20 +31,14 @@ function App() {
                     <Route path={GLOBALS.routes.home()} element={<Home />} />
 
                     {/* ESTATES */}
-                    <Route
-                        path={GLOBALS.routes.estate(':id')}
-                        element={<Estate />}
-                    />
+                    <Route path={GLOBALS.routes.estate(':id')} element={<EstatePage />} />
 
                     {/* SELL */}
                     <Route path={GLOBALS.routes.sell()} element={<Sell />} />
 
                     {/* LOGIN / REGISTER */}
                     <Route path={GLOBALS.routes.login()} element={<Login />} />
-                    <Route
-                        path={GLOBALS.routes.register()}
-                        element={<Register />}
-                    />
+                    <Route path={GLOBALS.routes.register()} element={<Register />} />
 
                     {/* USER ROUTES */}
                     <Route

@@ -15,32 +15,46 @@ import { toFrenchDate } from '../../utils/DateUtils';
 import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 import FavoriteButton from '../FavoriteButton';
 import TextWithIcon from '../TextWithIcon';
-import { EstateProperties } from '../../types/estate';
+import { Estate } from '../../types/estate';
 
 function EstateCard({
     id,
-    title,
-    imageUrl,
-    price,
-    description,
     isFavorite,
-    area,
-    rooms,
-    bedrooms,
-    bathrooms,
-    date,
-}: EstateProperties) {
+    title,
+    description,
+    url,
+    imageUrl,
+    type,
+    cityName,
+    postalCode,
+    price,
+    houseAreaSqrtM,
+    groundAreaSqrtM,
+    roomCount,
+    bedroomCount,
+    bathroomCount,
+    isTerracePresent,
+    isBalconyPresent,
+    isElevatorPresent,
+    isGaragePresent,
+    isParkingPresent,
+    isFittedKitchenPresent,
+    energyClass,
+    gazEmissionClass,
+    createdAt,
+    lastUpdatedAt,
+}: Estate) {
     // TODO: context for favorite functions ?
-
+    console.log(typeof createdAt);
     const [isFavoriteEnabled, setFavoriteEnabled] = useState(isFavorite);
 
     const onNotificationClick = (e: React.MouseEvent) => {
-        // Avoid that the "click on entire card" action is taken
+    // Avoid that the "click on entire card" action is taken
         e.stopPropagation();
         e.preventDefault();
         // Toggle the notification
         setFavoriteEnabled((prev) => !prev);
-        // TODO: perform the API call
+    // TODO: perform the API call
     };
 
     return (
@@ -50,12 +64,7 @@ function EstateCard({
                 to={GLOBALS.routes.estate(id.toString())}
                 sx={{ width: '100%', height: '100%' }}
             >
-                <Grid
-                    container
-                    flexDirection="row"
-                    height="100%"
-                    columnSpacing="0.5em"
-                >
+                <Grid container flexDirection="row" height="100%" columnSpacing="0.5em">
                     {/* Image */}
                     <Grid item md={5}>
                         <CardMedia
@@ -107,7 +116,7 @@ function EstateCard({
                                 {convertToCurrency(price)}
                             </Typography>
                             <Typography variant="body2" fontStyle="italic">
-                                {toFrenchDate(date)}
+                                {toFrenchDate(createdAt)}
                             </Typography>
                         </Box>
                         {/* Caracteristics (size etc.) */}
@@ -115,25 +124,25 @@ function EstateCard({
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<OpenInFullIcon />}
-                                    text={convertToArea(area)}
+                                    text={convertToArea(houseAreaSqrtM)}
                                 />
                             </Grid>
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<MeetingRoomIcon />}
-                                    text={rooms?.toString()}
+                                    text={roomCount?.toString()}
                                 />
                             </Grid>
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<BedIcon />}
-                                    text={bedrooms?.toString()}
+                                    text={bedroomCount?.toString()}
                                 />
                             </Grid>
                             <Grid item xs={3}>
                                 <TextWithIcon
                                     icon={<ShowerIcon />}
-                                    text={bathrooms?.toString()}
+                                    text={bathroomCount?.toString()}
                                 />
                             </Grid>
                         </Grid>
