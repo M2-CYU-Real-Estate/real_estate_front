@@ -86,7 +86,7 @@ function TabsPanel() {
                             width: '100%',
                             height: '3em',
                             // Align tabs to the right
-                            '& .MuiButtonBase-root:first-child': {
+                            '& .MuiButtonBase-root:first-of-type': {
                                 marginLeft: 'auto',
                             },
                         }}

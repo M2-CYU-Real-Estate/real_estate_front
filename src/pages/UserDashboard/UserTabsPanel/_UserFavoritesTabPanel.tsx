@@ -1,18 +1,15 @@
 import { Box, Typography } from '@mui/material';
-import mockEstates from '../../../api/mocks/mockEstates';
-import EstateCard from '../../../components/EstateCard';
+import { useEstatesPageQuery } from '../../../api/estate/estateApi';
+import EstatePageContent from '../../Home/EstatePageContent';
 
 function UserFavoritesTabPanel() {
-    // TODO: real API call
-    const estates = mockEstates;
+    // TODO fetch REAL favorites API call (we will want a single query on user endpoint)
+    const { data: estatePage, isFetching, isError } = useEstatesPageQuery({});
 
     // The goal is to change the number of favorites in real time
     // when the use click on a button for example
     // (if a favorite is set on an other page, this will not work obvioulsy)
-    const nbFavorites = estates.reduce(
-        (total, e) => (e.isFavorite ? total + 1 : total),
-        0
-    );
+    const nbFavorites = estatePage ? estatePage.totalCount : 0;
 
     // ELSE : use a query for this
     // (the mutation query should invalidate the "numberFavorites" query)
@@ -23,12 +20,13 @@ function UserFavoritesTabPanel() {
                 <Typography display="inline" variant="inherit" fontWeight="600">
                     {`${nbFavorites} `}
                 </Typography>
-                Favoris enregistrés
+        Favoris enregistrés
             </Typography>
-            {estates.map((estate) => (
-                // Maybe need a callback on the toggleFavorite button ?
-                <EstateCard key={estate.id} {...estate} />
-            ))}
+            <EstatePageContent
+                estates={estatePage?.content}
+                isLoading={isFetching}
+                isError={isError}
+            />
         </Box>
     );
 }

@@ -7,40 +7,34 @@ import TextWithIcon from '../../../components/TextWithIcon';
 import { convertToArea } from '../../../utils/StringUtils';
 
 interface CaracteristicsProps {
-    area?: number;
-    rooms?: number;
-    bedrooms?: number;
-    bathrooms?: number;
+    houseAreaSqrtM?: number;
+    roomCount?: number;
+    bedroomCount?: number;
+    bathroomCount?: number;
 }
 
 function CaracteristicsBar({
-    area,
-    rooms,
-    bedrooms,
-    bathrooms,
+    houseAreaSqrtM,
+    roomCount,
+    bedroomCount,
+    bathroomCount,
 }: CaracteristicsProps) {
     return (
         <Grid container display="flex" justifyContent="center" alignItems="">
             <Grid item xs={3}>
                 <TextWithIcon
                     icon={<OpenInFullIcon />}
-                    text={convertToArea(area)}
+                    text={convertToArea(houseAreaSqrtM)}
                 />
             </Grid>
             <Grid item xs={3}>
-                <TextWithIcon
-                    icon={<MeetingRoomIcon />}
-                    text={rooms?.toString()}
-                />
+                <TextWithIcon icon={<MeetingRoomIcon />} text={roomCount?.toString()} />
             </Grid>
             <Grid item xs={3}>
-                <TextWithIcon icon={<BedIcon />} text={bedrooms?.toString()} />
+                <TextWithIcon icon={<BedIcon />} text={bedroomCount?.toString()} />
             </Grid>
             <Grid item xs={3}>
-                <TextWithIcon
-                    icon={<ShowerIcon />}
-                    text={bathrooms?.toString()}
-                />
+                <TextWithIcon icon={<ShowerIcon />} text={bathroomCount?.toString()} />
             </Grid>
         </Grid>
     );

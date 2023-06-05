@@ -4,12 +4,12 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
 import React, { useState } from 'react';
-import { EstateProperties } from '../../../types/estate';
+import { Estate } from '../../../types/estate';
 import AdvicePanel from './AdvicePanel';
 import FundingPanel from './FundingPanel';
 import StatisticsPanel from './StatisticsPanel';
 
-function SideEstatePanel(props: { estate: EstateProperties }) {
+function SideEstatePanel(props: { estate: Estate }) {
     const estate = props.estate;
     const [tabValue, setTabValue] = useState<string>('1');
 

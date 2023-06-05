@@ -1,25 +1,25 @@
-import { EstateProperties } from '..';
 import { Box, Link, Paper, Typography } from '@mui/material';
-import CaracteristicsBar from './CaracteristicsBar';
-import { convertToCurrency } from '../../../utils/StringUtils';
 import { useState } from 'react';
 import FavoriteButton from '../../../components/FavoriteButton';
+import { Estate } from '../../../types/estate';
+import { convertToCurrency } from '../../../utils/StringUtils';
+import CaracteristicsBar from './CaracteristicsBar';
 
-function MainEstatePanel(props: { estate: EstateProperties }) {
+function MainEstatePanel(props: { estate: Estate }) {
     const estate = props.estate;
     const [isFavoriteEnabled, setFavoriteEnabled] = useState(estate.isFavorite);
 
     const onNotificationClick = (e: React.MouseEvent) => {
-        // Avoid that the "click on entire card" action is taken
+    // Avoid that the "click on entire card" action is taken
         e.stopPropagation();
         e.preventDefault();
         // Toggle the notification
         setFavoriteEnabled((prev) => !prev);
-        // TODO: perform the API call
+    // TODO: perform the API call
     };
 
     return (
-        //  A box for centering the panel and setting a little margin
+    //  A box for centering the panel and setting a little margin
         <Box display="flex" justifyContent="center" padding="0.5em">
             {/* The width does not exceed a certain width, but it must tries 
                 to take all the space available */}
@@ -56,11 +56,7 @@ function MainEstatePanel(props: { estate: EstateProperties }) {
                             <Typography variant="h5" color="primary.dark">
                                 {estate.title}
                             </Typography>
-                            <Link
-                                component="a"
-                                href={estate.propertyUrl}
-                                target="blank"
-                            >
+                            <Link component="a" href={estate.url} target="blank">
                                 {"Voir le site de l'annonce"}
                             </Link>
                         </Box>
@@ -81,9 +77,7 @@ function MainEstatePanel(props: { estate: EstateProperties }) {
                     <CaracteristicsBar {...estate} />
                     {/* Description */}
                     <Box width="100%">
-                        <Typography variant="body2">
-                            {estate.description}
-                        </Typography>
+                        <Typography variant="body2">{estate.description}</Typography>
                     </Box>
                 </Box>
             </Paper>

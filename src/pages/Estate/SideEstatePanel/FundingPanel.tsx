@@ -9,18 +9,18 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { NumericFormat } from 'react-number-format';
-import { EstateProperties } from '../../../types/estate';
 import {
-    Chart as ChartJS,
     ArcElement,
+    Chart as ChartJS,
     Tooltip as ChartTooltip,
     Legend,
 } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { useEffect, useState } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { NumericFormat } from 'react-number-format';
 import { textCenterPlugin } from '../../../components/Charts/chartjs-plugins/chartjs_doughnut_plugins';
+import { Estate } from '../../../types/estate';
 import { splitThousands } from '../../../utils/StringUtils';
 
 ChartJS.register(ArcElement, ChartTooltip, Legend, ChartDataLabels);
@@ -59,7 +59,7 @@ const currencyValueFormatBaseProps = {
 } as const;
 
 // ==== COMPONENT ====
-function FundingPanel(props: { estate: EstateProperties }) {
+function FundingPanel(props: { estate: Estate }) {
     const estate = props.estate;
 
     const theme = useTheme();
@@ -86,20 +86,14 @@ function FundingPanel(props: { estate: EstateProperties }) {
     useEffect(() => {
         setContributionPercentage(Math.round((contribution / price) * 100));
         setFundingCosts(
-            computeCosts(
-                price,
-                notaryFee,
-                contribution,
-                loanDuration,
-                creditRate
-            )
+            computeCosts(price, notaryFee, contribution, loanDuration, creditRate)
         );
     }, [contribution, loanDuration, creditRate]);
 
     return (
         <Box paddingTop="1em">
             <Typography variant="h5" color="primary.dark" marginLeft="1em">
-                Estimation du cout mensuel
+        Estimation du cout mensuel
                 <Tooltip title="Simulation non contractuelle. Afin d'avoir une estimation plus précise, il est nécéssaire de faire appel à un expert.">
                     <InfoIcon />
                 </Tooltip>
@@ -120,9 +114,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                         // Add the "€" icon at the beginning
                         InputProps={{
                             startAdornment: (
-                                <InputAdornment position="start">
-                                    €
-                                </InputAdornment>
+                                <InputAdornment position="start">€</InputAdornment>
                             ),
                         }}
                         sx={textInputStyle}
@@ -142,9 +134,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                         // Add the "€" icon at the beginning
                         InputProps={{
                             startAdornment: (
-                                <InputAdornment position="start">
-                                    €
-                                </InputAdornment>
+                                <InputAdornment position="start">€</InputAdornment>
                             ),
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -173,9 +163,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                         // Add the "€" icon at the beginning
                         InputProps={{
                             startAdornment: (
-                                <InputAdornment position="start">
-                                    €
-                                </InputAdornment>
+                                <InputAdornment position="start">€</InputAdornment>
                             ),
                         }}
                         sx={textInputStyle}
@@ -185,7 +173,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                 <Grid item md={6} xs={12} sx={formCellStyle}>
                     <Box display="flex">
                         <Typography variant="body2" color="GrayText">
-                            Durée du prêt :&nbsp;
+              Durée du prêt :&nbsp;
                         </Typography>
                         <Typography variant="body2" color="black">
                             {`${loanDuration} an(s)`}
@@ -205,7 +193,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                 <Grid item md={6} xs={12} sx={formCellStyle}>
                     <Box display="flex">
                         <Typography variant="body2" color="GrayText">
-                            Taux d&apos;intérêt :&nbsp;
+              Taux d&apos;intérêt :&nbsp;
                         </Typography>
                         <Typography variant="body2" color="black">
                             {`${creditRate.toFixed(2)} %`}
@@ -238,10 +226,7 @@ function FundingPanel(props: { estate: EstateProperties }) {
                         datasets: [
                             {
                                 label: 'Montant',
-                                data: [
-                                    fundingCosts.borrowedAmount,
-                                    fundingCosts.interestCost,
-                                ],
+                                data: [fundingCosts.borrowedAmount, fundingCosts.interestCost],
                                 backgroundColor: [
                                     theme.palette.primary.main,
                                     theme.palette.secondary.light,
@@ -290,7 +275,7 @@ function computeCosts(
 ): FundingCosts {
     const borrowedAmount = price + notaryFee - contribution;
     if (borrowedAmount < 0) {
-        // No calculation to do, nothing to pay !
+    // No calculation to do, nothing to pay !
         return {
             borrowedAmount: 0,
             interestCost: 0,
@@ -336,12 +321,12 @@ function createSteppedMarks(
     suffix: string = ''
 ) {
     return Array.from(
-        // sequence of length
+    // sequence of length
         { length: (max - min) / step + 1 },
         // for each element, add the right value to the array
         (value, index) => min + index * step
     ).map((value) => ({
-        // Convert the array to an array of mark objects
+    // Convert the array to an array of mark objects
         value: value,
         label: `${value}${suffix}`,
     }));
