@@ -18,7 +18,7 @@ interface FormStepProps {
 export const FormStep = (props: FormStepProps) => props.children;
 
 interface MultiStepFormProps extends FormikConfig<FormikValues> {
-    children: JSX.Element[];
+    children: JSX.Element;
 }
 
 function MultiStepForm({

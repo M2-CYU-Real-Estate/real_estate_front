@@ -16,7 +16,7 @@ function FormNavigation({
         <Box display="flex" justifyContent="space-between" mt="1em">
             {hasPrevious && (
                 <Button variant="contained" onClick={onBackClick}>
-                    Retour
+          Retour
                 </Button>
             )}
             <Button

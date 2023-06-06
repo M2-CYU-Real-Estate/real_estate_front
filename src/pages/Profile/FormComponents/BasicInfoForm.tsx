@@ -1,18 +1,20 @@
 import {
     Autocomplete,
+    Box,
     FormControl,
     FormControlLabel,
     FormGroup,
     Grid,
     InputAdornment,
     MenuItem,
+    Rating,
     Slider,
     Switch,
     TextField,
     Typography,
     createFilterOptions,
 } from '@mui/material';
-import { useField } from 'formik';
+import { useField, FieldInputProps } from 'formik';
 import { EnergyClass, PriceRange } from '../model';
 import * as yup from 'yup';
 import cities from '../../../assets/data/correspondance_ville_partial.json';
@@ -62,7 +64,7 @@ export const basicInfoValidationSchema = yup.object({
     fittedKitchen: yup.boolean(),
     city: yup
         .string()
-        // Maybe add a oneOf here ?
+    // Maybe add a oneOf here ?
         .required('La ville souhaitée est attendue')
         .typeError("Assurez-vous d'écrire un nom de ville valide"),
     cityDistanceKm: yup
@@ -83,6 +85,11 @@ function BasicInfoForm() {
     const [fittedKitchenField] = useField('fittedKitchen');
     const [cityField, cityMeta, cityHelpers] = useField('city');
     const [cityDistanceField] = useField('cityDistanceKm');
+    const [securityField] = useField<number>('securityScore');
+    const [educationField] = useField<number>('educationScore');
+    const [hobbiesField] = useField<number>('hobbiesScore');
+    const [environmentField] = useField<number>('environmentScore');
+    const [practicalityField] = useField<number>('practicalityScore');
 
     return (
         <FormControl
@@ -128,9 +135,7 @@ function BasicInfoForm() {
                             <TextField
                                 {...params}
                                 fullWidth
-                                error={
-                                    cityMeta.touched && Boolean(cityMeta.error)
-                                }
+                                error={cityMeta.touched && Boolean(cityMeta.error)}
                                 helperText={cityMeta.touched && cityMeta.error}
                                 label="Ville"
                                 variant="outlined"
@@ -152,9 +157,7 @@ function BasicInfoForm() {
                             />
                         </Grid>
                         <Grid item xs={3}>
-                            <Typography>
-                                {cityDistanceField.value} km
-                            </Typography>
+                            <Typography>{cityDistanceField.value} km</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -170,22 +173,13 @@ function BasicInfoForm() {
                                 min: 5,
                                 max: 2000,
                             },
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    m²
-                                </InputAdornment>
-                            ),
+                            endAdornment: <InputAdornment position="end">m²</InputAdornment>,
                         }}
                         label="Surface idéale"
                         variant="outlined"
                         {...houseAreaField}
-                        error={
-                            houseAreaMeta.touched &&
-                            Boolean(houseAreaMeta.error)
-                        }
-                        helperText={
-                            houseAreaMeta.touched && houseAreaMeta.error
-                        }
+                        error={houseAreaMeta.touched && Boolean(houseAreaMeta.error)}
+                        helperText={houseAreaMeta.touched && houseAreaMeta.error}
                     ></TextField>
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -198,9 +192,7 @@ function BasicInfoForm() {
                                 max: 500,
                             },
                             endAdornment: (
-                                <InputAdornment position="end">
-                                    pièces
-                                </InputAdornment>
+                                <InputAdornment position="end">pièces</InputAdornment>
                             ),
                         }}
                         label="Nombre de pièces"
@@ -220,18 +212,12 @@ function BasicInfoForm() {
                                 min: 1,
                                 max: 500,
                             },
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    m²
-                                </InputAdornment>
-                            ),
+                            endAdornment: <InputAdornment position="end">m²</InputAdornment>,
                         }}
                         label="Nombre de chambres"
                         variant="outlined"
                         {...bedroomsField}
-                        error={
-                            bedroomsMeta.touched && Boolean(bedroomsMeta.error)
-                        }
+                        error={bedroomsMeta.touched && Boolean(bedroomsMeta.error)}
                         helperText={bedroomsMeta.touched && bedroomsMeta.error}
                     ></TextField>
                 </Grid>
@@ -245,30 +231,21 @@ function BasicInfoForm() {
                                 max: 500,
                             },
                             endAdornment: (
-                                <InputAdornment position="end">
-                                    pièces
-                                </InputAdornment>
+                                <InputAdornment position="end">pièces</InputAdornment>
                             ),
                         }}
                         label="Nombre de salles de bain"
                         variant="outlined"
                         {...bathroomsField}
-                        error={
-                            bathroomsMeta.touched &&
-                            Boolean(bathroomsMeta.error)
-                        }
-                        helperText={
-                            bathroomsMeta.touched && bathroomsMeta.error
-                        }
+                        error={bathroomsMeta.touched && Boolean(bathroomsMeta.error)}
+                        helperText={bathroomsMeta.touched && bathroomsMeta.error}
                     ></TextField>
                 </Grid>
             </Grid>
             <Grid container spacing="2em">
                 {/* Energy class */}
                 <Grid item xs={12} md={6}>
-                    <Typography gutterBottom>
-                        Classe énergétique minimale
-                    </Typography>
+                    <Typography gutterBottom>Classe énergétique minimale</Typography>
                     <Slider
                         size="medium"
                         {...energyClassField}
@@ -278,12 +255,10 @@ function BasicInfoForm() {
                         step={1}
                         sx={{
                             '& .MuiSlider-track': {
-                                backgroundImage:
-                                    'linear-gradient(.25turn, #f00, #0f0)',
+                                backgroundImage: 'linear-gradient(.25turn, #f00, #0f0)',
                             },
                             '& .MuiSlider-rail': {
-                                backgroundImage:
-                                    'linear-gradient(.25turn, #f00, #0f0)',
+                                backgroundImage: 'linear-gradient(.25turn, #f00, #0f0)',
                             },
                         }}
                     />
@@ -308,7 +283,42 @@ function BasicInfoForm() {
                     </FormGroup>
                 </Grid>
             </Grid>
+            <Grid container spacing="2em">
+                <Grid item xs={6}>
+                    <QualityRating label="Sécurité" fieldProps={securityField} />
+                </Grid>
+                <Grid item xs={6}>
+                    <QualityRating label="Éducation" fieldProps={educationField} />
+                </Grid>
+                <Grid item xs={6}>
+                    <QualityRating label="Sports et loisirs" fieldProps={hobbiesField} />
+                </Grid>
+                <Grid item xs={6}>
+                    <QualityRating label="Environnement" fieldProps={environmentField} />
+                </Grid>
+                <Grid item xs={12}>
+                    <QualityRating label="Vie pratique" fieldProps={practicalityField} />
+                </Grid>
+            </Grid>
         </FormControl>
+    );
+}
+
+interface QualityRatingProps {
+    label: string;
+    fieldProps: FieldInputProps<number>;
+}
+
+function QualityRating({ label, fieldProps }: QualityRatingProps) {
+    return (
+        <Box padding="1em">
+            <Typography gutterBottom textAlign="center">
+                {label}
+            </Typography>
+            <Box display="flex" justifyContent="center">
+                <Rating size="large" {...fieldProps} precision={0.5} />
+            </Box>
+        </Box>
     );
 }
 

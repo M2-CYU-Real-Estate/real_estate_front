@@ -6,8 +6,6 @@ import MultiStepForm, { FormStep } from '../Profile/MultiStepForm';
 import BasicInfoForm, {
     basicInfoValidationSchema,
 } from '../Profile/FormComponents/BasicInfoForm';
-import NeedsForm from '../Profile/FormComponents/NeedsForm';
-import SummaryStep from '../Profile/FormComponents/SummaryStep';
 
 import { profiles } from '../Profile/model';
 /**
@@ -56,12 +54,6 @@ function Profile() {
                     validationSchema={basicInfoValidationSchema}
                 >
                     <BasicInfoForm />
-                </FormStep>
-                <FormStep stepName="Besoins et priorités">
-                    <NeedsForm />
-                </FormStep>
-                <FormStep stepName="Résumé">
-                    <SummaryStep />
                 </FormStep>
             </MultiStepForm>
         </Box>
