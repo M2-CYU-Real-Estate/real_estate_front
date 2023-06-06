@@ -75,20 +75,23 @@ function EstateCard({
                     {/* Content */}
                     <Grid container item md={7}>
                         {/* First row */}
-                        <Box
-                            display="flex"
-                            flexDirection="row"
-                            justifyContent="space-between"
-                            width="100%"
-                            position="relative"
-                        >
+                        <Box>
                             <Typography
-                                variant="h5"
+                                variant="h6"
                                 fontWeight="bold"
                                 color="primary.dark"
+                                width="70%"
                                 maxWidth="70%"
+                                // Only 2 lines before cropping
+                                sx={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: '2',
+                                    WebkitBoxOrient: 'vertical',
+                                }}
                             >
-                                {title}
+                                {renameTitle(title)}
                             </Typography>
                             {/* Favorite icon */}
                             <Box
@@ -167,6 +170,17 @@ function EstateCard({
             </CardActionArea>
         </Card>
     );
+}
+
+/**
+ * Do various modifications on title in order to be more presentable
+ */
+function renameTitle(title: string): string {
+    return title
+        .replace('Annonce vente ', '')
+        .replace(/ - ParuVendu.fr ref .*/g, '')
+        .replace('maison', 'Maison')
+        .replace('appartement', 'Appartement');
 }
 
 export default EstateCard;

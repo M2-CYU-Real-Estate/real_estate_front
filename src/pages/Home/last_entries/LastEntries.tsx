@@ -39,20 +39,15 @@ function LastEntries() {
                 </Box>
             </Box>
             {/* The scrollable items part */}
-            <Box
-                width="100%"
-                height="100%"
-                maxHeight="100%"
-                p="0.5em"
-                paddingTop="2em"
-                sx={{ overflowY: 'scroll' }}
-            >
-                <EstatePageContent
-                    estates={estatePage?.content}
-                    isLoading={isFetching}
-                    isError={isError}
-                />
-            </Box>
+            <EstatePageContent
+                estates={estatePage?.content}
+                isLoading={isFetching}
+                isError={isError}
+                paginated
+                count={estatePage?.pageCount}
+                currentPage={page}
+                setCurrentPage={setPage}
+            />
         </Box>
     );
 }

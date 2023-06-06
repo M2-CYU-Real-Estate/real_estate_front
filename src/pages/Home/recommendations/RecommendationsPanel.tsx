@@ -4,12 +4,14 @@ import { useCurrentUserQuery } from '../../../api/user/userApi';
 import NotConnectedRestriction from '../../../components/NotConnectedRestriction';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
 import EstatePageContent from '../EstatePageContent';
+import { useState } from 'react';
 
 function RecommendationsPanel() {
     const { data: user, isLoading: isUserLoading } = useCurrentUserQuery();
     // TODO fetch REAL suggestions API call (we will want a single query on user endpoint)
     // TODO: we don't want pages, only a single list result (much simpler for server)
     const { data: estatePage, isFetching, isError } = useEstatesPageQuery({});
+    const [page, setPage] = useState(0);
 
     if (isUserLoading || isFetching) {
         return <CircularCenteredLoading />;
@@ -44,20 +46,16 @@ function RecommendationsPanel() {
                 </Typography>
             </Box>
             {/* The scrollable items part */}
-            <Box
-                width="100%"
-                height="100%"
-                maxHeight="100%"
-                p="0.5em"
-                paddingTop="2em"
-                sx={{ overflowY: 'scroll' }}
-            >
-                <EstatePageContent
-                    estates={estatePage?.content}
-                    isLoading={isFetching}
-                    isError={isError}
-                />
-            </Box>
+            <EstatePageContent
+                estates={estatePage?.content}
+                isLoading={isFetching}
+                isError={isError}
+                paginated
+                count={estatePage?.pageCount}
+                currentPage={page}
+                setCurrentPage={setPage}
+            />
+            {/* TODO SET PAGE COUNTER */}
         </Box>
     );
 }
