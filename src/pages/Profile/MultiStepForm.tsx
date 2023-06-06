@@ -90,7 +90,7 @@ function MultiStepForm({
                                     variant="h5"
                                     color="primary.main"
                                 >
-                  Création du profil
+                  Mise à jour du profil
                                 </Typography>
                                 {/* Display the steps with progress */}
                                 <Stepper

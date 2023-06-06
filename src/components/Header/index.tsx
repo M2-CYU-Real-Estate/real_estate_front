@@ -95,7 +95,7 @@ function createPageInfo(): Array<PageInfo> {
         },
         {
             key: 'sell',
-            title: 'Vendre',
+            title: 'Vendre / Acheter',
             link: GLOBALS.routes.sell(),
             icon: <SellIcon />,
         },
