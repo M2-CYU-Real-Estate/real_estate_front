@@ -7,7 +7,7 @@ import {
     Paper,
     TextField,
     Typography,
-    Drawer
+    Drawer,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -20,7 +20,7 @@ import React from 'react';
 const validationSchema = yup.object({
     surface: yup
         .number()
-        .min(1, 'La surface doit au moins avoir 1 caractères')
+        .min(1, 'La surface doit etre supérieur à 0 ')
         .required('la surface est attendue'),
     surfaceTerrain: yup
         .number()
@@ -29,31 +29,27 @@ const validationSchema = yup.object({
         .number()
         .min(1, 'Le nombre de pièces doit au moins avoir 1 caractères')
         .required('Le nombre de pièce est attendu'),
-    nbToillet: yup
-        .number()
-        .min(1, 'Le nombre de toilletes doit au moins avoir 1 caractères')
-        .required('Le nombre de toilletes est attendu'),
     lat: yup
         .string()
+        .transform((value) => (value ? value.replace(/\s/g, '') : value))
         .min(2, 'Il faut au moins 2 caractères pour latitude')
-        .matches(/^\d{1,2}\.\d+$/,'Les coordonnées sont incorrecte')
-        .required('Un mot de passe est attendu'),
-        
+        .matches(/^\d{1,2}\.\d+$/, 'Les coordonnées sont incorrecte')
+        .required('la latitude est attendu'),
+
     long: yup
         .string()
+        .transform((value) => (value ? value.replace(/\s/g, '') : value))
         .min(2, 'Il faut au moins 2 caractères pour longitude')
-        .matches(/^\d{1,2}\.\d+$/,'Les coordonnées sont incorrecte')
+        .matches(/^\d{1,2}\.\d+$/, 'Les coordonnées sont incorrecte')
         .required('la longitude est attendu'),
-   
 });
 
 function Sell() {
     const formik = useFormik({
         initialValues: {
-            surface: 101,
+            surface: 0,
             surfaceTerrain: 150,
             nbPiece: 3,
-            nbToillet: 2,
             lat: 11.22,
             long: 22.77,
             coord: '',
@@ -63,8 +59,8 @@ function Sell() {
     });
     const [isOpen, setOpen] = React.useState(false);
     async function handleSumbit() {
-        // TODO handle submit
-        // window.alert(JSON.stringify(e, null, 2));
+    // TODO handle submit
+    // window.alert(JSON.stringify(e, null, 2));
         setOpen(true);
     }
 
@@ -75,7 +71,7 @@ function Sell() {
         }
     };
 
-    const handleBlurCoord= () => {
+    const handleBlurCoord = () => {
         const { coord } = formik.values;
         if (coord) {
             const [lat, long] = coord.split(',');
@@ -86,7 +82,6 @@ function Sell() {
                 console.error('Invalid coordinate format');
             }
         }
-            
     };
 
     return (
@@ -130,7 +125,7 @@ function Sell() {
                             <MainIcon fontSize="large" />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Vendre
+              Vendre / Acheter
                         </Typography>
                         <Box
                             component="form"
@@ -153,13 +148,9 @@ function Sell() {
                                         value={formik.values.surface}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.surface &&
-                                            Boolean(formik.errors.surface)
+                                            formik.touched.surface && Boolean(formik.errors.surface)
                                         }
-                                        helperText={
-                                            formik.touched.surface &&
-                                            formik.errors.surface
-                                        }
+                                        helperText={formik.touched.surface && formik.errors.surface}
                                         autoFocus
                                     />
                                 </Grid>
@@ -176,19 +167,17 @@ function Sell() {
                                         onChange={formik.handleChange}
                                         error={
                                             formik.touched.surfaceTerrain &&
-                                            Boolean(
-                                                formik.errors.surfaceTerrain
-                                            )
+                      Boolean(formik.errors.surfaceTerrain)
                                         }
                                         helperText={
                                             formik.touched.surfaceTerrain &&
-                                            formik.errors.surfaceTerrain
+                      formik.errors.surfaceTerrain
                                         }
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container spacing={2}>
-                                <Grid item xs={6}>
+                            <Grid container>
+                                <Grid item xs={12}>
                                     <TextField
                                         margin="normal"
                                         required
@@ -200,34 +189,9 @@ function Sell() {
                                         value={formik.values.nbPiece}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.nbPiece &&
-                                            Boolean(formik.errors.nbPiece)
+                                            formik.touched.nbPiece && Boolean(formik.errors.nbPiece)
                                         }
-                                        helperText={
-                                            formik.touched.nbPiece &&
-                                            formik.errors.nbPiece
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="nbToillet"
-                                        type="number"
-                                        label="Nombre de toilletes"
-                                        name="nbToillet"
-                                        value={formik.values.nbToillet}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.nbToillet &&
-                                            Boolean(formik.errors.nbToillet)
-                                        }
-                                        helperText={
-                                            formik.touched.nbToillet &&
-                                            formik.errors.nbToillet
-                                        }
+                                        helperText={formik.touched.nbPiece && formik.errors.nbPiece}
                                     />
                                 </Grid>
                             </Grid>
@@ -244,14 +208,9 @@ function Sell() {
                                         value={formik.values.lat}
                                         onChange={formik.handleChange}
                                         onBlur={handleBlurLatLong} // Calculate coord on blur
-                                        error={
-                                            formik.touched.lat &&
-                                                    Boolean(formik.errors.lat)
-                                        }
-                                        helperText={
-                                            formik.touched.lat &&
-                                                    formik.errors.lat
-                                        } />
+                                        error={formik.touched.lat && Boolean(formik.errors.lat)}
+                                        helperText={formik.touched.lat && formik.errors.lat}
+                                    />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <TextField
@@ -265,14 +224,9 @@ function Sell() {
                                         value={formik.values.long}
                                         onChange={formik.handleChange}
                                         onBlur={handleBlurLatLong}
-                                        error={
-                                            formik.touched.long &&
-                                                    Boolean(formik.errors.long)
-                                        }
-                                        helperText={
-                                            formik.touched.long &&
-                                                    formik.errors.long
-                                        } />
+                                        error={formik.touched.long && Boolean(formik.errors.long)}
+                                        helperText={formik.touched.long && formik.errors.long}
+                                    />
                                 </Grid>
                             </Grid>
                             <Grid container spacing={2}>
@@ -288,14 +242,9 @@ function Sell() {
                                         value={formik.values.coord}
                                         onChange={formik.handleChange}
                                         onBlur={handleBlurCoord}
-                                        error={
-                                            formik.touched.coord &&
-                                            Boolean(formik.errors.coord)
-                                        }
-                                        helperText={
-                                            formik.touched.coord &&
-                                            formik.errors.coord
-                                        } />
+                                        error={formik.touched.coord && Boolean(formik.errors.coord)}
+                                        helperText={formik.touched.coord && formik.errors.coord}
+                                    />
                                 </Grid>
                             </Grid>
 
@@ -308,7 +257,7 @@ function Sell() {
                                     mb: 2,
                                 }}
                             >
-                                Estimer le prix
+                Estimer le prix
                             </Button>
                         </Box>
                     </Box>
@@ -332,7 +281,7 @@ function Sell() {
                             opacity: '0.9', // Set the opacity of the drawer (adjust as needed)
                         }}
                     >
-                        <EstimatedPrice />  
+                        <EstimatedPrice />
                     </Drawer>
                 </React.Fragment>
             </Grid>
@@ -344,11 +293,9 @@ interface FormResponses {
     surface: number;
     surfaceTerrain: number;
     nbPiece: number;
-    nbToillet: number;
     lat: string;
     long: string;
-    coord:string;
+    coord: string;
 }
-
 
 export default Sell;
