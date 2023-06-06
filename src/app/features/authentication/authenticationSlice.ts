@@ -35,6 +35,7 @@ export const authenticationSlice = createSlice({
 
 // Setup what is persisted and how
 export const persistConfig: PersistConfig<AuthenticationState> = {
+    keyPrefix: '',
     key: 'auth',
     storage: storage,
 };
