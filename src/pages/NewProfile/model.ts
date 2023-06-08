@@ -80,7 +80,7 @@ export const profiles: BaseProfile[] = [
             energyClass: EnergyClass.C,
             balcony: false,
             fittedKitchen: false,
-            city: 'Paris-1Er-Arrondissement (75001)',
+            city: 'Paris-1er-Arrondissement (75001)',
             cityDistanceKm: 100,
             securityScore: 2,
             educationScore: 2,

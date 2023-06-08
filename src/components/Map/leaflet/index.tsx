@@ -33,8 +33,6 @@ function Map() {
             height="100%"
             width="100%"
         >
-            {/* TODO implement the menu bar */}
-            <div>Filters bar</div>
             {/* The map take the remaining space */}
             <MapContainer
                 preferCanvas={true}
@@ -70,9 +68,9 @@ function Map() {
 function PlaceHolder() {
     return (
         <p>
-            Carte de la France
+      Carte de la France
             <noscript>
-                Javascript doit être activé afin de pouvoir voir la carte
+        Javascript doit être activé afin de pouvoir voir la carte
             </noscript>
         </p>
     );

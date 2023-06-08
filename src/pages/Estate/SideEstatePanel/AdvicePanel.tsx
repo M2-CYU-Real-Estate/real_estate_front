@@ -113,7 +113,7 @@ function AdvicePanel() {
                                         </Card>
                                     </Grid>
 
-                                    <Grid item xs={12} md={4}>
+                                    <Grid item xs={12} md={4} sx={{ margin: '0 0 40px 0' }}>
                                         <Card
                                             sx={{ minWidth: 5, bgcolor: ' #e0573c ', color: 'white' }}
                                         >
@@ -132,7 +132,7 @@ function AdvicePanel() {
                                         </Card>
                                     </Grid>
                                     <Slider
-                                        defaultValue={290000}
+                                        defaultValue={285000}
                                         aria-label="Small"
                                         valueLabelDisplay="on"
                                         disabled

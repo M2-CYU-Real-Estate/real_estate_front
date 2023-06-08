@@ -1,4 +1,44 @@
-import { UserProfile } from '../../types/user';
+
+export enum PriceRange {
+    LOW = 'low',
+    MEDIUM = 'medium',
+    NORMAL = 'normal',
+    RICH = 'rich',
+    VERY_RICH = 'very_rich',
+}
+
+export enum EnergyClass {
+    E = 1,
+    D,
+    C,
+    B,
+    A,
+}
+
+export interface FormValues {
+    priceRange: PriceRange;
+    houseAreaSqrtM: number;
+    rooms: number;
+    bedrooms: number;
+    bathrooms: number;
+    energyClass: EnergyClass;
+    balcony: boolean;
+    fittedKitchen: boolean;
+    city: string;
+    cityDistanceKm: number;
+    securityScore: number;
+    educationScore: number;
+    hobbiesScore: number;
+    environmentScore: number;
+    practicalityScore: number;
+}
+
+export interface UserProfile {
+    id: number;
+    isMainProfile:boolean;
+    name: string;
+    caracteristics: FormValues;
+}
 
 export const mockProfiles: UserProfile[] = [
     {
@@ -6,31 +46,21 @@ export const mockProfiles: UserProfile[] = [
         isMainProfile: true,
         name: 'profile_1',
         caracteristics: {
-            surface: 150,
-        },
-    },
-    {
-        id: 2,
-        isMainProfile: false,
-        name: 'profile_2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
-        caracteristics: {
-            surface: 150,
-        },
-    },
-    {
-        id: 3,
-        isMainProfile: false,
-        name: 'profile_3 qzd qzd jqkzd qkzjdb zqbdv hqzdv hjqzdhjqzdhj qzhjdv hgvqzhdg vqzhgdv hgqvzd hgqzv dhgv',
-        caracteristics: {
-            surface: 150,
-        },
-    },
-    {
-        id: 4,
-        isMainProfile: false,
-        name: 'profile_4',
-        caracteristics: {
-            surface: 150,
+            priceRange: PriceRange.LOW,
+            houseAreaSqrtM: 90,
+            rooms: 4,
+            bedrooms: 2,
+            bathrooms: 1,
+            energyClass: EnergyClass.C,
+            balcony: true,
+            fittedKitchen: false,
+            city: 'Paris-1er-Arrondissement (75001)',
+            cityDistanceKm: 100,
+            securityScore: 2,
+            educationScore: 3.5,
+            hobbiesScore: 2,
+            environmentScore: 2,
+            practicalityScore: 2,
         },
     },
 ];
