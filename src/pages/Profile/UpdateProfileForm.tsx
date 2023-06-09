@@ -18,12 +18,13 @@ import { useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
 import { EnergyClass } from '../../api/mocks/mockProfiles';
+import { useParams } from 'react-router-dom';
 import {
     energyClassLabels,
     priceRangeLabels,
 } from '../NewProfile/FormComponents/textMappings';
 import cities from '../../assets/data/correspondance_ville_partial.json';
-
+import Error404 from '../Error404';
 import { mockProfiles } from '../../api/mocks/mockProfiles';
 
 const energyClassMarks = [
@@ -34,9 +35,21 @@ const energyClassMarks = [
     { value: EnergyClass.A, label: energyClassLabels[EnergyClass.A] },
 ];
 
+type ProfileParams = {
+    id: string;
+};
+
 function UpdateProfile() {
-    const nomUser = mockProfiles[0].name;
-    const Profile = mockProfiles[0].caracteristics;
+    // TODO: fetch the profile, should throw an error if the profile does not belong to the user
+
+    const { id } = useParams<ProfileParams>();
+
+    if (!id) {
+        return <Error404 />;
+    }
+    const profileNum = Number(id) - 1;
+    const nomUser = mockProfiles[profileNum].name;
+    const Profile = mockProfiles[profileNum].caracteristics;
 
     const formik = useFormik({
         initialValues: {

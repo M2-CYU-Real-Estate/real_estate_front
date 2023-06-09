@@ -32,6 +32,7 @@
         "react-chartjs-2": "^5.2.0",
         "react-dom": "^18.2.0",
         "react-leaflet": "^4.2.0",
+        "react-leaflet-cluster": "^2.1.0",
         "react-leaflet-heatmap-layer-v3": "^3.0.3-beta-1",
         "react-material-ui-carousel": "^3.4.2",
         "react-number-format": "^5.1.4",

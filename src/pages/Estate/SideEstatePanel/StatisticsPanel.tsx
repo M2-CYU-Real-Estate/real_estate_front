@@ -403,11 +403,6 @@ function StatisticsPanel() {
                                 </Grid>
                             </Grid>
                         </CardContent>
-                        <CardActions>
-                            <Link href={GLOBALS.routes.home()}>
-                Voir les derniers bien similaires
-                            </Link>
-                        </CardActions>
                     </Card>
                 </Grid>
             </Grid>

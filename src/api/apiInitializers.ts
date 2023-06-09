@@ -15,6 +15,7 @@ export function addAuthorizationToken(
     getState: GetStateFunc
 ): Headers {
     const token = (getState() as RootState).authUser.token;
+    console.log(token);
     if (token) {
         headers.set('Authorization', `${token}`);
     }

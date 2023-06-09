@@ -115,7 +115,7 @@ function LoginButton() {
             color="inherit"
             startIcon={<LoginIcon />}
         >
-            Se connecter
+      Se connecter
         </Button>
     );
 }

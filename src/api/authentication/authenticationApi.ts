@@ -18,6 +18,8 @@ interface RegisterRequest {
     username: string;
     email: string;
     password: string;
+    passwordConfirm: string,
+
 }
 
 interface RegisterResponse {
@@ -38,7 +40,7 @@ export const authApi = createApi({
                 url: 'login',
                 method: 'POST',
                 body: request,
-            }),
+            })
         }),
         register: builder.mutation<RegisterResponse, RegisterRequest>({
             query: (request) => ({
