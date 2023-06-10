@@ -7,8 +7,21 @@ import {
     Slider,
 } from '@mui/material';
 import { Line } from 'react-chartjs-2';
+import React, { useEffect } from 'react';
+import { useAdviceQuery } from '../../../api/metriques/metriques';
+import { useParams } from 'react-router-dom';
+
+type Annonce = {
+    id: string;
+};
 
 function AdvicePanel() {
+    const { data: estatePage, isFetching, isError } = useAdviceQuery({});
+
+    const { id } = useParams<Annonce>();
+    const testId = '231520';
+    console.log('testid: ', testId);
+
     return (
         <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12} xs={12} xl={12}>
