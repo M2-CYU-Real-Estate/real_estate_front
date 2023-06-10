@@ -3,32 +3,50 @@ import {
     CardContent,
     Box,
     Typography,
-    FormGroup,
     FormLabel,
     RadioGroup,
     Radio,
     FormControl,
     FormControlLabel,
-    InputAdornment,
     TextField,
     Button,
     Grid,
     Drawer,
+    Autocomplete,
+    createFilterOptions,
 } from '@mui/material';
-import { useContext } from 'react';
 import EstateCard from '../../../components/EstateCard';
-import HomeContext from '../HomeContext';
 import mockEstates from '../../../api/mocks/mockEstates';
-import SearchIcon from '@mui/icons-material/Search';
+import cities from '../../../assets/data/correspondance_ville_partial.json';
 import SideSearch from './SideSearch';
 import React from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
+export const basicInfoValidationSchema = yup.object({
+    ville: yup.string().required('La ville voulue est attendue'),
+    maison: yup.boolean(),
+    appartement: yup.boolean(),
+});
 function LastEntries() {
     // TODO: api call for fetching estates
     const estates = mockEstates;
-
-    const { enableLoading, disableLoading } = useContext(HomeContext);
     const [isOpen, setOpen] = React.useState(false);
+
+    const formik = useFormik({
+        initialValues: {
+            typeBien: 0,
+            ville: '',
+        },
+        validationSchema: basicInfoValidationSchema,
+        onSubmit: handleSubmit,
+    });
+
+    async function handleSubmit(e: FormResponses) {
+    // TODO handle submit
+        window.alert(JSON.stringify(e, null, 2));
+    // setOpen(true);
+    }
 
     return (
         <Box
@@ -40,101 +58,120 @@ function LastEntries() {
         >
             {/* Box with recommendation count & menus (filters, sort) */}
             <Box
-                display="flex"
-                flexDirection="row"
-                justifyItems="stretch"
-                justifyContent="center"
-                width="100%"
-                marginLeft="1em"
+                component="form"
+                noValidate
+                onSubmit={formik.handleSubmit}
+                sx={{
+                    mt: 1,
+                }}
             >
-                <Card sx={{ width: '100%' }}>
-                    <CardContent>
-                        <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label">
-                Type de bien
-                            </FormLabel>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue="female"
-                                name="radio-buttons-group"
-                            >
-                                <FormControlLabel
-                                    value="female"
-                                    control={<Radio />}
-                                    label="Maison"
-                                />
-                                <FormControlLabel
-                                    value="male"
-                                    control={<Radio />}
-                                    label="Appartement"
-                                />
-                            </RadioGroup>
-                        </FormControl>
-
-                        <Grid container spacing={2}>
-                            <Grid item lg={9}>
-                                <TextField
-                                    fullWidth
-                                    type="string"
-                                    InputProps={{
-                                        endAdornment: <SearchIcon />,
-                                    }}
-                                    label="Ville"
-                                    variant="outlined"
-                                    name="roomsField"
-                                    margin="normal"
-                                    autoFocus
-                                ></TextField>
-                            </Grid>
-                            <Grid item lg={3}>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{
-                                        mt: 3,
-                                        mb: 2,
-                                    }}
+                <Box p="0.5em">
+                    <Card sx={{ width: '100%' }}>
+                        <CardContent>
+                            <FormControl>
+                                <FormLabel id="demo-radio-buttons-group-label">
+                  Type de bien
+                                </FormLabel>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-radio-buttons-group-label"
+                                    name="typeBien"
                                 >
-                  Rechercher
-                                </Button>
+                                    <FormControlLabel
+                                        label="Maison"
+                                        control={<Radio onChange={formik.handleChange} value={2} />}
+                                    />
+                                    <FormControlLabel
+                                        label="Appartement"
+                                        control={<Radio onChange={formik.handleChange} value={1} />}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+
+                            <Grid container spacing={2}>
+                                <Grid item lg={9}>
+                                    <Autocomplete
+                                        filterOptions={createFilterOptions({
+                                            limit: 15,
+                                        })}
+                                        options={cities.map((c) => `${c.nom} (${c.postal})`)}
+                                        includeInputInList
+                                        value={formik.values.ville}
+                                        onChange={(e, value) =>
+                                            formik.setFieldValue('ville', value)
+                                        }
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                margin="normal"
+                                                fullWidth
+                                                name="ville"
+                                                label="Ville"
+                                                variant="outlined"
+                                                onChange={formik.handleChange}
+                                                error={
+                                                    formik.touched.ville && Boolean(formik.errors.ville)
+                                                }
+                                                helperText={formik.touched.ville && formik.errors.ville}
+                                                autoFocus
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid item lg={3}>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{
+                                            mt: 3,
+                                            mb: 2,
+                                        }}
+                                    >
+                    Rechercher
+                                    </Button>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </CardContent>
-                    <Button
-                        size="small"
-                        style={{ textTransform: 'none' }}
-                        onClick={() => {
-                            setOpen(true);
-                        }}
-                    >
-                        <Typography variant="body1" component="div" fontWeight="bold">
-              Afficher plus de filtre
-                        </Typography>
-                    </Button>
-                </Card>
+                        </CardContent>
+                        <Button
+                            size="small"
+                            style={{ textTransform: 'none' }}
+                            onClick={() => {
+                                setOpen(true);
+                            }}
+                        >
+                            <Typography variant="body1" component="div" fontWeight="bold">
+                Afficher plus de filtre
+                            </Typography>
+                        </Button>
+                    </Card>
+                </Box>
+                {/* The scrollable items part */}
+                <Box
+                    width="100%"
+                    height="100%"
+                    maxHeight="100%"
+                    p="0.5em"
+                    paddingTop="2em"
+                    sx={{ overflowY: 'scroll' }}
+                >
+                    {estates.map((estate) => (
+                        <EstateCard key={estate.id} {...estate} />
+                    ))}
+                </Box>
+                {/* <TemporaryDrawer /> */}
+                <React.Fragment key={'right'}>
+                    <Drawer anchor={'right'} open={isOpen} onClose={() => setOpen(false)}>
+                        <SideSearch />
+                    </Drawer>
+                </React.Fragment>
             </Box>
-            {/* The scrollable items part */}
-            <Box
-                width="100%"
-                height="100%"
-                maxHeight="100%"
-                p="0.5em"
-                paddingTop="2em"
-                sx={{ overflowY: 'scroll' }}
-            >
-                {estates.map((estate) => (
-                    <EstateCard key={estate.id} {...estate} />
-                ))}
-            </Box>
-            {/* <TemporaryDrawer /> */}
-            <React.Fragment key={'right'}>
-                <Drawer anchor={'right'} open={isOpen} onClose={() => setOpen(false)}>
-                    <SideSearch />
-                </Drawer>
-            </React.Fragment>
         </Box>
     );
 }
 
+interface FormResponses {
+    typeBien: number;
+    ville: string;
+}
 export default LastEntries;

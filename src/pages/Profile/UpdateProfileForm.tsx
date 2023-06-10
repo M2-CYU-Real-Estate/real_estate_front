@@ -15,9 +15,8 @@ import {
     Rating,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import React from 'react';
 import * as yup from 'yup';
-import { EnergyClass } from '../../api/mocks/mockProfiles';
+import { EnergyClass, PriceRange } from '../../api/mocks/mockProfiles';
 import { useParams } from 'react-router-dom';
 import {
     energyClassLabels,
@@ -38,6 +37,51 @@ const energyClassMarks = [
 type ProfileParams = {
     id: string;
 };
+
+export const basicInfoValidationSchema = yup.object({
+    priceRangeField: yup
+        .mixed<PriceRange>()
+        .oneOf(
+            Object.values(PriceRange),
+            'Valeur non reconnue, assurez-vous de choisir parmi les valeurs proposées'
+        )
+        .required('Le budget est attendu')
+        .typeError('Le budget est attendu'),
+    houseAreaField: yup
+        .number()
+        .required('La surface voulue est attendue')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    roomsField: yup
+        .number()
+        .required('Le nombre de pièces voulu est attendu')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    bedroomsField: yup
+        .number()
+        .required('Le nombre de chambres voulu est attendu')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    bathroomsField: yup
+        .number()
+        .required('Le nombre de salles de bains voulu est attendu')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+    energyClassField: yup
+        .mixed<EnergyClass>()
+        .required('La classe énergétique est attendue'),
+    balconyField: yup.boolean(),
+    fittedKitchenField: yup.boolean(),
+    cityField: yup
+        .string()
+        .required('La ville souhaitée est attendue')
+        .typeError("Assurez-vous d'écrire un nom de ville valide"),
+    cityDistanceField: yup
+        .number()
+        .required('La distance acceptable par rapport à la ville est attendue')
+        .positive('Un nombre valide est attendu')
+        .typeError('Un nombre valide est attendu'),
+});
 
 function UpdateProfile() {
     // TODO: fetch the profile, should throw an error if the profile does not belong to the user
@@ -69,6 +113,7 @@ function UpdateProfile() {
             environmentField: Profile.environmentScore,
             practicalityField: Profile.practicalityScore,
         },
+        validationSchema: basicInfoValidationSchema,
         onSubmit: handleSubmit,
     });
 

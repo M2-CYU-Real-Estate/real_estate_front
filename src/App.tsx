@@ -15,8 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserDashboard from './pages/UserDashboard';
 import Profile from './pages/Profile';
 import Sell from './pages/Sell';
+import About from './pages/About';
 import NewProfile from './pages/NewProfile';
-
 
 function App() {
     return (
@@ -32,20 +32,17 @@ function App() {
                     <Route path={GLOBALS.routes.home()} element={<Home />} />
 
                     {/* ESTATES */}
-                    <Route
-                        path={GLOBALS.routes.estate(':id')}
-                        element={<Estate />}
-                    />
+                    <Route path={GLOBALS.routes.estate(':id')} element={<Estate />} />
 
                     {/* SELL */}
                     <Route path={GLOBALS.routes.sell()} element={<Sell />} />
 
+                    {/* About */}
+                    <Route path={GLOBALS.routes.about()} element={<About />} />
+
                     {/* LOGIN / REGISTER */}
                     <Route path={GLOBALS.routes.login()} element={<Login />} />
-                    <Route
-                        path={GLOBALS.routes.register()}
-                        element={<Register />}
-                    />
+                    <Route path={GLOBALS.routes.register()} element={<Register />} />
 
                     {/* USER ROUTES */}
                     <Route
