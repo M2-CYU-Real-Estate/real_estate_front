@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import React, { useEffect } from 'react';
-import { useAdviceQuery } from '../../../api/metriques/metriques';
+// import { useAdviceQuery } from '../../../api/estate/estateApi';
 import { useParams } from 'react-router-dom';
 
 type Annonce = {
@@ -18,9 +18,9 @@ type Annonce = {
 function AdvicePanel() {
     const { id } = useParams<Annonce>();
     const testid = '231520';
-    const { data: advice, isFetching, isError } = useAdviceQuery(testid);
+    // const { data: advice, isFetching, isError } = useAdviceQuery(testid);
 
-    console.log('advice: ', advice);
+    // console.log('advice: ', advice);
 
     return (
         <Grid container spacing={2}>

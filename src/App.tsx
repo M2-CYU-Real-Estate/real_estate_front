@@ -32,11 +32,8 @@ function App() {
                     <Route path={GLOBALS.routes.home()} element={<Home />} />
 
                     {/* ESTATES */}
-<<<<<<< HEAD
                     <Route path={GLOBALS.routes.estate(':id')} element={<EstatePage />} />
-=======
-                    <Route path={GLOBALS.routes.estate(':id')} element={<Estate />} />
->>>>>>> updateProfil
+                    {/* <Route path={GLOBALS.routes.estate(':id')} element={<Estate />} /> */}
 
                     {/* SELL */}
                     <Route path={GLOBALS.routes.sell()} element={<Sell />} />
