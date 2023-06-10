@@ -85,7 +85,7 @@ function SideSearch() {
     const formik = useFormik({
         initialValues: {
             ville: '',
-            typeBien: 1,
+            typeBien: 0,
             prixMin: 0,
             prixMax: 0,
             surfaceMax: 0,
@@ -105,8 +105,10 @@ function SideSearch() {
     async function handleSubmit(e: FormResponses) {
     // TODO handle submit
         window.alert(JSON.stringify(e, null, 2));
-    // setOpen(true);
     }
+    const handleReset = () => {
+        formik.resetForm(); // Reset the form to default initial values
+    };
     return (
         <Box
             sx={{
@@ -487,13 +489,13 @@ function SideSearch() {
                         <Grid container spacing={7}>
                             <Grid item lg={6}>
                                 <Button
-                                    type="submit"
                                     variant="contained"
                                     sx={{
                                         mt: 3,
                                         mb: 2,
                                         backgroundColor: 'grey',
                                     }}
+                                    onClick={handleReset}
                                 >
                   Effacer Tout
                                 </Button>
