@@ -16,11 +16,11 @@ type Annonce = {
 };
 
 function AdvicePanel() {
-    const { data: estatePage, isFetching, isError } = useAdviceQuery({});
-
     const { id } = useParams<Annonce>();
-    const testId = '231520';
-    console.log('testid: ', testId);
+    const testid = '231520';
+    const { data: advice, isFetching, isError } = useAdviceQuery(testid);
+
+    console.log('advice: ', advice);
 
     return (
         <Grid container spacing={2}>
