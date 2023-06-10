@@ -47,7 +47,7 @@ const validationSchema = yup.object({
 function Sell() {
     const formik = useFormik({
         initialValues: {
-            surface: 0,
+            surface: 50,
             surfaceTerrain: 150,
             nbPiece: 3,
             lat: 11.22,

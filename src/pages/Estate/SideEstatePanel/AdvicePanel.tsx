@@ -7,8 +7,21 @@ import {
     Slider,
 } from '@mui/material';
 import { Line } from 'react-chartjs-2';
+import React, { useEffect } from 'react';
+import { useAdviceQuery } from '../../../api/metriques/metriques';
+import { useParams } from 'react-router-dom';
+
+type Annonce = {
+    id: string;
+};
 
 function AdvicePanel() {
+    const { id } = useParams<Annonce>();
+    const testid = '231520';
+    const { data: advice, isFetching, isError } = useAdviceQuery(testid);
+
+    console.log('advice: ', advice);
+
     return (
         <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12} xs={12} xl={12}>
@@ -113,7 +126,7 @@ function AdvicePanel() {
                                         </Card>
                                     </Grid>
 
-                                    <Grid item xs={12} md={4}>
+                                    <Grid item xs={12} md={4} sx={{ margin: '0 0 40px 0' }}>
                                         <Card
                                             sx={{ minWidth: 5, bgcolor: ' #e0573c ', color: 'white' }}
                                         >
@@ -132,7 +145,7 @@ function AdvicePanel() {
                                         </Card>
                                     </Grid>
                                     <Slider
-                                        defaultValue={290000}
+                                        defaultValue={285000}
                                         aria-label="Small"
                                         valueLabelDisplay="on"
                                         disabled

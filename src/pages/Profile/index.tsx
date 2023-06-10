@@ -2,14 +2,8 @@ import { Box } from '@mui/material';
 import Header from '../../components/Header';
 import { useParams } from 'react-router-dom';
 import Error404 from '../Error404';
-import MultiStepForm, { FormStep } from '../Profile/MultiStepForm';
-import BasicInfoForm, {
-    basicInfoValidationSchema,
-} from '../Profile/FormComponents/BasicInfoForm';
-import NeedsForm from '../Profile/FormComponents/NeedsForm';
-import SummaryStep from '../Profile/FormComponents/SummaryStep';
 
-import { profiles } from '../Profile/model';
+import UpdateProfile from './UpdateProfileForm';
 /**
  * The url parameters to fetch for the page
  */
@@ -25,7 +19,6 @@ function Profile() {
     if (!id) {
         return <Error404 />;
     }
-    const defaultPreset = profiles[1].initialValues;
 
     return (
         <Box
@@ -35,35 +28,16 @@ function Profile() {
             height="100vh"
         >
             <Header />
-            {/* Display steps */}
-            <MultiStepForm
-                initialValues={defaultPreset}
-                onSubmit={async (values) => {
-                    // TODO api call for register profile !
-                    window.alert(
-                        `Here are the values registered : ${JSON.stringify(
-                            values,
-                            null,
-                            2
-                        )}`
-                    );
-                }}
+            {/* Display Form here */}
+            <Box
+                display="flex"
+                alignItems="stretch"
+                flexDirection="column"
+                height="100vh"
+                padding="2em"
             >
-                {/* The onSubmit functions are handled only in this component, 
-                as the MultiStepForm relies on direct children only */}
-                <FormStep
-                    stepName="Informations basiques"
-                    validationSchema={basicInfoValidationSchema}
-                >
-                    <BasicInfoForm />
-                </FormStep>
-                <FormStep stepName="Besoins et priorités">
-                    <NeedsForm />
-                </FormStep>
-                <FormStep stepName="Résumé">
-                    <SummaryStep />
-                </FormStep>
-            </MultiStepForm>
+                <UpdateProfile />
+            </Box>
         </Box>
     );
 }

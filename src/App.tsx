@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserDashboard from './pages/UserDashboard';
 import Profile from './pages/Profile';
 import Sell from './pages/Sell';
+import About from './pages/About';
 import NewProfile from './pages/NewProfile';
 
 function App() {
@@ -31,10 +32,17 @@ function App() {
                     <Route path={GLOBALS.routes.home()} element={<Home />} />
 
                     {/* ESTATES */}
+<<<<<<< HEAD
                     <Route path={GLOBALS.routes.estate(':id')} element={<EstatePage />} />
+=======
+                    <Route path={GLOBALS.routes.estate(':id')} element={<Estate />} />
+>>>>>>> updateProfil
 
                     {/* SELL */}
                     <Route path={GLOBALS.routes.sell()} element={<Sell />} />
+
+                    {/* About */}
+                    <Route path={GLOBALS.routes.about()} element={<About />} />
 
                     {/* LOGIN / REGISTER */}
                     <Route path={GLOBALS.routes.login()} element={<Login />} />

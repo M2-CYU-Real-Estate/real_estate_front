@@ -8,15 +8,28 @@ import {
     Paper,
     TextField,
     Typography,
+    Alert,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import HomeButton from '../../components/HomeButton';
 import SidePanel from '../../components/SideImagePanel';
 import GLOBALS from '../../globals';
+import { toast } from 'react-toastify';
+import {
+    useRegisterMutation,
+    useLoginMutation,
+} from '../../api/authentication/authenticationApi';
+import { setUserCredentials } from '../../app/features/authentication/authenticationSlice';
+import { useAppDispatch } from '../../app/store';
+import { useNavigate } from 'react-router-dom';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { SerializedError } from '@reduxjs/toolkit';
+import { LoadingButton } from '@mui/lab';
+import { userApi } from '../../api/user/userApi';
 
 const validationSchema = yup.object({
-    name: yup
+    username: yup
         .string()
         .min(3, 'Le nom doit au moins avoir 3 caractères')
         .required('Un nom est attendu'),
@@ -39,15 +52,43 @@ const validationSchema = yup.object({
 });
 
 function Register() {
+    const [register, { isLoading, error }] = useRegisterMutation();
+    const [login, { isLoading: isloadinglogin, error: errorLogin }] =
+    useLoginMutation();
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
-            name: '',
+            username: '',
             email: '',
             password: '',
             passwordConfirm: '',
         },
         validationSchema: validationSchema,
-        onSubmit: handleSumbit,
+        onSubmit: (values, actions) => {
+            console.log({ values, actions });
+            actions.setSubmitting(true);
+            // Login and handle the response (not the error, no need)
+            register(values)
+                .unwrap()
+                .then(() => login(values).unwrap())
+                .then((response) => {
+                    dispatch(
+                        setUserCredentials({
+                            ...response,
+                            rememberMe: false,
+                        })
+                    );
+                    toast.success(`Bienvenue, ${response.user.name} !`, {
+                        position: 'bottom-center',
+                    });
+                    navigate(GLOBALS.routes.home());
+                })
+                .catch(() => toast.error('Une erreur est survenue !'))
+                .finally(() => actions.setSubmitting(false));
+        },
     });
 
     // TODO : 3 steps registration :
@@ -90,7 +131,7 @@ function Register() {
                         <MainIcon fontSize="large" />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Inscription
+            Inscription
                     </Typography>
                     <Box
                         component="form"
@@ -104,18 +145,13 @@ function Register() {
                             margin="normal"
                             required
                             fullWidth
-                            id="name"
+                            id="username"
                             label="Nom"
-                            name="name"
-                            value={formik.values.name}
+                            name="username"
+                            value={formik.values.username}
                             onChange={formik.handleChange}
-                            error={
-                                formik.touched.name &&
-                                Boolean(formik.errors.name)
-                            }
-                            helperText={
-                                formik.touched.name && formik.errors.name
-                            }
+                            error={formik.touched.username && Boolean(formik.errors.username)}
+                            helperText={formik.touched.username && formik.errors.username}
                             autoFocus
                         />
                         <TextField
@@ -127,13 +163,8 @@ function Register() {
                             name="email"
                             value={formik.values.email}
                             onChange={formik.handleChange}
-                            error={
-                                formik.touched.email &&
-                                Boolean(formik.errors.email)
-                            }
-                            helperText={
-                                formik.touched.email && formik.errors.email
-                            }
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                         />
                         <TextField
                             margin="normal"
@@ -145,14 +176,8 @@ function Register() {
                             name="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
-                            error={
-                                formik.touched.password &&
-                                Boolean(formik.errors.password)
-                            }
-                            helperText={
-                                formik.touched.password &&
-                                formik.errors.password
-                            }
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
                         />
                         <TextField
                             margin="normal"
@@ -166,14 +191,14 @@ function Register() {
                             onChange={formik.handleChange}
                             error={
                                 formik.touched.passwordConfirm &&
-                                Boolean(formik.errors.passwordConfirm)
+                Boolean(formik.errors.passwordConfirm)
                             }
                             helperText={
-                                formik.touched.passwordConfirm &&
-                                formik.errors.passwordConfirm
+                                formik.touched.passwordConfirm && formik.errors.passwordConfirm
                             }
                         />
-                        <Button
+                        <LoadingButton
+                            loading={isLoading}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -182,20 +207,23 @@ function Register() {
                                 mb: 2,
                             }}
                         >
-                            Inscription
-                        </Button>
+              Inscription
+                        </LoadingButton>
                         {/* Login url */}
                         <Grid container>
                             <Grid item>
-                                <Link
-                                    href={GLOBALS.routes.login()}
-                                    variant="body2"
-                                >
-                                    Déjà un compte ? Se connecter.
+                                <Link href={GLOBALS.routes.login()} variant="body2">
+                  Déjà un compte ? Se connecter.
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
+                    {/* Error message (if exists) */}
+                    {error && (
+                        <Box width="100%" marginTop="0.5em">
+                            <Alert severity="error">{createErrorMessage(error)}</Alert>
+                        </Box>
+                    )}
                 </Box>
                 <Box
                     sx={{ backgroundColor: 'primary.main' }}
@@ -211,15 +239,27 @@ function Register() {
 }
 
 interface FormResponses {
-    name: string;
+    username: string;
     email: string;
     password: string;
     passwordConfirm: string;
 }
 
-async function handleSumbit(e: FormResponses) {
-    // TODO handle submit
-    window.alert(JSON.stringify(e, null, 2));
+// async function handleSumbit(e: FormResponses) {
+//     // TODO handle submit
+//     window.alert(JSON.stringify(e, null, 2));
+// }
+
+function createErrorMessage(
+    error: FetchBaseQueryError | SerializedError | undefined
+): string {
+    if (error === undefined || 'stack' in error) {
+        return 'Une erreur inconnue a eu lieu';
+    }
+    if ('status' in error && typeof error.status === 'string') {
+        return 'Impossible de communiquer avec le serveur';
+    }
+    return "L'identifiant ou le mot de passe est invalide";
 }
 
 export default Register;

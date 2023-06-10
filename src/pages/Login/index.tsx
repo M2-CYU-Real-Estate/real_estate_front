@@ -24,6 +24,7 @@ import { useAppDispatch } from '../../app/store';
 import HomeButton from '../../components/HomeButton';
 import SidePanel from '../../components/SideImagePanel';
 import GLOBALS from '../../globals';
+import { userApi } from '../../api/user/userApi';
 
 const validationSchema = yup.object({
     email: yup
@@ -106,7 +107,7 @@ function Login() {
                         <MainIcon fontSize="large" />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Connexion
+            Connexion
                     </Typography>
                     {/* The real form */}
                     <Box
@@ -127,13 +128,8 @@ function Login() {
                             name="email"
                             value={formik.values.email}
                             onChange={formik.handleChange}
-                            error={
-                                formik.touched.email &&
-                                Boolean(formik.errors.email)
-                            }
-                            helperText={
-                                formik.touched.email && formik.errors.email
-                            }
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                             autoFocus
                         />
                         {/* Password */}
@@ -147,14 +143,8 @@ function Login() {
                             name="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
-                            error={
-                                formik.touched.password &&
-                                Boolean(formik.errors.password)
-                            }
-                            helperText={
-                                formik.touched.password &&
-                                formik.errors.password
-                            }
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
                         />
                         {/* Remember me */}
                         <FormControlLabel
@@ -180,24 +170,18 @@ function Login() {
                                 mb: 2,
                             }}
                         >
-                            Connexion
+              Connexion
                         </LoadingButton>
                         {/* Forgotten password / Sign up */}
                         <Grid container>
                             <Grid item xs>
-                                <Link
-                                    href={GLOBALS.routes.passwordForgotten()}
-                                    variant="body2"
-                                >
-                                    Mot de passe oublié
+                                <Link href={GLOBALS.routes.passwordForgotten()} variant="body2">
+                  Mot de passe oublié
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link
-                                    href={GLOBALS.routes.register()}
-                                    variant="body2"
-                                >
-                                    Pas de compte ? En créer un.
+                                <Link href={GLOBALS.routes.register()} variant="body2">
+                  Pas de compte ? En créer un.
                                 </Link>
                             </Grid>
                         </Grid>
@@ -205,9 +189,7 @@ function Login() {
                     {/* Error message (if exists) */}
                     {error && (
                         <Box width="100%" marginTop="0.5em">
-                            <Alert severity="error">
-                                {createErrorMessage(error)}
-                            </Alert>
+                            <Alert severity="error">{createErrorMessage(error)}</Alert>
                         </Box>
                     )}
                 </Box>

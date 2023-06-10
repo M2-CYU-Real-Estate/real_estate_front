@@ -26,6 +26,7 @@ function SideEstatePanel(props: { estate: Estate }) {
                 marginTop: '1.5em',
                 width: '100%',
                 height: '100vh',
+                overflow: 'auto', // Add this line to make the box scrollable
             }}
         >
             <TabContext value={tabValue}>
