@@ -17,67 +17,83 @@ import Header from '../../components/Header';
 import EstimatedPrice from './SideNav';
 import React from 'react';
 
+type PredictedPrice = {
+    price: number;
+};
+
+import { usePricePredictionMutation } from '../../api/pricePrediction/pricePrediction';
+
 const validationSchema = yup.object({
-    surface: yup
+    houseArea: yup
         .number()
-        .min(1, 'La surface doit etre supérieur à 0 ')
+        .min(1, 'La surface doit etre supérieure à 0 ')
         .required('la surface est attendue'),
-    surfaceTerrain: yup
+    terrainArea: yup.number().min(0, 'La surface du terrain  doit être positif'),
+    roomCount: yup
         .number()
-        .min(1, 'La surface du terrain  doit au moins avoir 1 caractères'),
-    nbPiece: yup
-        .number()
-        .min(1, 'Le nombre de pièces doit au moins avoir 1 caractères')
-        .required('Le nombre de pièce est attendu'),
-    lat: yup
+        .min(0, 'Le nombre de pièces doit être positif')
+        .required('Le nombre de pièces est attendu'),
+    latitude: yup
         .string()
         .transform((value) => (value ? value.replace(/\s/g, '') : value))
-        .min(2, 'Il faut au moins 2 caractères pour latitude')
-        .matches(/^\d{1,2}\.\d+$/, 'Les coordonnées sont incorrecte')
-        .required('la latitude est attendu'),
+        .min(2, 'Il faut au moins 2 caractères pour la latitude')
+        .matches(/^\d{1,2}\.\d+$/, 'Les coordonnées sont incorrectes')
+        .required('la latitude est attendue'),
 
-    long: yup
+    longitude: yup
         .string()
         .transform((value) => (value ? value.replace(/\s/g, '') : value))
         .min(2, 'Il faut au moins 2 caractères pour longitude')
-        .matches(/^\d{1,2}\.\d+$/, 'Les coordonnées sont incorrecte')
-        .required('la longitude est attendu'),
+        .matches(/^\d{1,2}\.\d+$/, 'Les coordonnées sont incorrectes')
+        .required('la longitude est attendue'),
 });
 
 function Sell() {
+    const [isOpen, setOpen] = React.useState(false);
+    const [predictedPrice, setPredictedPrice] = React.useState(0);
+
+    const [predict, { isLoading }] = usePricePredictionMutation();
+
     const formik = useFormik({
         initialValues: {
-            surface: 50,
-            surfaceTerrain: 150,
-            nbPiece: 3,
-            lat: 11.22,
-            long: 22.77,
+            houseArea: 50,
+            terrainArea: 150,
+            roomCount: 3,
+            bathroomCount: 0,
+            latitude: '43.3475883319',
+            longitude: '3.23076754164',
             coord: '',
         },
         validationSchema: validationSchema,
-        onSubmit: handleSumbit,
+        onSubmit: (values, actions) => {
+            console.log({ values, actions });
+            actions.setSubmitting(true);
+            setOpen(true);
+            // Login and handle the response (not the error, no need)
+            predict(values)
+                .unwrap()
+                .then((response: PredictedPrice) => {
+                    console.log(response);
+                    setPredictedPrice(response.price);
+                })
+                .finally(() => actions.setSubmitting(false));
+        },
     });
-    const [isOpen, setOpen] = React.useState(false);
-    async function handleSumbit() {
-    // TODO handle submit
-    // window.alert(JSON.stringify(e, null, 2));
-        setOpen(true);
-    }
 
     const handleBlurLatLong = () => {
-        const { lat, long } = formik.values;
-        if (lat && long) {
-            formik.setFieldValue('coord', `${lat},${long}`);
+        const { latitude, longitude } = formik.values;
+        if (latitude && longitude) {
+            formik.setFieldValue('coord', `${latitude},${longitude}`);
         }
     };
 
     const handleBlurCoord = () => {
         const { coord } = formik.values;
         if (coord) {
-            const [lat, long] = coord.split(',');
-            if (lat && long) {
-                formik.setFieldValue('lat', lat);
-                formik.setFieldValue('long', long);
+            const [latitude, longitude] = coord.split(',');
+            if (latitude && longitude) {
+                formik.setFieldValue('latitude', latitude);
+                formik.setFieldValue('longitude ', longitude);
             } else {
                 console.error('Invalid coordinate format');
             }
@@ -141,16 +157,19 @@ function Sell() {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="surface"
+                                        id="houseArea"
                                         type="number"
                                         label="Surface en m2"
-                                        name="surface"
-                                        value={formik.values.surface}
+                                        name="houseArea"
+                                        value={formik.values.houseArea}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.surface && Boolean(formik.errors.surface)
+                                            formik.touched.houseArea &&
+                      Boolean(formik.errors.houseArea)
                                         }
-                                        helperText={formik.touched.surface && formik.errors.surface}
+                                        helperText={
+                                            formik.touched.houseArea && formik.errors.houseArea
+                                        }
                                         autoFocus
                                     />
                                 </Grid>
@@ -159,19 +178,18 @@ function Sell() {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="surfaceTerrain"
+                                        id="terrainArea"
                                         type="number"
                                         label="Surface du terrain en m2"
-                                        name="surfaceTerrain"
-                                        value={formik.values.surfaceTerrain}
+                                        name="terrainArea"
+                                        value={formik.values.terrainArea}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.surfaceTerrain &&
-                      Boolean(formik.errors.surfaceTerrain)
+                                            formik.touched.terrainArea &&
+                      Boolean(formik.errors.terrainArea)
                                         }
                                         helperText={
-                                            formik.touched.surfaceTerrain &&
-                      formik.errors.surfaceTerrain
+                                            formik.touched.terrainArea && formik.errors.terrainArea
                                         }
                                     />
                                 </Grid>
@@ -182,16 +200,19 @@ function Sell() {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="nbPiece"
+                                        id="roomCount"
                                         type="number"
                                         label="Nombre de pièces"
-                                        name="nbPiece"
-                                        value={formik.values.nbPiece}
+                                        name="roomCount"
+                                        value={formik.values.roomCount}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.nbPiece && Boolean(formik.errors.nbPiece)
+                                            formik.touched.roomCount &&
+                      Boolean(formik.errors.roomCount)
                                         }
-                                        helperText={formik.touched.nbPiece && formik.errors.nbPiece}
+                                        helperText={
+                                            formik.touched.roomCount && formik.errors.roomCount
+                                        }
                                     />
                                 </Grid>
                             </Grid>
@@ -202,14 +223,18 @@ function Sell() {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="lat"
+                                        id="latitude"
                                         type="string"
-                                        name="lat"
-                                        value={formik.values.lat}
+                                        name="latitude"
+                                        value={formik.values.latitude}
                                         onChange={formik.handleChange}
                                         onBlur={handleBlurLatLong} // Calculate coord on blur
-                                        error={formik.touched.lat && Boolean(formik.errors.lat)}
-                                        helperText={formik.touched.lat && formik.errors.lat}
+                                        error={
+                                            formik.touched.latitude && Boolean(formik.errors.latitude)
+                                        }
+                                        helperText={
+                                            formik.touched.latitude && formik.errors.latitude
+                                        }
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -218,14 +243,19 @@ function Sell() {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="long"
+                                        id="longitude"
                                         type="string"
-                                        name="long"
-                                        value={formik.values.long}
+                                        name="longitude"
+                                        value={formik.values.longitude}
                                         onChange={formik.handleChange}
                                         onBlur={handleBlurLatLong}
-                                        error={formik.touched.long && Boolean(formik.errors.long)}
-                                        helperText={formik.touched.long && formik.errors.long}
+                                        error={
+                                            formik.touched.longitude &&
+                      Boolean(formik.errors.longitude)
+                                        }
+                                        helperText={
+                                            formik.touched.longitude && formik.errors.longitude
+                                        }
                                     />
                                 </Grid>
                             </Grid>
@@ -281,7 +311,7 @@ function Sell() {
                             opacity: '0.9', // Set the opacity of the drawer (adjust as needed)
                         }}
                     >
-                        <EstimatedPrice />
+                        <EstimatedPrice price={predictedPrice} isLoading={isLoading} />
                     </Drawer>
                 </React.Fragment>
             </Grid>
@@ -290,11 +320,12 @@ function Sell() {
 }
 
 interface FormResponses {
-    surface: number;
-    surfaceTerrain: number;
-    nbPiece: number;
-    lat: string;
-    long: string;
+    houseArea: number;
+    terrainArea: number;
+    roomCount: number;
+    bathroomCount: number;
+    latitude: string;
+    longitude: string;
     coord: string;
 }
 

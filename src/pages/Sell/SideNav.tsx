@@ -5,11 +5,16 @@ import { Line } from 'react-chartjs-2';
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { Colors } from 'chart.js';
+import CircularCenteredLoading from '../../components/loading/CircularCenteredLoading';
 
 Chart.register(CategoryScale);
 Chart.register(Colors);
 
-function EstimatedPrice() {
+interface EstimatedPriceProps {
+    price: number;
+    isLoading: boolean;
+}
+function EstimatedPrice({ price, isLoading }: EstimatedPriceProps) {
     return (
         <Box
             sx={{
@@ -58,25 +63,36 @@ function EstimatedPrice() {
                 alignItems="center"
                 justifyContent="center"
                 sx={{ margin: '20px 0 0 0' }}
+                spacing="1em"
             >
-                <Grid item>
-                    <Typography component="h1" variant="body1" sx={{ color: 'white' }}>
-            Le prix total est de:
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        fontWeight="bold"
-                        sx={{ color: 'white' }}
-                    >
-            300 000 €
-                    </Typography>
-                </Grid>
+                {isLoading ? (
+                    <CircularCenteredLoading />
+                ) : (
+                    <>
+                        <Grid item>
+                            <Typography
+                                component="h1"
+                                variant="body1"
+                                sx={{ color: 'white' }}
+                            >
+                Le prix total est de:
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography
+                                component="h1"
+                                variant="h6"
+                                fontWeight="bold"
+                                sx={{ color: 'white' }}
+                            >
+                                {price} €
+                            </Typography>
+                        </Grid>
+                    </>
+                )}
             </Grid>
 
-            <Grid
+            {/* <Grid
                 container
                 alignItems="center"
                 justifyContent="center"
@@ -97,7 +113,7 @@ function EstimatedPrice() {
             300 €
                     </Typography>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
             <Grid
                 container

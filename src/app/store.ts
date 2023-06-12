@@ -7,6 +7,7 @@ import { persistStore } from 'redux-persist';
 import * as persistConstants from 'redux-persist/es/constants';
 import { userApi } from '../api/user/userApi';
 import { estateApi } from '../api/estate/estateApi';
+import { pricePredictionApi } from '../api/pricePrediction/pricePrediction';
 
 // Create our store
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [estateApi.reducerPath]: estateApi.reducer,
+        [pricePredictionApi.reducerPath]: pricePredictionApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -33,7 +35,8 @@ export const store = configureStore({
             // Add all api middlewares afterwards
             .concat(authApi.middleware)
             .concat(userApi.middleware)
-            .concat(estateApi.middleware),
+            .concat(estateApi.middleware)
+            .concat(pricePredictionApi.middleware),
     // Permit to access devtools when not in production environment
     devTools: process.env.NODE_ENV !== 'production',
 });

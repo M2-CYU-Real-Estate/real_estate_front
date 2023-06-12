@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import pinIcon from '../../../assets/images/location.svg';
 import { ResponsePositions } from '../../../api/estate/estateApi';
-
+import CircularCenteredLoading from '../../loading/CircularCenteredLoading';
 const customIcon = new Leaflet.Icon({
     iconSize: [25, 41],
     iconAnchor: [10, 41],
@@ -47,35 +47,9 @@ function Map({ positions }: MapProps) {
     }
     console.timeEnd('positions');
 
-    if (!positions) {
-        return (
-            <Box
-                display="flex"
-                alignItems="stretch"
-                flexDirection="column"
-                height="100%"
-                width="100%"
-            >
-                {/* The map take the remaining space */}
-                <MapContainer
-                    preferCanvas={true}
-                    style={{ height: '100%', width: '100%' }}
-                    center={center}
-                    minZoom={6}
-                    maxZoom={18}
-                    zoom={6}
-                    scrollWheelZoom={true}
-                    maxBounds={bounds}
-                    placeholder={<PlaceHolder />}
-                >
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                </MapContainer>
-            </Box>
-        );
-    }
+    // if (!positions) {
+    //     return <CircularCenteredLoading />;
+    // }
 
     return (
         <Box

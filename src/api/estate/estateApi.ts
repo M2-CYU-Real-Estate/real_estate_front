@@ -144,7 +144,6 @@ export const estateApi = createApi({
                     method: 'GET',
                 };
             },
-            keepUnusedDataFor: 30
         }),
     })
 });
