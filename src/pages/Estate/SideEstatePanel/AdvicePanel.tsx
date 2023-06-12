@@ -220,8 +220,7 @@ function AdvicePanel(props: { estate: Estate }) {
             ) : (
                 <Grid item lg={12} md={12} sm={12} xs={12} xl={12}>
                     <Typography variant="h5" component="div">
-            Ce bien n\a pas de bien similaires pour la proposition de conseils
-            sur le prix.
+            Désolé on a pas assez de données pour vous conseilé sur le prix.
                     </Typography>
                 </Grid>
             )}

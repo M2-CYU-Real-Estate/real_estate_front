@@ -1,12 +1,14 @@
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import * as Leaflet from 'leaflet';
 import './map.css';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import pinIcon from '../../../assets/images/location.svg';
 import { ResponsePositions } from '../../../api/estate/estateApi';
 import CircularCenteredLoading from '../../loading/CircularCenteredLoading';
+import { Link } from 'react-router-dom';
+import GLOBALS from '../../../globals';
 const customIcon = new Leaflet.Icon({
     iconSize: [25, 41],
     iconAnchor: [10, 41],
@@ -83,11 +85,13 @@ function Map({ positions }: MapProps) {
                                     position={[position.lat, position.lon]}
                                     title={position.title}
                                     eventHandlers={{
-                                        click: (e) => {
-                                            window.alert('marker clicked ' + position.title);
+                                        click: () => {
+                                            window.location.href = GLOBALS.routes.estate(
+                                                position.id.toString()
+                                            );
                                         },
                                     }}
-                                ></Marker>
+                                />
                             )
                         )}
                     </MarkerClusterGroup>
