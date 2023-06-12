@@ -150,7 +150,7 @@ function LastEntries() {
                             }}
                         >
                             <Typography variant="body1" component="div" fontWeight="bold">
-                Afficher plus de filtre
+                Afficher plus de filtres
                             </Typography>
                         </Button>
                     </Card>

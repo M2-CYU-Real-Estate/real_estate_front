@@ -66,7 +66,7 @@ function SideEstatePanel(props: { estate: Estate }) {
                         <FundingPanel estate={estate} />
                     </TabPanel>
                     <TabPanel sx={{ padding: 0 }} value="2">
-                        <AdvicePanel />
+                        <AdvicePanel estate={estate} />
                     </TabPanel>
                     <TabPanel sx={{ padding: 0 }} value="3">
                         <StatisticsPanel />

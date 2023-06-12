@@ -25,9 +25,9 @@ import noteMoyenneImage from '../../../assets/images/noteMoyenne.avif';
 import viePratique from '../../../assets/images/viePratique.jpg';
 import environnmentImage from '../../../assets/images/environnement.png';
 import sportImage from '../../../assets/images/sport.webp';
-import { Link } from '@mui/material';
-import GLOBALS from '../../../globals';
-import Paper from '@mui/material/Paper';
+import { useStatsQuery } from '../../../api/estate/estateApi';
+import { useParams } from 'react-router-dom';
+import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
 
 ChartJS.register(
     CategoryScale,
@@ -38,7 +38,16 @@ ChartJS.register(
     Legend
 );
 
+type Annonce = {
+    id: string;
+};
+
 function StatisticsPanel() {
+    const { id } = useParams<Annonce>();
+    const { data: stats, isFetching, isError } = useStatsQuery(id);
+    if (isFetching) {
+        return <CircularCenteredLoading />;
+    }
     return (
         <Box paddingTop="1em">
             <Grid container spacing={2}>
@@ -68,7 +77,7 @@ function StatisticsPanel() {
                           Note Moyenne
                                                 </Typography>
                                                 <Typography variant="h5" component="div">
-                          3.5 / 5
+                                                    {stats?.meanScore.toFixed(1)} / 5
                                                 </Typography>
                                                 <Box
                                                     component="img"
@@ -129,7 +138,7 @@ function StatisticsPanel() {
                                                             precision={0.5}
                                                         />
                                                         <Typography variant="h5" component="div">
-                              3.9 / 5
+                                                            {stats?.securityScore.toFixed(1)} / 5
                                                         </Typography>
                                                     </CardContent>
                                                 </Card>
@@ -166,7 +175,7 @@ function StatisticsPanel() {
                                                             precision={0.5}
                                                         />
                                                         <Typography variant="h5" component="div">
-                              4.3 / 5
+                                                            {stats?.educationScore.toFixed(1)} / 5
                                                         </Typography>
                                                     </CardContent>
                                                 </Card>
@@ -209,7 +218,7 @@ function StatisticsPanel() {
                                                             precision={0.5}
                                                         />
                                                         <Typography variant="h5" component="div">
-                              3.9 / 5
+                                                            {stats?.hobbiesScore.toFixed(1)} / 5
                                                         </Typography>
                                                     </CardContent>
                                                 </Card>
@@ -246,7 +255,7 @@ function StatisticsPanel() {
                                                             precision={0.5}
                                                         />
                                                         <Typography variant="h5" component="div">
-                              4.3 / 5
+                                                            {stats?.environmentScore.toFixed(1)} / 5
                                                         </Typography>
                                                     </CardContent>
                                                 </Card>
@@ -281,7 +290,7 @@ function StatisticsPanel() {
                                                             precision={0.5}
                                                         />
                                                         <Typography variant="h5" component="div">
-                              3.9 / 5
+                                                            {stats?.practicalityScore.toFixed(1)} / 5
                                                         </Typography>
                                                     </CardContent>
                                                 </Card>
@@ -315,7 +324,7 @@ function StatisticsPanel() {
                 </Grid>
             </Grid>
             <Grid container spacing={2}>
-                <Grid
+                {/* <Grid
                     item
                     lg={12}
                     md={12}
@@ -327,20 +336,22 @@ function StatisticsPanel() {
                     <Card>
                         <CardContent>
                             <Typography variant="h5" component="div">
-                Évolution des prix de l’immobilier dans la Ville
+                Évolution des prix de l’immobilier dans la Ville au m2
                             </Typography>
                             <Box
                                 display="flex"
                                 className="donut"
+                                padding="1em"
                                 justifyContent="center"
                                 alignContent="center"
                                 width="100%"
+                                maxHeight="30em"
                             >
                                 <Line data={dataLine} options={optionsLine} />
                             </Box>
                         </CardContent>
                     </Card>
-                </Grid>
+                </Grid> */}
                 <Grid
                     item
                     lg={12}
@@ -353,7 +364,7 @@ function StatisticsPanel() {
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <Typography variant="h5" component="div">
-                Prix moyen du m² dans la Ville
+                Prix moyen des biens dans la Ville
                             </Typography>
                             <Grid
                                 container
@@ -363,7 +374,8 @@ function StatisticsPanel() {
                             >
                                 <Grid item lg={4} md={4} sm={4} xs={12} xl={4}>
                                     <Typography variant="body1" component="div" fontWeight="bold">
-                    Prix moyen <br /> appartement 4070 €
+                    Prix moyen <br /> appartement <br />
+                                        {stats?.meanPriceApartment.toFixed(0)} €
                                     </Typography>
                                 </Grid>
                                 <Grid
@@ -398,7 +410,8 @@ function StatisticsPanel() {
                                     sx={{ display: 'flex', justifyContent: 'center' }}
                                 >
                                     <Typography variant="body1" component="div" fontWeight="bold">
-                    Prix moyen <br /> maison 2523 €
+                    Prix moyen <br /> maison {stats?.meanPriceHouse.toFixed(0)}{' '}
+                    €
                                     </Typography>
                                 </Grid>
                             </Grid>

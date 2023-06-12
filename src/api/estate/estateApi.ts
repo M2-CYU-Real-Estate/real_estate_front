@@ -57,6 +57,13 @@ interface ResponseStats {
     meanPriceHouse: number;
 }
 
+export interface ResponsePositions {
+    id: number;
+    title: string;
+    lat: string;
+    lon: string;
+}
+
 export const estateApi = createApi({
     reducerPath: 'estateApi',
     baseQuery: fetchBaseQuery({
@@ -130,7 +137,16 @@ export const estateApi = createApi({
                 };
             },
         }),
+        positions: builder.query<ResponsePositions[], number>({
+            query: () => {
+                return {
+                    url: `/positions`,
+                    method: 'GET',
+                };
+            },
+            keepUnusedDataFor: 30
+        }),
     })
 });
 
-export const { useEstateByIdQuery, useEstatesPageQuery } = estateApi;
+export const { useEstateByIdQuery, useEstatesPageQuery, useAdviceQuery, useStatsQuery, usePositionsQuery } = estateApi;

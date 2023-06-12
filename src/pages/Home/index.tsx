@@ -8,12 +8,10 @@ import HomeContext from './HomeContext';
 import LastEntries from './last_entries/LastEntries';
 import RecommendationsPanel from './recommendations/RecommendationsPanel';
 import SearchByProfile from './search_by_profile';
+import { usePositionsQuery } from '../../api/estate/estateApi';
 
 function Home() {
-    const [isLoading, setLoading] = useState<boolean>(false);
-
-    const enableLoading = () => setLoading(true);
-    const disableLoading = () => setLoading(false);
+    const { data: positions, isFetching } = usePositionsQuery(0);
 
     return (
         <Box
@@ -23,7 +21,7 @@ function Home() {
             height="100vh"
         >
             <Header />
-            <LoadingBar isLoading={isLoading} />
+            <LoadingBar isLoading={isFetching} />
             {/* The bottom panel take all the remaining space on grid */}
             <Grid
                 container
@@ -32,18 +30,12 @@ function Home() {
                 display="flex"
             >
                 <Grid item xs={12} md={6} height="100%">
-                    <Map />
+                    <Map positions={positions} />
                 </Grid>
                 <Grid item xs={12} md={6} height="100%">
                     {/* Provide the context for passing down loading functions */}
-                    <HomeContext.Provider
-                        value={{
-                            enableLoading: enableLoading,
-                            disableLoading: disableLoading,
-                        }}
-                    >
-                        <TabsPanel />
-                    </HomeContext.Provider>
+
+                    <TabsPanel />
                 </Grid>
             </Grid>
         </Box>

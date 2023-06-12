@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { HeatmapLayer } from 'react-leaflet-heatmap-layer-v3';
 import * as Leaflet from 'leaflet';
 import './map.css';
 import { Box } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
-import { addressPoints } from '../../../api/mocks/realworld';
 import MarkerClusterGroup from 'react-leaflet-cluster';
+import pinIcon from '../../../assets/images/location.svg';
+import { ResponsePositions } from '../../../api/estate/estateApi';
 
 const customIcon = new Leaflet.Icon({
-    iconUrl: './location.svg',
-    iconSize: new Leaflet.Point(40, 47),
+    iconSize: [25, 41],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: pinIcon,
 });
 
 const bounds = Leaflet.latLngBounds(
@@ -18,53 +19,80 @@ const bounds = Leaflet.latLngBounds(
     Leaflet.latLng(51.49738015273181, 9.166492986643812)
 );
 
-const center = Leaflet.latLng(-41.975762, 172.934298);
+const center = Leaflet.latLng(47.04906, 2.359317);
 
-function Map() {
-  type AdressPoint = Array<[number, number, string]>;
+interface Position {
+    id: number;
+    title: string;
+    lat: number;
+    lon: number;
+}
 
-  return (
-      <Box
-          display="flex"
-          alignItems="stretch"
-          flexDirection="column"
-          height="100%"
-          width="100%"
-      >
-          {/* The map take the remaining space */}
-          <MapContainer
-              preferCanvas={true}
-              style={{ height: '100%', width: '100%' }}
-              center={center}
-              minZoom={6}
-              maxZoom={18}
-              zoom={6}
-              scrollWheelZoom={true}
-              //   maxBounds={bounds}
-              placeholder={<PlaceHolder />}
-          >
-              <MarkerClusterGroup chunkedLoading>
-                  {(addressPoints as AdressPoint).map((address, index) => (
-                      <Marker
-                          icon={customIcon}
-                          key={index}
-                          position={[address[0], address[1]]}
-                          title={address[2]}
-                          eventHandlers={{
-                              click: (e) => {
-                                  window.alert('marker clicked ' + address[2]);
-                              },
-                          }}
-                      ></Marker>
-                  ))}
-              </MarkerClusterGroup>
-              <TileLayer
-                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-          </MapContainer>
-      </Box>
-  );
+interface MapProps {
+    positions?: ResponsePositions[];
+}
+
+function Map({ positions }: MapProps) {
+    let convertedPositions: Position[] = [];
+
+    if (positions && Array.isArray(positions)) {
+        convertedPositions = positions.map((position) => ({
+            ...position,
+            lat: Number(position.lat),
+            lon: Number(position.lon),
+        }));
+
+        console.log(convertedPositions);
+    }
+    return (
+        <Box
+            display="flex"
+            alignItems="stretch"
+            flexDirection="column"
+            height="100%"
+            width="100%"
+        >
+            {/* The map take the remaining space */}
+            <MapContainer
+                preferCanvas={true}
+                style={{ height: '100%', width: '100%' }}
+                center={center}
+                minZoom={6}
+                maxZoom={18}
+                zoom={6}
+                scrollWheelZoom={true}
+                maxBounds={bounds}
+                placeholder={<PlaceHolder />}
+            >
+                {convertedPositions && (
+                    <MarkerClusterGroup chunkedLoading>
+                        {convertedPositions.map(
+                            (
+                                position // <-- Opening parenthesis added after `position`
+                            ) => (
+                                <Marker
+                                    icon={customIcon}
+                                    key={position.id}
+                                    position={[position.lat, position.lon]}
+                                    title={position.title}
+                                    eventHandlers={{
+                                        click: (e) => {
+                                            window.alert('marker clicked ' + position.title);
+                                        },
+                                    }}
+                                ></Marker>
+                            )
+                        )}
+                    </MarkerClusterGroup>
+                )}
+
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+            </MapContainer>
+        </Box>
+    );
 }
 
 /**
