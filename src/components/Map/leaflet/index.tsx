@@ -35,6 +35,7 @@ interface MapProps {
 function Map({ positions }: MapProps) {
     let convertedPositions: Position[] = [];
 
+    console.time('positions');
     if (positions && Array.isArray(positions)) {
         convertedPositions = positions.map((position) => ({
             ...position,
@@ -44,6 +45,38 @@ function Map({ positions }: MapProps) {
 
         console.log(convertedPositions);
     }
+    console.timeEnd('positions');
+
+    if (!positions) {
+        return (
+            <Box
+                display="flex"
+                alignItems="stretch"
+                flexDirection="column"
+                height="100%"
+                width="100%"
+            >
+                {/* The map take the remaining space */}
+                <MapContainer
+                    preferCanvas={true}
+                    style={{ height: '100%', width: '100%' }}
+                    center={center}
+                    minZoom={6}
+                    maxZoom={18}
+                    zoom={6}
+                    scrollWheelZoom={true}
+                    maxBounds={bounds}
+                    placeholder={<PlaceHolder />}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                </MapContainer>
+            </Box>
+        );
+    }
+
     return (
         <Box
             display="flex"
