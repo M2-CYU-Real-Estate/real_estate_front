@@ -7,7 +7,7 @@ import UserProfilesTabPanel from './_UserProfilesTabPanel';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 // Some training on types that I will forget soon (permit to check if string is part of type)
-const TAB_VALUES = ['favorites', 'profiles', 'statistics'] as const;
+const TAB_VALUES = ['favorites', 'profiles'] as const;
 type TabTuple = typeof TAB_VALUES;
 type TabValue = TabTuple[number];
 
@@ -25,7 +25,7 @@ function UserTabsPanel() {
     let tab = params.get('tab');
 
     if (!isTabValue(tab)) {
-        // Set to default
+    // Set to default
         tab = 'favorites';
     }
 
@@ -37,10 +37,7 @@ function UserTabsPanel() {
     };
 
     return (
-        <Paper
-            elevation={2}
-            sx={{ margin: '2em', mt: '2em', minHeight: '50%' }}
-        >
+        <Paper elevation={2} sx={{ margin: '2em', mt: '2em', minHeight: '50%' }}>
             <Box
                 width="100%"
                 display="flex"
@@ -68,7 +65,6 @@ function UserTabsPanel() {
                             >
                                 <Tab label="Favoris" value="favorites" />
                                 <Tab label="Profils" value="profiles" />
-                                <Tab label="Statistiques" value="statistics" />
                             </TabList>
                         </AppBar>
                         <Box
@@ -77,23 +73,11 @@ function UserTabsPanel() {
                             // Remove the height of the "tab list part"
                             height="calc(100% - 3em)"
                         >
-                            <TabPanel
-                                sx={{ padding: 0, height: '100%' }}
-                                value="favorites"
-                            >
+                            <TabPanel sx={{ padding: 0, height: '100%' }} value="favorites">
                                 <UserFavoritesTabPanel />
                             </TabPanel>
-                            <TabPanel
-                                sx={{ padding: 0, height: '100%' }}
-                                value="profiles"
-                            >
+                            <TabPanel sx={{ padding: 0, height: '100%' }} value="profiles">
                                 <UserProfilesTabPanel />
-                            </TabPanel>
-                            <TabPanel
-                                sx={{ padding: 0, height: '100%' }}
-                                value="statistics"
-                            >
-                                <UserStatisticsTabPanel />
                             </TabPanel>
                         </Box>
                     </Box>

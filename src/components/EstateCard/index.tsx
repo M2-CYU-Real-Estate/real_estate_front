@@ -16,6 +16,15 @@ import { convertToArea, convertToCurrency } from '../../utils/StringUtils';
 import FavoriteButton from '../FavoriteButton';
 import TextWithIcon from '../TextWithIcon';
 import { Estate } from '../../types/estate';
+import {
+    useAddFavoriteMutation,
+    useDeleteFavoriteMutation,
+} from '../../api/favorites/favoritesApi';
+import { toast } from 'react-toastify';
+
+type AddFavoriteParam = {
+    estateUrl: string;
+};
 
 function EstateCard({
     id,
@@ -47,6 +56,12 @@ function EstateCard({
     // TODO: context for favorite functions ?
     console.log(typeof createdAt);
     const [isFavoriteEnabled, setFavoriteEnabled] = useState(isFavorite);
+    const [addFavorites, { isLoading, error }] = useAddFavoriteMutation();
+    const [deleteFavorites] = useDeleteFavoriteMutation();
+
+    const urlParam: AddFavoriteParam = {
+        estateUrl: url, // Replace with the desired URL
+    };
 
     const onNotificationClick = (e: React.MouseEvent) => {
     // Avoid that the "click on entire card" action is taken
@@ -54,7 +69,29 @@ function EstateCard({
         e.preventDefault();
         // Toggle the notification
         setFavoriteEnabled((prev) => !prev);
-    // TODO: perform the API call
+
+        if (!isFavoriteEnabled) {
+            addFavorites({ estateUrl: url })
+                .unwrap()
+                .then(() => {
+                    toast.success(`Vous avez aimé cette annonce, ${title} !`, {
+                        position: 'bottom-center',
+                    });
+                    console.log('favorite add');
+                });
+        } else {
+            deleteFavorites({ url: url })
+                .unwrap()
+                .then(() => {
+                    toast.success(
+                        `Vous avez supprimé votre like sur cette annonce, ${title} !`,
+                        {
+                            position: 'bottom-center',
+                        }
+                    );
+                    console.log('favorite add');
+                });
+        }
     };
 
     return (

@@ -21,7 +21,7 @@ type PredictedPrice = {
     price: number;
 };
 
-import { usePricePredictionMutation } from '../../api/pricePrediction/pricePrediction';
+import { usePricePredictionMutation } from '../../api/pricePrediction/pricePredictionApi';
 
 const validationSchema = yup.object({
     houseArea: yup

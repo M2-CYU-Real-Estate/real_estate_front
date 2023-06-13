@@ -4,10 +4,21 @@ import FavoriteButton from '../../../components/FavoriteButton';
 import { Estate } from '../../../types/estate';
 import { convertToCurrency } from '../../../utils/StringUtils';
 import CaracteristicsBar from './CaracteristicsBar';
+import {
+    useAddFavoriteMutation,
+    useDeleteFavoriteMutation,
+} from '../../../api/favorites/favoritesApi';
+import { toast } from 'react-toastify';
 
 function MainEstatePanel(props: { estate: Estate }) {
     const estate = props.estate;
     const [isFavoriteEnabled, setFavoriteEnabled] = useState(estate.isFavorite);
+    const [addFavorites, { isLoading, error }] = useAddFavoriteMutation();
+    const [deleteFavorites] = useDeleteFavoriteMutation();
+
+    const urlParam = {
+        url: estate.url, // Replace with the desired URL
+    };
 
     const onNotificationClick = (e: React.MouseEvent) => {
     // Avoid that the "click on entire card" action is taken
@@ -15,7 +26,28 @@ function MainEstatePanel(props: { estate: Estate }) {
         e.preventDefault();
         // Toggle the notification
         setFavoriteEnabled((prev) => !prev);
-    // TODO: perform the API call
+        if (!isFavoriteEnabled) {
+            addFavorites({ estateUrl: estate.url })
+                .unwrap()
+                .then(() => {
+                    toast.success(`Vous avez aimé cette annonce, ${estate.title} !`, {
+                        position: 'bottom-center',
+                    });
+                    console.log('favorite add');
+                });
+        } else {
+            deleteFavorites({ url: estate.url })
+                .unwrap()
+                .then(() => {
+                    toast.success(
+                        `Vous avez supprimé votre like sur cette annonce, ${estate.title} !`,
+                        {
+                            position: 'bottom-center',
+                        }
+                    );
+                    console.log('favorite add');
+                });
+        }
     };
 
     return (
