@@ -19,6 +19,12 @@ export interface EstatePageParams {
     gzClass?: RateClass;
 }
 
+export interface ProfilPageParams {
+    page?: number;
+    pageSize?: number;
+    profileId?:number;
+}
+
 export interface PricePerMonth {
     SEPTEMBER: number;
     NOVEMBER: number;

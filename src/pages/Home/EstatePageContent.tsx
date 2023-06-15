@@ -46,7 +46,7 @@ function EstatePageContent({
     }
 
     const changePage = (e: React.ChangeEvent<unknown>, n: number) => {
-        setCurrentPage(n);
+        setCurrentPage(n - 1);
         // Scroll to top of the div
         if (scrollRef && scrollRef.current) {
             scrollRef.current.scroll({
@@ -56,6 +56,8 @@ function EstatePageContent({
         }
     };
 
+    console.log('state data: ');
+    console.log(estates);
     return (
         <Box
             width="100%"

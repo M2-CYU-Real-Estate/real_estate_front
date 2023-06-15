@@ -26,7 +26,7 @@ function SearchByProfile() {
     const { data: user, isLoading } = useCurrentUserQuery();
 
     const [currentState, [goToIntialChoice, goToProfileCreation, goToResults]] =
-        useStateTransition();
+    useStateTransition();
 
     const [profileChosen, setProfileChosen] = useState<number | undefined>(
         undefined

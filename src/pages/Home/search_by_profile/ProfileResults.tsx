@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useEstatesPageQuery } from '../../../api/estate/estateApi';
+import { useEstatesProfileQuery } from '../../../api/estate/estateApi';
 import EstatePageContent from '../EstatePageContent';
+import { useState } from 'react';
 
 interface ProfileResultsProps {
     profileId?: number;
@@ -24,7 +25,19 @@ interface EstateResultsProps {
 
 function EstateResults({ profileId, goToIntialChoice }: EstateResultsProps) {
     // TODO fetch REAL profile API call (we will want a single query on user endpoint)
-    const { data: estatePage, isFetching, isError } = useEstatesPageQuery({});
+    const [page, setPage] = useState<number>(0);
+
+    const {
+        data: estatePage,
+        isFetching,
+        isError,
+    } = useEstatesProfileQuery({
+        page: page,
+        pageSize: 10,
+        profileId: profileId,
+    });
+
+    console.log('data: ', estatePage);
 
     return (
         <Box
@@ -68,6 +81,10 @@ function EstateResults({ profileId, goToIntialChoice }: EstateResultsProps) {
                     estates={estatePage?.content}
                     isLoading={isFetching}
                     isError={isError}
+                    paginated
+                    count={estatePage?.pageCount}
+                    currentPage={page}
+                    setCurrentPage={setPage}
                 />
             </Box>
         </Box>

@@ -39,7 +39,6 @@ function LastEntries() {
         isError,
     } = useEstatesPageQuery({ page: page });
     // TODO: api call for fetching estates
-    const estates = mockEstates;
     const [isOpen, setOpen] = React.useState(false);
 
     const formik = useFormik({

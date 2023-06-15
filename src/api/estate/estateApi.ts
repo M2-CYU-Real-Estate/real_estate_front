@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import GLOBALS from '../../globals';
 import { addAuthorizationToken } from '../apiInitializers';
 import { Estate, EstateType, RateClass } from '../../types/estate';
-import { EstatePageParams, ResponseAdvice, ResponsePositions, ResponseStats  } from './estateInterface';
+import { EstatePageParams, ResponseAdvice, ResponsePositions, ResponseStats,ProfilPageParams  } from './estateInterface';
 
 
 
@@ -35,6 +35,39 @@ export const estateApi = createApi({
             query: (params = {}) => {
                 return {
                     url: '',
+                    method: 'GET',
+                    params: params
+                };
+            },
+            transformResponse: (baseQueryReturnValue: PageResponse<Estate>) => ({
+                ...baseQueryReturnValue,
+                content: baseQueryReturnValue.content.map(estate => ({
+                    ...estate, 
+                    createdAt: new Date(estate.createdAt), 
+                    lastUpdatedAt: new Date(estate.lastUpdatedAt)}
+                ))
+            }),
+          
+        }),
+        estatesRecommandation: builder.query<Estate[], void>({
+            query: () => {
+                return {
+                    url: '/suggestions',
+                    method: 'GET'
+                };
+            },
+            transformResponse: (baseQueryReturnValue: Estate[]) => (
+                baseQueryReturnValue.map(estate => ({
+                    ...estate, 
+                    createdAt: new Date(estate.createdAt), 
+                    lastUpdatedAt: new Date(estate.lastUpdatedAt)}
+                ))
+            ),
+        }),
+        estatesProfile: builder.query<PageResponse<Estate>, ProfilPageParams>({
+            query: (params = {}) => {
+                return {
+                    url: '/search-profile',
                     method: 'GET',
                     params: params
                 };
@@ -90,4 +123,5 @@ export const estateApi = createApi({
     })
 });
 
-export const { useEstateByIdQuery, useEstatesPageQuery, useAdviceQuery, useStatsQuery, usePositionsQuery } = estateApi;
+export const { useEstateByIdQuery, useEstatesPageQuery, useAdviceQuery, useStatsQuery, usePositionsQuery, useEstatesRecommandationQuery, 
+    useEstatesProfileQuery } = estateApi;

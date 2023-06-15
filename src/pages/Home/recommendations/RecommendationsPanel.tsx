@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useEstatesPageQuery } from '../../../api/estate/estateApi';
+import { useEstatesRecommandationQuery } from '../../../api/estate/estateApi';
 import { useCurrentUserQuery } from '../../../api/user/userApi';
 import NotConnectedRestriction from '../../../components/NotConnectedRestriction';
 import CircularCenteredLoading from '../../../components/loading/CircularCenteredLoading';
@@ -10,8 +10,11 @@ function RecommendationsPanel() {
     const { data: user, isLoading: isUserLoading } = useCurrentUserQuery();
     // TODO fetch REAL suggestions API call (we will want a single query on user endpoint)
     // TODO: we don't want pages, only a single list result (much simpler for server)
-    const { data: estatePage, isFetching, isError } = useEstatesPageQuery({});
-    const [page, setPage] = useState(0);
+    const {
+        data: estatePage,
+        isFetching,
+        isError,
+    } = useEstatesRecommandationQuery();
 
     if (isUserLoading || isFetching) {
         return <CircularCenteredLoading />;
@@ -21,7 +24,7 @@ function RecommendationsPanel() {
         return <NotConnectedRestriction />;
     }
 
-    const nbRecommendations = estatePage ? estatePage.content.length : 0;
+    const nbRecommendations = estatePage ? estatePage.length : 0;
 
     return (
         <Box
@@ -47,13 +50,9 @@ function RecommendationsPanel() {
             </Box>
             {/* The scrollable items part */}
             <EstatePageContent
-                estates={estatePage?.content}
+                estates={estatePage}
                 isLoading={isFetching}
                 isError={isError}
-                paginated
-                count={estatePage?.pageCount}
-                currentPage={page}
-                setCurrentPage={setPage}
             />
             {/* TODO SET PAGE COUNTER */}
         </Box>
