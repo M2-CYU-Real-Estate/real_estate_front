@@ -2,16 +2,19 @@ import { Box, Typography } from '@mui/material';
 import { useEstatesPageQuery } from '../../../api/estate/estateApi';
 import EstatePageContent from '../../Home/EstatePageContent';
 import { useListBienFavorisQuery } from '../../../api/favorites/favoritesApi';
+import { useState } from 'react';
 
 function UserFavoritesTabPanel() {
-    // TODO fetch REAL favorites API call (we will want a single query on user endpoint)
-    const { data: estatePage, isFetching } = useEstatesPageQuery({});
+    const [page, setPage] = useState<number>(0);
 
     const {
         data: estateFavoris,
         isLoading,
         isError,
-    } = useListBienFavorisQuery(0);
+    } = useListBienFavorisQuery({
+        page: page,
+        pageSize: 7,
+    });
 
     // The goal is to change the number of favorites in real time
     // when the use click on a button for example
@@ -22,7 +25,7 @@ function UserFavoritesTabPanel() {
     // (the mutation query should invalidate the "numberFavorites" query)
 
     return (
-        <Box width="100%" height="100%" p="0.5em" sx={{ overflowY: 'scroll' }}>
+        <Box width="100%" p="0.5em">
             <Typography variant="h5" textAlign="center">
                 <Typography display="inline" variant="inherit" fontWeight="600">
                     {`${nbFavorites} `}
@@ -33,6 +36,10 @@ function UserFavoritesTabPanel() {
                 estates={estateFavoris?.content}
                 isLoading={isLoading}
                 isError={isError}
+                paginated
+                count={estateFavoris?.pageCount}
+                currentPage={page}
+                setCurrentPage={setPage}
             />
         </Box>
     );

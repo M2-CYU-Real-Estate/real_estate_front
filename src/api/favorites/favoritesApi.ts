@@ -49,6 +49,11 @@ export interface BienFavoris {
     content: Annonce
 }
 
+export interface RequestFavoris {
+    page: number;
+    pageSize: number;
+}
+
 export const favoritesApi = createApi({
     reducerPath: 'favoritesApi',
     tagTypes: ["favorites"],
@@ -80,11 +85,12 @@ export const favoritesApi = createApi({
             },
             invalidatesTags: ['favorites']
         }),
-        listBienFavoris: builder.query<PageResponse<Estate>, number>({
-            query: () => {
+        listBienFavoris: builder.query<PageResponse<Estate>, RequestFavoris>({
+            query: (param) => {
                 return {
                     url: ``,
                     method: 'GET',
+                    params:param
                 };
             },
             transformResponse: (baseQueryReturnValue: PageResponse<Estate>) => ({

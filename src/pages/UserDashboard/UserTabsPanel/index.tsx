@@ -44,9 +44,10 @@ function UserTabsPanel() {
                 justifyContent="center"
                 flexDirection="column"
                 alignItems="center"
+                height="100%"
             >
                 <TabContext value={tab}>
-                    <Box height="80vh" maxHeight="80vh" width="100%">
+                    <Box height="100%" width="100%">
                         <AppBar
                             position="static"
                             color="primary"

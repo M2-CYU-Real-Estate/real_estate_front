@@ -66,8 +66,8 @@ function StatisticsPanel() {
                                 width="100%"
                             >
                                 <Grid container spacing={2}>
-                                    <Grid item xs={6} md={4}>
-                                        <Card sx={{ minWidth: 5 }}>
+                                    <Grid item xs={12} md={4}>
+                                        <Card sx={{ Width: '10px', maxWidth: '400px' }}>
                                             <CardContent>
                                                 <Typography
                                                     sx={{ fontSize: 15 }}
@@ -88,7 +88,6 @@ function StatisticsPanel() {
                                                         maxHeight: '400px',
                                                         aspectRatio: '16/9',
                                                         objectFit: 'cover',
-                                                        display: 'flex',
                                                         justifyContent: 'center',
                                                     }}
                                                     alt="Image de l'offre"
@@ -104,7 +103,7 @@ function StatisticsPanel() {
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid item xs={6} md={8}>
+                                    <Grid item xs={12} md={8}>
                                         <Grid container spacing={1}>
                                             <Grid item xs={12} md={4} sx={{ margin: '0 0 20px 0' }}>
                                                 <Card sx={{ minWidth: 10 }}>

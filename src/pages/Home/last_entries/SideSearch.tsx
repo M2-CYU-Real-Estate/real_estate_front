@@ -30,6 +30,10 @@ import { EnergyClass } from '../../../api/mocks/mockProfiles';
 import cities from '../../../assets/data/correspondance_ville_partial.json';
 import * as yup from 'yup';
 import { none } from 'ol/centerconstraint';
+import { EstatePageParams } from '../../../api/estate/estateInterface';
+import { useEstatesPageQuery } from '../../../api/estate/estateApi';
+import { useState } from 'react';
+import { EstateType } from '../../../types/estate';
 
 const energyClassMarks = [
     { value: EnergyClass.E, label: energyClassLabels[EnergyClass.E] },
@@ -82,10 +86,19 @@ export const basicInfoValidationSchema = yup.object({
         .required('La classe énergétique est attendue'),
 });
 function SideSearch() {
+    const [page, setPage] = useState<number>(0);
+    const [search, setSearch] = useState<EstatePageParams | null>(null);
+
+    const {
+        data: estatePage,
+        isFetching,
+        isError,
+    } = useEstatesPageQuery({ ...search, page: page });
+
     const formik = useFormik({
         initialValues: {
             ville: '',
-            typeBien: 0,
+            typeBien: 'HOUSE',
             prixMin: 0,
             prixMax: 0,
             surfaceMax: 0,
@@ -104,7 +117,20 @@ function SideSearch() {
 
     async function handleSubmit(e: FormResponses) {
     // TODO handle submit
-        window.alert(JSON.stringify(e, null, 2));
+    // window.alert(JSON.stringify(e, null, 2));
+        const pcArr = e.ville?.match(/(\d{5})/);
+        setSearch({
+            city: pcArr ? pcArr[0] : '75001',
+            type: e.typeBien,
+            maxPr: e.prixMax,
+            minPr: e.prixMin,
+            maxHArea: e.surfaceMax,
+            minHArea: e.surfaceMin,
+            balcony: e.balcon,
+            fKitchen: e.kitchen,
+            garage: e.garage,
+            terrace: e.balcon,
+        });
     }
     const handleReset = () => {
         formik.resetForm(); // Reset the form to default initial values
@@ -195,13 +221,16 @@ function SideSearch() {
                                         <FormControlLabel
                                             label="Maison"
                                             control={
-                                                <Radio onChange={formik.handleChange} value={2} />
+                                                <Radio onChange={formik.handleChange} value="HOUSE" />
                                             }
                                         />
                                         <FormControlLabel
                                             label="Appartement"
                                             control={
-                                                <Radio onChange={formik.handleChange} value={1} />
+                                                <Radio
+                                                    onChange={formik.handleChange}
+                                                    value="APARTMENT"
+                                                />
                                             }
                                         />
                                     </RadioGroup>
@@ -522,7 +551,7 @@ function SideSearch() {
 
 interface FormResponses {
     ville: string;
-    typeBien: number;
+    typeBien: EstateType;
     prixMin: number;
     prixMax: number;
     surfaceMin: number;

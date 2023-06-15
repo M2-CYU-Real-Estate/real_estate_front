@@ -93,7 +93,7 @@ function Sell() {
             const [latitude, longitude] = coord.split(',');
             if (latitude && longitude) {
                 formik.setFieldValue('latitude', latitude);
-                formik.setFieldValue('longitude ', longitude);
+                formik.setFieldValue('longitude', longitude);
             } else {
                 console.error('Invalid coordinate format');
             }

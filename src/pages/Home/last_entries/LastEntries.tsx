@@ -25,25 +25,31 @@ import SideSearch from './SideSearch';
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { EstatePageParams } from '../../../api/estate/estateInterface';
+import { EstateType } from '../../../types/estate';
 
 export const basicInfoValidationSchema = yup.object({
     ville: yup.string().required('La ville voulue est attendue'),
     maison: yup.boolean(),
     appartement: yup.boolean(),
 });
+
 function LastEntries() {
     const [page, setPage] = useState<number>(0);
+    const [search, setSearch] = useState<EstatePageParams | null>(null);
+
     const {
         data: estatePage,
         isFetching,
         isError,
-    } = useEstatesPageQuery({ page: page });
+    } = useEstatesPageQuery({ ...search, page: page });
+
     // TODO: api call for fetching estates
     const [isOpen, setOpen] = React.useState(false);
 
     const formik = useFormik({
         initialValues: {
-            typeBien: 0,
+            typeBien: 'HOUSE',
             ville: '',
         },
         validationSchema: basicInfoValidationSchema,
@@ -52,7 +58,12 @@ function LastEntries() {
 
     async function handleSubmit(e: FormResponses) {
     // TODO handle submit
-        window.alert(JSON.stringify(e, null, 2));
+    // window.alert(JSON.stringify(e, null, 2));
+        const pcArr = e.ville?.match(/(\d{5})/);
+        setSearch({
+            city: pcArr ? pcArr[0] : '75001',
+            type: e.typeBien,
+        });
     // setOpen(true);
     }
 
@@ -87,11 +98,15 @@ function LastEntries() {
                                 >
                                     <FormControlLabel
                                         label="Maison"
-                                        control={<Radio onChange={formik.handleChange} value={2} />}
+                                        control={
+                                            <Radio onChange={formik.handleChange} value="HOUSE" />
+                                        }
                                     />
                                     <FormControlLabel
                                         label="Appartement"
-                                        control={<Radio onChange={formik.handleChange} value={1} />}
+                                        control={
+                                            <Radio onChange={formik.handleChange} value="APARTMENT" />
+                                        }
                                     />
                                 </RadioGroup>
                             </FormControl>
@@ -189,7 +204,7 @@ function LastEntries() {
 }
 
 interface FormResponses {
-    typeBien: number;
+    typeBien: EstateType;
     ville: string;
 }
 export default LastEntries;

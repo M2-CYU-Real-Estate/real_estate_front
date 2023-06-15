@@ -136,8 +136,6 @@ function UpdateProfile() {
     const [updateProfile, { isLoading: isProfileLoading, error }] =
     useUpdateProfileMutation();
 
-    const [deleteProfile] = useDeleteProfileMutation();
-
     console.log('profile: ', profile);
 
     const formik = useFormik({
