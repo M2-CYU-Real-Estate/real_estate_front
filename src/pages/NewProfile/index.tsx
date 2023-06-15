@@ -9,13 +9,15 @@ import BasicInfoForm, {
 } from './FormComponents/BasicInfoForm';
 import NeedsForm from './FormComponents/NeedsForm';
 import SummaryStep from './FormComponents/SummaryStep';
+import { useCreateProfileMutation } from '../../api/user/userApi';
+import { toast } from 'react-toastify';
+import GLOBALS from '../../globals';
+import { useNavigate } from 'react-router-dom';
 
 function NewProfile() {
-    // const [initialValues, setInitialValues] = useState(
-    //     profiles[0].initialValues
-    // );
-
     const defaultPreset = profiles[0].initialValues;
+    const [createProfile, { isLoading, error }] = useCreateProfileMutation();
+    const navigate = useNavigate();
 
     return (
         <Box
@@ -29,14 +31,33 @@ function NewProfile() {
             <MultiStepForm
                 initialValues={defaultPreset}
                 onSubmit={async (values) => {
+                    const valuesParam = {
+                        minEnergyClass: values.energyClass,
+                        budgetClass: values.priceRange,
+                        acceptableDistance: values.cityDistanceKm,
+                        postalCode: values.city.match(/(\d{5})/)[0],
+                        name: values.name,
+                        houseArea: values.houseAreaSqrtM,
+                        rooms: values.rooms,
+                        bedrooms: values.bedrooms,
+                        balcony: values.balcony,
+                        fittedKitchen: values.fittedKitchen,
+                        bathrooms: values.bathrooms,
+                        scoreSecurity: values.securityScore,
+                        scoreEducation: values.educationScore,
+                        scoreHobbies: values.hobbiesScore,
+                        scoreEnvironment: values.environmentScore,
+                        scorePracticality: values.practicalityScore,
+                    };
                     // TODO api call for register profile !
-                    window.alert(
-                        `Here are the values registered : ${JSON.stringify(
-                            values,
-                            null,
-                            2
-                        )}`
-                    );
+                    createProfile(valuesParam)
+                        .unwrap()
+                        .then(() => {
+                            toast.success(`Vous avez créé un nouveau profil !`, {
+                                position: 'bottom-center',
+                            });
+                            navigate(GLOBALS.routes.userDashboard('profiles'));
+                        });
                 }}
             >
                 {/* The onSubmit functions are handled only in this component, 

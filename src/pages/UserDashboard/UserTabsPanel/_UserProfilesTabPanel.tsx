@@ -19,6 +19,11 @@ import { mockProfiles } from '../../../api/mocks/mockProfiles';
 import GLOBALS from '../../../globals';
 import ConfirmDialog from '../../../components/Dialogs/ConfirmDialog';
 import { useState } from 'react';
+import {
+    useDeleteProfileMutation,
+    useUserProfilesQuery,
+} from '../../../api/user/userApi';
+import { toast } from 'react-toastify';
 
 interface SelectedProfile {
     id: number;
@@ -40,15 +45,22 @@ function UserProfilesTabPanel() {
         window.alert(`Switch to profile ${selectedProfile}`);
     };
 
+    // TODO: API call
+    // const profiles = mockProfiles;
+
+    const { data: userProfiles, isLoading, isError } = useUserProfilesQuery();
+
+    const nbProfiles = userProfiles?.length;
+
+    const [deleteYourProfile] = useDeleteProfileMutation();
     // TODO: complete "on delete" function
     const deleteProfile = () => {
-        window.alert(`Delete profile ${selectedProfile}`);
+        deleteYourProfile(selectedProfile.id).then(() => {
+            toast.success(`Vous avez ce profil!`, {
+                position: 'bottom-center',
+            });
+        });
     };
-
-    // TODO: API call
-    const profiles = mockProfiles;
-
-    const nbProfiles = profiles.length;
 
     return (
         <>
@@ -70,7 +82,7 @@ function UserProfilesTabPanel() {
                             </ListSubheader>
                         }
                     >
-                        {profiles.map((profile) => (
+                        {userProfiles?.map((profile) => (
                             <ListItem
                                 key={profile.id}
                                 disablePadding
@@ -86,12 +98,8 @@ function UserProfilesTabPanel() {
                                                     edge="start"
                                                     // TODO confirmation popup > API call > reload page
                                                     onClick={() => {
-                                                        setPrincipalDialogOpen(
-                                                            true
-                                                        );
-                                                        setSelectedProfile(
-                                                            profile
-                                                        );
+                                                        setPrincipalDialogOpen(true);
+                                                        setSelectedProfile(profile);
                                                     }}
                                                 >
                                                     <PrincipalIcon />
@@ -117,9 +125,7 @@ function UserProfilesTabPanel() {
                                 }
                             >
                                 <ListItemButton
-                                    href={GLOBALS.routes.userProfile(
-                                        profile.id.toString()
-                                    )}
+                                    href={GLOBALS.routes.userProfile(profile.id.toString())}
                                 >
                                     <ListItemAvatar>
                                         <Avatar
@@ -142,10 +148,7 @@ function UserProfilesTabPanel() {
                                         {profile.name}
                                         {/* If it's the main account, say it ! */}
                                         {profile.isMainProfile && (
-                                            <Typography
-                                                variant="caption"
-                                                fontStyle="italic"
-                                            >
+                                            <Typography variant="caption" fontStyle="italic">
                                                 {' (Principal)'}
                                             </Typography>
                                         )}
@@ -155,9 +158,7 @@ function UserProfilesTabPanel() {
                         ))}
                         {/* Last button for adding a profile */}
                         <ListItem key={-1} disableGutters>
-                            <ListItemButton
-                                href={GLOBALS.routes.userNewProfile()}
-                            >
+                            <ListItemButton href={GLOBALS.routes.userNewProfile()}>
                                 <ListItemAvatar>
                                     <Avatar
                                         sx={{
@@ -168,9 +169,7 @@ function UserProfilesTabPanel() {
                                         <AddIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText>
-                                    Créer un nouveau profil
-                                </ListItemText>
+                                <ListItemText>Créer un nouveau profil</ListItemText>
                             </ListItemButton>
                         </ListItem>
                     </List>

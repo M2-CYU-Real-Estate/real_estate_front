@@ -1,10 +1,10 @@
 
 export enum PriceRange {
-    LOW = 'low',
-    MEDIUM = 'medium',
-    NORMAL = 'normal',
-    RICH = 'rich',
-    VERY_RICH = 'very_rich',
+    LOW = 'LOW',
+    MEDIUM = 'MEDIUM',
+    NORMAL = 'NORMAL',
+    RICH = 'RICH',
+    VERY_RICH = 'VERY_RICH',
 }
 
 export enum EnergyClass {

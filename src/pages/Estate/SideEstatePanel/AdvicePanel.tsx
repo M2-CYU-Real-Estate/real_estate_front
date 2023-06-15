@@ -113,7 +113,7 @@ function AdvicePanel(props: { estate: Estate }) {
                                             >
                                                 <CardContent>
                                                     <Typography sx={{ fontSize: 15 }} gutterBottom>
-                            Prix Min Ville
+                            Prix Minimum
                                                     </Typography>
                                                     <Typography
                                                         variant="h5"
@@ -135,7 +135,7 @@ function AdvicePanel(props: { estate: Estate }) {
                                             >
                                                 <CardContent>
                                                     <Typography sx={{ fontSize: 15 }} gutterBottom>
-                            Prix Moyen Ville
+                            Prix Moyen
                                                     </Typography>
                                                     <Typography
                                                         variant="h5"
@@ -158,7 +158,7 @@ function AdvicePanel(props: { estate: Estate }) {
                                             >
                                                 <CardContent>
                                                     <Typography sx={{ fontSize: 15 }} gutterBottom>
-                            Prix Max Ville
+                            Prix Maximum
                                                     </Typography>
                                                     <Typography
                                                         variant="h5"
@@ -175,9 +175,8 @@ function AdvicePanel(props: { estate: Estate }) {
                                             aria-label="Small"
                                             valueLabelDisplay="on"
                                             disabled
-                                            min={200000}
-                                            max={400000}
-                                            step={1000}
+                                            min={advice.minPrice}
+                                            max={advice.maxPrice}
                                             sx={{
                                                 '& .MuiSlider-rail': {
                                                     backgroundImage:
@@ -220,7 +219,7 @@ function AdvicePanel(props: { estate: Estate }) {
             ) : (
                 <Grid item lg={12} md={12} sm={12} xs={12} xl={12}>
                     <Typography variant="h5" component="div">
-            Désolé on a pas assez de données pour vous conseilé sur le prix.
+            Désolé on a pas assez de données pour vous conseillé sur le prix.
                     </Typography>
                 </Grid>
             )}

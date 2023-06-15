@@ -2,7 +2,11 @@ import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header';
 import GLOBALS from '../../globals';
 
-function notFoundPage() {
+interface NotFoundPageProps {
+    header?: boolean;
+}
+
+function notFoundPage({ header = true }: NotFoundPageProps) {
     return (
         <Box
             display="flex"
@@ -10,7 +14,7 @@ function notFoundPage() {
             flexDirection="column"
             height="100vh"
         >
-            <Header />
+            {header && <Header />}
             <Box
                 sx={{
                     display: 'flex',
@@ -22,7 +26,7 @@ function notFoundPage() {
                 }}
             >
                 <Typography variant="h1" color="white">
-                    404
+          404
                 </Typography>
                 <Typography variant="h6" color="white">
                     {"La page que vous recherchez n'existe pas"}

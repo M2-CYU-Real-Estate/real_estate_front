@@ -27,6 +27,10 @@ const energyClassMarks = [
 ];
 
 export const basicInfoValidationSchema = yup.object({
+    name: yup
+        .string()
+        .required('Ajouter un nom')
+        .typeError("Assurez-vous d'écrire un nom de profil"),
     priceRange: yup
         .mixed<PriceRange>()
         .oneOf(
@@ -62,7 +66,7 @@ export const basicInfoValidationSchema = yup.object({
     fittedKitchen: yup.boolean(),
     city: yup
         .string()
-        // Maybe add a oneOf here ?
+    // Maybe add a oneOf here ?
         .required('La ville souhaitée est attendue')
         .typeError("Assurez-vous d'écrire un nom de ville valide"),
     cityDistanceKm: yup
@@ -82,6 +86,7 @@ function BasicInfoForm() {
     const [balconyField] = useField('balcony');
     const [fittedKitchenField] = useField('fittedKitchen');
     const [cityField, cityMeta, cityHelpers] = useField('city');
+    const [nameField, nameMeta, nameHelpers] = useField('name');
     const [cityDistanceField] = useField('cityDistanceKm');
 
     return (
@@ -99,20 +104,36 @@ function BasicInfoForm() {
             }}
         >
             {/* Price range */}
-            <TextField
-                select
-                label="Budget"
-                variant="outlined"
-                {...priceRangeField}
-                error={priceRangeMeta.touched && Boolean(priceRangeMeta.error)}
-                helperText={priceRangeMeta.touched && priceRangeMeta.error}
-            >
-                {Object.entries(priceRangeLabels).map(([range, label]) => (
-                    <MenuItem key={range} value={range}>
-                        {label}
-                    </MenuItem>
-                ))}
-            </TextField>
+            <Grid container spacing="2em">
+                <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        type="string"
+                        label="Nom du profil"
+                        variant="outlined"
+                        {...nameField}
+                        error={nameMeta.touched && Boolean(nameMeta.error)}
+                        helperText={nameMeta.touched && nameMeta.error}
+                    ></TextField>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <TextField
+                        select
+                        label="Budget"
+                        variant="outlined"
+                        {...priceRangeField}
+                        error={priceRangeMeta.touched && Boolean(priceRangeMeta.error)}
+                        helperText={priceRangeMeta.touched && priceRangeMeta.error}
+                    >
+                        {Object.entries(priceRangeLabels).map(([range, label]) => (
+                            <MenuItem key={range} value={range}>
+                                {label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </Grid>
+            </Grid>
+
             {/* Position */}
             <Grid container spacing="2em">
                 <Grid item xs={12} md={6}>
@@ -128,9 +149,7 @@ function BasicInfoForm() {
                             <TextField
                                 {...params}
                                 fullWidth
-                                error={
-                                    cityMeta.touched && Boolean(cityMeta.error)
-                                }
+                                error={cityMeta.touched && Boolean(cityMeta.error)}
                                 helperText={cityMeta.touched && cityMeta.error}
                                 label="Ville"
                                 variant="outlined"
@@ -152,9 +171,7 @@ function BasicInfoForm() {
                             />
                         </Grid>
                         <Grid item xs={3}>
-                            <Typography>
-                                {cityDistanceField.value} km
-                            </Typography>
+                            <Typography>{cityDistanceField.value} km</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -170,22 +187,13 @@ function BasicInfoForm() {
                                 min: 5,
                                 max: 2000,
                             },
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    m²
-                                </InputAdornment>
-                            ),
+                            endAdornment: <InputAdornment position="end">m²</InputAdornment>,
                         }}
                         label="Surface idéale"
                         variant="outlined"
                         {...houseAreaField}
-                        error={
-                            houseAreaMeta.touched &&
-                            Boolean(houseAreaMeta.error)
-                        }
-                        helperText={
-                            houseAreaMeta.touched && houseAreaMeta.error
-                        }
+                        error={houseAreaMeta.touched && Boolean(houseAreaMeta.error)}
+                        helperText={houseAreaMeta.touched && houseAreaMeta.error}
                     ></TextField>
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -198,9 +206,7 @@ function BasicInfoForm() {
                                 max: 500,
                             },
                             endAdornment: (
-                                <InputAdornment position="end">
-                                    pièces
-                                </InputAdornment>
+                                <InputAdornment position="end">pièces</InputAdornment>
                             ),
                         }}
                         label="Nombre de pièces"
@@ -220,18 +226,12 @@ function BasicInfoForm() {
                                 min: 1,
                                 max: 500,
                             },
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    m²
-                                </InputAdornment>
-                            ),
+                            endAdornment: <InputAdornment position="end">m²</InputAdornment>,
                         }}
                         label="Nombre de chambres"
                         variant="outlined"
                         {...bedroomsField}
-                        error={
-                            bedroomsMeta.touched && Boolean(bedroomsMeta.error)
-                        }
+                        error={bedroomsMeta.touched && Boolean(bedroomsMeta.error)}
                         helperText={bedroomsMeta.touched && bedroomsMeta.error}
                     ></TextField>
                 </Grid>
@@ -245,30 +245,21 @@ function BasicInfoForm() {
                                 max: 500,
                             },
                             endAdornment: (
-                                <InputAdornment position="end">
-                                    pièces
-                                </InputAdornment>
+                                <InputAdornment position="end">pièces</InputAdornment>
                             ),
                         }}
                         label="Nombre de salles de bain"
                         variant="outlined"
                         {...bathroomsField}
-                        error={
-                            bathroomsMeta.touched &&
-                            Boolean(bathroomsMeta.error)
-                        }
-                        helperText={
-                            bathroomsMeta.touched && bathroomsMeta.error
-                        }
+                        error={bathroomsMeta.touched && Boolean(bathroomsMeta.error)}
+                        helperText={bathroomsMeta.touched && bathroomsMeta.error}
                     ></TextField>
                 </Grid>
             </Grid>
             <Grid container spacing="2em">
                 {/* Energy class */}
                 <Grid item xs={12} md={6}>
-                    <Typography gutterBottom>
-                        Classe énergétique minimale
-                    </Typography>
+                    <Typography gutterBottom>Classe énergétique minimale</Typography>
                     <Slider
                         size="medium"
                         {...energyClassField}
@@ -278,12 +269,10 @@ function BasicInfoForm() {
                         step={1}
                         sx={{
                             '& .MuiSlider-track': {
-                                backgroundImage:
-                                    'linear-gradient(.25turn, #f00, #0f0)',
+                                backgroundImage: 'linear-gradient(.25turn, #f00, #0f0)',
                             },
                             '& .MuiSlider-rail': {
-                                backgroundImage:
-                                    'linear-gradient(.25turn, #f00, #0f0)',
+                                backgroundImage: 'linear-gradient(.25turn, #f00, #0f0)',
                             },
                         }}
                     />

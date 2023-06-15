@@ -25,6 +25,15 @@ import {
 import cities from '../../assets/data/correspondance_ville_partial.json';
 import Error404 from '../Error404';
 import { mockProfiles } from '../../api/mocks/mockProfiles';
+import {
+    useDeleteProfileMutation,
+    useProfileByIdQuery,
+    useUpdateProfileMutation,
+    useUserProfilesQuery,
+} from '../../api/user/userApi';
+import { profiles } from '../NewProfile/model';
+import LoadingBar from '../../components/loading/LoadingBar';
+import { toast } from 'react-toastify';
 
 const energyClassMarks = [
     { value: EnergyClass.E, label: energyClassLabels[EnergyClass.E] },
@@ -76,6 +85,10 @@ export const basicInfoValidationSchema = yup.object({
         .string()
         .required('La ville souhaitée est attendue')
         .typeError("Assurez-vous d'écrire un nom de ville valide"),
+    name: yup
+        .string()
+        .required('Le nom est nécessaire')
+        .typeError("Assurez-vous d'écrire un nom de profil"),
     cityDistanceField: yup
         .number()
         .required('La distance acceptable par rapport à la ville est attendue')
@@ -83,43 +96,123 @@ export const basicInfoValidationSchema = yup.object({
         .typeError('Un nombre valide est attendu'),
 });
 
+function findCityName(postalCode: string) {
+    const cityFound = cities.find((c) => c.postal === postalCode);
+    if (cityFound === undefined) {
+        return 'Paris-1er-Arrondissement (75001)';
+    } else {
+        return `${cityFound.nom} (${cityFound.postal})`;
+    }
+}
+
+function createDefaultInitialValues() {
+    const defaultValues = profiles[0].initialValues;
+    return {
+        name: profiles[0].title,
+        priceRangeField: defaultValues.priceRange,
+        cityField: defaultValues.city,
+        cityDistanceField: defaultValues.cityDistanceKm,
+        houseAreaField: defaultValues.houseAreaSqrtM,
+        bedroomsField: defaultValues.bedrooms,
+        bathroomsField: defaultValues.bathrooms,
+        roomsField: defaultValues.rooms,
+        energyClassField: defaultValues.energyClass,
+        balconyField: defaultValues.balcony,
+        fittedKitchenField: defaultValues.fittedKitchen,
+        securityField: defaultValues.securityScore,
+        educationField: defaultValues.educationScore,
+        hobbiesField: defaultValues.hobbiesScore,
+        environmentField: defaultValues.environmentScore,
+        practicalityField: defaultValues.practicalityScore,
+    };
+}
+
 function UpdateProfile() {
     // TODO: fetch the profile, should throw an error if the profile does not belong to the user
 
     const { id } = useParams<ProfileParams>();
 
-    if (!id) {
-        return <Error404 />;
-    }
-    const profileNum = Number(id) - 1;
-    const nomUser = mockProfiles[profileNum].name;
-    const Profile = mockProfiles[profileNum].caracteristics;
+    const { data: profile, isLoading, isError } = useProfileByIdQuery(id);
+    const [updateProfile, { isLoading: isProfileLoading, error }] =
+    useUpdateProfileMutation();
+
+    const [deleteProfile] = useDeleteProfileMutation();
+
+    console.log('profile: ', profile);
 
     const formik = useFormik({
-        initialValues: {
-            priceRangeField: Profile.priceRange,
-            cityField: Profile.city,
-            cityDistanceField: Profile.cityDistanceKm,
-            houseAreaField: Profile.houseAreaSqrtM,
-            bedroomsField: Profile.bedrooms,
-            bathroomsField: Profile.bathrooms,
-            roomsField: Profile.rooms,
-            energyClassField: Profile.energyClass,
-            balconyField: Profile.balcony,
-            fittedKitchenField: Profile.fittedKitchen,
-            securityField: Profile.securityScore,
-            educationField: Profile.educationScore,
-            hobbiesField: Profile.hobbiesScore,
-            environmentField: Profile.environmentScore,
-            practicalityField: Profile.practicalityScore,
-        },
+        enableReinitialize: true,
+        initialValues: profile
+            ? {
+                name: profile.name,
+                priceRangeField: profile.budgetClass,
+                cityField: findCityName(profile.postalCode),
+                cityDistanceField: profile.acceptableDistance,
+                houseAreaField: profile.houseArea,
+                bedroomsField: profile.bedrooms,
+                bathroomsField: profile.bathrooms,
+                roomsField: profile.rooms,
+                energyClassField: profile.minEnergyClass,
+                balconyField: profile.balcony,
+                fittedKitchenField: profile.fittedKitchen,
+                securityField: profile.scoreSecurity,
+                educationField: profile.scoreEducation,
+                hobbiesField: profile.scoreHobbies,
+                environmentField: profile.scoreEnvironment,
+                practicalityField: profile.scorePracticality,
+            }
+            : createDefaultInitialValues(),
         validationSchema: basicInfoValidationSchema,
-        onSubmit: handleSubmit,
+        onSubmit: (values, actions) => {
+            console.log({ values, actions });
+            actions.setSubmitting(true);
+            const pcArr = values.cityField?.match(/(\d{5})/);
+            // Login and handle the response (not the error, no need)
+            const valuesParam = {
+                id: id,
+                minEnergyClass: values.energyClassField,
+                budgetClass: values.priceRangeField,
+                acceptableDistance: values.cityDistanceField,
+                postalCode: pcArr ? pcArr[0] : '75001',
+                name: values.name,
+                houseArea: values.houseAreaField,
+                rooms: values.roomsField,
+                bedrooms: values.bedroomsField,
+                balcony: values.balconyField,
+                fittedKitchen: values.fittedKitchenField,
+                bathrooms: values.bathroomsField,
+                scoreSecurity: values.securityField,
+                scoreEducation: values.educationField,
+                scoreHobbies: values.hobbiesField,
+                scoreEnvironment: values.hobbiesField,
+                scorePracticality: values.practicalityField,
+            };
+            updateProfile(valuesParam)
+                .unwrap()
+                .then(() => {
+                    console.log('ok');
+                    toast.success(`Vous avez mis votre profil à jour!`, {
+                        position: 'bottom-center',
+                    });
+                });
+        },
     });
+
+    if (isLoading) {
+        <LoadingBar isLoading={true} />;
+    }
+
+    if (isError) {
+        return <Error404 header={false} />;
+    }
+    //const profileNum = Number(id) - 1;
+
+    console.log(profile);
 
     async function handleSubmit(e: FormResponses) {
     // TODO handle submit
         window.alert(JSON.stringify(e, null, 2));
+
     // setOpen(true);
     }
 
@@ -133,9 +226,22 @@ function UpdateProfile() {
                     mt: 1,
                 }}
             >
-                <Typography textAlign="center" variant="h5" color="primary.main">
-                    {nomUser}
-                </Typography>
+                <Grid container spacing={2} sx={{ margin: '0 0 20px 0' }}>
+                    <Grid item xs={12} md={6} lg={6}>
+                        <TextField
+                            fullWidth
+                            type="string"
+                            label="Nom du profil"
+                            variant="outlined"
+                            name="name"
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                        ></TextField>
+                    </Grid>
+                </Grid>
+
                 <Grid container spacing={2} sx={{ margin: '0 0 20px 0' }}>
                     <Grid item lg={6}>
                         <TextField
@@ -387,6 +493,7 @@ function UpdateProfile() {
                         <Rating
                             name="securityField"
                             value={formik.values.securityField}
+                            onChange={formik.handleChange}
                             precision={0.5}
                         />
                     </Grid>
@@ -453,6 +560,8 @@ function UpdateProfile() {
 }
 
 interface FormResponses {
+    id: number;
+    name: string;
     priceRangeField: string;
     cityField: string;
     cityDistanceField: number;
