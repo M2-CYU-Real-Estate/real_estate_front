@@ -21,7 +21,7 @@ import {
 import house from '../../../assets/images/house.jpg';
 import securityImage from '../../../assets/images/security.png';
 import educationImage from '../../../assets/images/education.jpg';
-import noteMoyenneImage from '../../../assets/images/noteMoyenne.avif';
+import noteMoyenneImage from '../../../assets/images/noteMoyenne.jpg';
 import viePratique from '../../../assets/images/viePratique.jpg';
 import environnmentImage from '../../../assets/images/environnement.png';
 import sportImage from '../../../assets/images/sport.webp';
@@ -83,8 +83,7 @@ function StatisticsPanel() {
                                                     component="img"
                                                     sx={{
                                                         borderRadius: '3px',
-                                                        width: '130px',
-                                                        height: '255px',
+                                                        width: '100%',
                                                         maxHeight: '400px',
                                                         aspectRatio: '16/9',
                                                         objectFit: 'cover',
