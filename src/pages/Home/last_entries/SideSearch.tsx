@@ -33,9 +33,12 @@ import { none } from 'ol/centerconstraint';
 import { EstatePageParams } from '../../../api/estate/estateInterface';
 import { useEstatesPageQuery } from '../../../api/estate/estateApi';
 import { useState } from 'react';
-import { EstateType, RateClass } from '../../../types/estate';
+import { Estate, EstateType, RateClass } from '../../../types/estate';
 
 const energyClassMarks = [
+    { value: EnergyClass.NC, label: energyClassLabels[EnergyClass.NC] },
+    { value: EnergyClass.G, label: energyClassLabels[EnergyClass.G] },
+    { value: EnergyClass.F, label: energyClassLabels[EnergyClass.F] },
     { value: EnergyClass.E, label: energyClassLabels[EnergyClass.E] },
     { value: EnergyClass.D, label: energyClassLabels[EnergyClass.D] },
     { value: EnergyClass.C, label: energyClassLabels[EnergyClass.C] },
@@ -77,15 +80,13 @@ export const basicInfoValidationSchema = yup.object({
     garage: yup.boolean(),
     energyClass: yup.mixed<EnergyClass>(),
 });
-function SideSearch() {
-    const [page, setPage] = useState<number>(0);
-    const [search, setSearch] = useState<EstatePageParams | null>(null);
 
-    const {
-        data: estatePage,
-        isFetching,
-        isError,
-    } = useEstatesPageQuery({ ...search, page: page });
+export interface SideSearchProps {
+    setSearch: (e: any) => void;
+    close: () => void;
+}
+function SideSearch({ setSearch }: SideSearchProps) {
+    const [page, setPage] = useState<number>(0);
 
     const formik = useFormik({
         initialValues: {
@@ -110,6 +111,7 @@ function SideSearch() {
     async function handleSubmit(e: FormResponses) {
     // TODO handle submit
     // window.alert(JSON.stringify(e, null, 2));
+        console.log('billy');
         const pcArr = e.ville?.match(/(\d{5})/);
         const energyC = e?.energyClass;
         setSearch({
@@ -125,10 +127,11 @@ function SideSearch() {
             terrace: e.balcon,
             enClass: energyC
                 ? (energyClassLabels[energyC] as RateClass)
-                : (energyClassLabels[EnergyClass.C] as RateClass),
+                : (energyClassLabels[EnergyClass.NC] as RateClass),
             rooms: e.nbPieces,
             bathrooms: e.nbSalleBain,
         });
+        close();
     }
     const handleReset = () => {
         formik.resetForm(); // Reset the form to default initial values

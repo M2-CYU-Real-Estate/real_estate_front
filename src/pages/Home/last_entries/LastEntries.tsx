@@ -196,7 +196,7 @@ function LastEntries() {
             {/* <TemporaryDrawer /> */}
             <React.Fragment key={'right'}>
                 <Drawer anchor={'right'} open={isOpen} onClose={() => setOpen(false)}>
-                    <SideSearch />
+                    <SideSearch setSearch={setSearch} close={() => setOpen(false)} />
                 </Drawer>
             </React.Fragment>
         </Box>

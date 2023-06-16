@@ -9,6 +9,9 @@ export const priceRangeLabels = {
 };
 
 export const energyClassLabels = {
+    [EnergyClass.NC]: 'NC',
+    [EnergyClass.G]: 'G',
+    [EnergyClass.F]: 'F',
     [EnergyClass.E]: 'E',
     [EnergyClass.D]: 'D',
     [EnergyClass.C]: 'C',

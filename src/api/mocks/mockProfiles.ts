@@ -8,7 +8,10 @@ export enum PriceRange {
 }
 
 export enum EnergyClass {
-    E = 1,
+    NC = 1,
+    G,
+    F,
+    E,
     D,
     C,
     B,

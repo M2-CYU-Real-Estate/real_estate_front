@@ -55,7 +55,7 @@ function StatisticsPanel() {
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <Typography variant="h5" component="div">
-                Avis sur la ville de Paris
+                Avis sur la ville
                             </Typography>
                             <Box
                                 display="flex"
