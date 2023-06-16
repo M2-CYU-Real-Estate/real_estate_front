@@ -90,18 +90,18 @@ function SideSearch() {
     const formik = useFormik({
         initialValues: {
             ville: '',
-            typeBien: 'HOUSE',
-            prixMin: 200000,
-            prixMax: 800000,
-            surfaceMax: 200,
-            surfaceMin: 100,
-            nbPieces: 3,
-            nbSalleBain: 2,
-            kitchen: false,
-            balcon: true,
-            ascenseur: false,
-            garage: true,
-            energyClass: EnergyClass.C,
+            typeBien: undefined,
+            prixMin: undefined,
+            prixMax: undefined,
+            surfaceMax: undefined,
+            surfaceMin: undefined,
+            nbPieces: undefined,
+            nbSalleBain: undefined,
+            kitchen: undefined,
+            balcon: undefined,
+            ascenseur: undefined,
+            garage: undefined,
+            energyClass: undefined,
         },
         validationSchema: basicInfoValidationSchema,
         onSubmit: handleSubmit,
@@ -250,7 +250,6 @@ function SideSearch() {
                                     InputProps={{
                                         inputProps: {
                                             min: 1,
-                                            max: 500,
                                         },
                                         endAdornment: (
                                             <InputAdornment position="end">€</InputAdornment>
@@ -270,7 +269,6 @@ function SideSearch() {
                             </Grid>
                             <Grid item lg={6}>
                                 <FormLabel id="demo-radio-buttons-group-label">
-                                    {' '}
                   Prix Maximum
                                 </FormLabel>
                                 <TextField
@@ -279,7 +277,6 @@ function SideSearch() {
                                     InputProps={{
                                         inputProps: {
                                             min: 1,
-                                            max: 500,
                                         },
                                         endAdornment: (
                                             <InputAdornment position="end">€</InputAdornment>
@@ -312,7 +309,7 @@ function SideSearch() {
                                     InputProps={{
                                         inputProps: {
                                             min: 1,
-                                            max: 500,
+                                            max: 1000,
                                         },
                                         endAdornment: (
                                             <InputAdornment position="end">m²</InputAdornment>
@@ -342,10 +339,6 @@ function SideSearch() {
                                     fullWidth
                                     type="number"
                                     InputProps={{
-                                        inputProps: {
-                                            min: 1,
-                                            max: 500,
-                                        },
                                         endAdornment: (
                                             <InputAdornment position="end">m²</InputAdornment>
                                         ),
@@ -372,7 +365,6 @@ function SideSearch() {
                         <Grid container spacing={2}>
                             <Grid item lg={6}>
                                 <FormLabel id="demo-radio-buttons-group-label">
-                                    {' '}
                   Nombre de pieces
                                 </FormLabel>
                                 <TextField
@@ -549,17 +541,17 @@ function SideSearch() {
 
 interface FormResponses {
     ville: string;
-    typeBien: EstateType;
-    prixMin: number;
-    prixMax: number;
-    surfaceMin: number;
-    surfaceMax: number;
-    nbPieces: number;
-    nbSalleBain: number;
-    kitchen: boolean;
-    balcon: boolean;
-    ascenseur: boolean;
-    garage: boolean;
-    energyClass: EnergyClass;
+    typeBien?: EstateType;
+    prixMin?: number;
+    prixMax?: number;
+    surfaceMin?: number;
+    surfaceMax?: number;
+    nbPieces?: number;
+    nbSalleBain?: number;
+    kitchen?: boolean;
+    balcon?: boolean;
+    ascenseur?: boolean;
+    garage?: boolean;
+    energyClass?: EnergyClass;
 }
 export default SideSearch;

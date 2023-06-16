@@ -49,7 +49,7 @@ function LastEntries() {
 
     const formik = useFormik({
         initialValues: {
-            typeBien: 'HOUSE',
+            typeBien: undefined,
             ville: '',
         },
         validationSchema: basicInfoValidationSchema,
@@ -204,7 +204,7 @@ function LastEntries() {
 }
 
 interface FormResponses {
-    typeBien: EstateType;
+    typeBien?: EstateType;
     ville: string;
 }
 export default LastEntries;
