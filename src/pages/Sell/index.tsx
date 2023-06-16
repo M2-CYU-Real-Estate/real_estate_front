@@ -52,7 +52,7 @@ function Sell() {
     const [isOpen, setOpen] = React.useState(false);
     const [predictedPrice, setPredictedPrice] = React.useState(0);
 
-    const [predict, { isLoading }] = usePricePredictionMutation();
+    const [predict, { isLoading, isError }] = usePricePredictionMutation();
 
     const formik = useFormik({
         initialValues: {
@@ -67,6 +67,7 @@ function Sell() {
         validationSchema: validationSchema,
         onSubmit: (values, actions) => {
             console.log({ values, actions });
+
             actions.setSubmitting(true);
             setOpen(true);
             // Login and handle the response (not the error, no need)
@@ -92,8 +93,8 @@ function Sell() {
         if (coord) {
             const [latitude, longitude] = coord.split(',');
             if (latitude && longitude) {
-                formik.setFieldValue('latitude', latitude);
-                formik.setFieldValue('longitude', longitude);
+                formik.setFieldValue('latitude', latitude.replace(/\s/g, ''));
+                formik.setFieldValue('longitude', longitude.replace(/\s/g, ''));
             } else {
                 console.error('Invalid coordinate format');
             }
@@ -262,7 +263,7 @@ function Sell() {
                             <Grid container spacing={2}>
                                 <Grid item xs={9}>
                                     <TextField
-                                        label="Coordonnées géographique"
+                                        label="Coordonnées géographiques"
                                         margin="normal"
                                         required
                                         fullWidth
@@ -311,7 +312,11 @@ function Sell() {
                             opacity: '0.9', // Set the opacity of the drawer (adjust as needed)
                         }}
                     >
-                        <EstimatedPrice price={predictedPrice} isLoading={isLoading} />
+                        <EstimatedPrice
+                            price={predictedPrice}
+                            isLoading={isLoading}
+                            isError={isError}
+                        />
                     </Drawer>
                 </React.Fragment>
             </Grid>

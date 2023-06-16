@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Grid, Typography } from '@mui/material';
 import EuroSymbolIcon from '@mui/icons-material/EuroSymbol';
 import InfoIcon from '@mui/icons-material/Info';
 import { Line } from 'react-chartjs-2';
@@ -13,8 +13,9 @@ Chart.register(Colors);
 interface EstimatedPriceProps {
     price: number;
     isLoading: boolean;
+    isError: boolean;
 }
-function EstimatedPrice({ price, isLoading }: EstimatedPriceProps) {
+function EstimatedPrice({ price, isLoading, isError }: EstimatedPriceProps) {
     return (
         <Box
             sx={{
@@ -58,92 +59,12 @@ function EstimatedPrice({ price, isLoading }: EstimatedPriceProps) {
                     </Typography>
                 </Grid>
             </Grid>
-            <Grid
-                container
-                alignItems="center"
-                justifyContent="center"
-                sx={{ margin: '20px 0 0 0' }}
-                spacing="1em"
-            >
-                {isLoading ? (
-                    <CircularCenteredLoading />
-                ) : (
-                    <>
-                        <Grid item>
-                            <Typography
-                                component="h1"
-                                variant="body1"
-                                sx={{ color: 'white' }}
-                            >
-                Le prix total est de:
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                fontWeight="bold"
-                                sx={{ color: 'white' }}
-                            >
-                                {price} €
-                            </Typography>
-                        </Grid>
-                    </>
-                )}
-            </Grid>
 
-            {/* <Grid
-                container
-                alignItems="center"
-                justifyContent="center"
-                sx={{ margin: '20px 0 0 0' }}
-            >
-                <Grid item>
-                    <Typography component="h1" variant="body1" sx={{ color: 'white' }}>
-            Prix du bien au m²:
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        fontWeight="bold"
-                        sx={{ color: 'white' }}
-                    >
-            300 €
-                    </Typography>
-                </Grid>
-            </Grid> */}
-
-            <Grid
-                container
-                alignItems="center"
-                justifyContent="center"
-                sx={{ margin: '40px 0 0 0' }}
-            >
-                <Grid item>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        fontWeight="bold"
-                        sx={{ color: 'white' }}
-                    >
-            Evolution du prix dans votre région
-                    </Typography>
-                </Grid>
-            </Grid>
-
-            <Box
-                display="flex"
-                className="donut"
-                padding="2em"
-                justifyContent="center"
-                alignContent="center"
-                width="100%"
-                maxHeight="30em"
-            >
-                <Line data={data} options={chartOptions} />
-            </Box>
+            <EstimationResults
+                isLoading={isLoading}
+                isError={isError}
+                price={price}
+            />
 
             <Grid
                 container
@@ -245,6 +166,89 @@ const data = {
         },
     ],
 };
+
+interface EstimationResultsProps {
+    isLoading: boolean;
+    isError: boolean;
+    price: number;
+}
+
+function EstimationResults({
+    isLoading,
+    isError,
+    price,
+}: EstimationResultsProps) {
+    if (isLoading) {
+        return <CircularCenteredLoading height="40%" />;
+    }
+
+    if (isError) {
+        return (
+            <Alert severity="error">
+        Une erreur est survenue lors de la récupération du resultat. veuillez
+        retenter plus tard.
+            </Alert>
+        );
+    }
+
+    return (
+        <>
+            <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                sx={{ margin: '20px 0 0 0' }}
+                spacing="1em"
+            >
+                <>
+                    <Grid item>
+                        <Typography component="h1" variant="body1" sx={{ color: 'white' }}>
+              Le prix total est de:
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography
+                            component="h1"
+                            variant="h6"
+                            fontWeight="bold"
+                            sx={{ color: 'white' }}
+                        >
+                            {price} €
+                        </Typography>
+                    </Grid>
+                </>
+            </Grid>
+            <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                sx={{ margin: '40px 0 0 0' }}
+            >
+                <Grid item>
+                    <Typography
+                        component="h1"
+                        variant="h6"
+                        fontWeight="bold"
+                        sx={{ color: 'white' }}
+                    >
+            Evolution du prix dans votre région
+                    </Typography>
+                </Grid>
+                <Box
+                    display="flex"
+                    className="donut"
+                    padding="2em"
+                    justifyContent="center"
+                    alignContent="center"
+                    width="100%"
+                    maxHeight="30em"
+                >
+                    <Line data={data} options={chartOptions} />
+                </Box>
+            </Grid>
+        </>
+    );
+}
 
 const chartOptions = {
     plugins: {
