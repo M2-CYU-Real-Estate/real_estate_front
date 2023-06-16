@@ -17,6 +17,8 @@ export interface EstatePageParams {
     elevator?: boolean;
     enClass?: RateClass;
     gzClass?: RateClass;
+    rooms?: number;
+    bathrooms?: number;
 }
 
 export interface ProfilPageParams {

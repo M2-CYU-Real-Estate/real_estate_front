@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { mockProfiles } from '../../../api/mocks/mockProfiles';
 import { UserProfile } from '../../../types/user';
+import GLOBALS from '../../../globals';
 
 interface InitialChoiceProps {
     goToResults: () => void;
@@ -62,9 +63,7 @@ function SearchInitialChoice({
                     <List
                         sx={{ width: '100%', maxWidth: '480px' }}
                         subheader={
-                            <ListSubheader component="div">
-                                Choix du profil
-                            </ListSubheader>
+                            <ListSubheader component="div">Choix du profil</ListSubheader>
                         }
                     >
                         {profiles.map((profile) => (
@@ -80,9 +79,7 @@ function SearchInitialChoice({
                                     </IconButton>
                                 }
                             >
-                                <ListItemButton
-                                    onClick={onProfileChoice(profile)}
-                                >
+                                <ListItemButton onClick={onProfileChoice(profile)}>
                                     <ListItemAvatar>
                                         <Avatar
                                             sx={{
@@ -103,10 +100,7 @@ function SearchInitialChoice({
                                         {profile.name}
                                         {/* If it's the main account, say it ! */}
                                         {profile.isMainProfile && (
-                                            <Typography
-                                                variant="caption"
-                                                fontStyle="italic"
-                                            >
+                                            <Typography variant="caption" fontStyle="italic">
                                                 {' (Principal)'}
                                             </Typography>
                                         )}
@@ -116,7 +110,7 @@ function SearchInitialChoice({
                         ))}
                         {/* Last button for adding a profile */}
                         <ListItem key={-1} disableGutters>
-                            <ListItemButton onClick={goToProfileCreation}>
+                            <ListItemButton href={GLOBALS.routes.userNewProfile()}>
                                 <ListItemAvatar>
                                     <Avatar
                                         sx={{
@@ -127,9 +121,7 @@ function SearchInitialChoice({
                                         <AddIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText>
-                                    Créer un nouveau profil
-                                </ListItemText>
+                                <ListItemText>Créer un nouveau profil</ListItemText>
                             </ListItemButton>
                         </ListItem>
                     </List>

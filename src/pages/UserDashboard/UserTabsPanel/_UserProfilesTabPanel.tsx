@@ -90,37 +90,39 @@ function UserProfilesTabPanel() {
                                     <>
                                         {/* If the profile is not the main profile, show the button to switch */}
                                         {!profile.isMainProfile && (
-                                            <Tooltip
-                                                placement="left"
-                                                title={`Faire de "${profile.name}" le profil principal`}
-                                            >
-                                                <IconButton
-                                                    edge="start"
-                                                    // TODO confirmation popup > API call > reload page
-                                                    onClick={() => {
-                                                        setPrincipalDialogOpen(true);
-                                                        setSelectedProfile(profile);
-                                                    }}
+                                            <>
+                                                <Tooltip
+                                                    placement="left"
+                                                    title={`Faire de "${profile.name}" le profil principal`}
                                                 >
-                                                    <PrincipalIcon />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    <IconButton
+                                                        edge="start"
+                                                        // TODO confirmation popup > API call > reload page
+                                                        onClick={() => {
+                                                            setPrincipalDialogOpen(true);
+                                                            setSelectedProfile(profile);
+                                                        }}
+                                                    >
+                                                        <PrincipalIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip
+                                                    placement="left"
+                                                    title={`Supprime le profil "${profile.name}"`}
+                                                >
+                                                    <IconButton
+                                                        edge="end"
+                                                        // TODO confirmation popup > API call > reload page
+                                                        onClick={() => {
+                                                            setDeleteDialogOpen(true);
+                                                            setSelectedProfile(profile);
+                                                        }}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
                                         )}
-                                        <Tooltip
-                                            placement="left"
-                                            title={`Supprime le profil "${profile.name}"`}
-                                        >
-                                            <IconButton
-                                                edge="end"
-                                                // TODO confirmation popup > API call > reload page
-                                                onClick={() => {
-                                                    setDeleteDialogOpen(true);
-                                                    setSelectedProfile(profile);
-                                                }}
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
                                     </>
                                 }
                             >

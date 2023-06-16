@@ -33,7 +33,7 @@ import { none } from 'ol/centerconstraint';
 import { EstatePageParams } from '../../../api/estate/estateInterface';
 import { useEstatesPageQuery } from '../../../api/estate/estateApi';
 import { useState } from 'react';
-import { EstateType } from '../../../types/estate';
+import { EstateType, RateClass } from '../../../types/estate';
 
 const energyClassMarks = [
     { value: EnergyClass.E, label: energyClassLabels[EnergyClass.E] },
@@ -109,7 +109,7 @@ function SideSearch() {
             balcon: true,
             ascenseur: false,
             garage: true,
-            energyClass: 2,
+            energyClass: EnergyClass.C,
         },
         validationSchema: basicInfoValidationSchema,
         onSubmit: handleSubmit,
@@ -119,6 +119,7 @@ function SideSearch() {
     // TODO handle submit
     // window.alert(JSON.stringify(e, null, 2));
         const pcArr = e.ville?.match(/(\d{5})/);
+        const energyC = e?.energyClass;
         setSearch({
             city: pcArr ? pcArr[0] : '75001',
             type: e.typeBien,
@@ -130,6 +131,11 @@ function SideSearch() {
             fKitchen: e.kitchen,
             garage: e.garage,
             terrace: e.balcon,
+            enClass: energyC
+                ? (energyClassLabels[energyC] as RateClass)
+                : (energyClassLabels[EnergyClass.C] as RateClass),
+            rooms: e.nbPieces,
+            bathrooms: e.nbSalleBain,
         });
     }
     const handleReset = () => {
@@ -562,6 +568,6 @@ interface FormResponses {
     balcon: boolean;
     ascenseur: boolean;
     garage: boolean;
-    energyClass: number;
+    energyClass: EnergyClass;
 }
 export default SideSearch;
