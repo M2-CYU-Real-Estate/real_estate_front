@@ -14,8 +14,9 @@ import {
     Typography,
 } from '@mui/material';
 import { mockProfiles } from '../../../api/mocks/mockProfiles';
-import { UserProfile } from '../../../types/user';
+import { UserProfile, UserProfiles } from '../../../types/user';
 import GLOBALS from '../../../globals';
+import { useUserProfilesQuery } from '../../../api/user/userApi';
 
 interface InitialChoiceProps {
     goToResults: () => void;
@@ -26,10 +27,11 @@ function SearchInitialChoice({
     goToResults,
     setProfileChosen,
 }: InitialChoiceProps) {
-    const profiles = mockProfiles;
+    // const profiles = mockProfiles;
+    const { data: profiles, isLoading, isError } = useUserProfilesQuery();
 
     // When user click on one of the profiles, the state must be changed in order to launch the search
-    const onProfileChoice = (profile: UserProfile) => () => {
+    const onProfileChoice = (profile: UserProfiles) => () => {
         setProfileChosen(profile.id);
         goToResults();
     };
@@ -66,7 +68,7 @@ function SearchInitialChoice({
                             <ListSubheader component="div">Choix du profil</ListSubheader>
                         }
                     >
-                        {profiles.map((profile) => (
+                        {profiles?.map((profile) => (
                             <ListItem
                                 key={profile.id}
                                 disablePadding

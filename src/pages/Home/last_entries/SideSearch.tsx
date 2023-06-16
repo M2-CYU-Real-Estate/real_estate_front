@@ -49,41 +49,33 @@ export const basicInfoValidationSchema = yup.object({
     appartement: yup.boolean(),
     prixMin: yup
         .number()
-        .required('Le prixMin voulue est attendue')
         .positive('Un nombre valide est attendu')
         .typeError('Un nombre valide est attendu'),
     prixMax: yup
         .number()
-        .required('Le prixMax voulue est attendue')
         .positive('Un nombre valide est attendu')
         .typeError('Un nombre valide est attendu'),
     surfaceMin: yup
         .number()
-        .required('La surfaceMin voulu est attendu')
         .positive('Un nombre valide est attendu')
         .typeError('Un nombre valide est attendu'),
     surfaceMax: yup
         .number()
-        .required('La surfaceMax voulu est attendu')
         .positive('Un nombre valide est attendu')
         .typeError('Un nombre valide est attendu'),
     nbPieces: yup
         .number()
-        .required('Le nombre de pieces voulu est attendu')
         .positive('Un nombre valide est attendu')
         .typeError('Un nombre valide est attendu'),
     nbSalleBain: yup
         .number()
-        .required('Le nombre de salle de bains voulu est attendu')
         .positive('Un nombre valide est attendu')
         .typeError('Un nombre valide est attendu'),
     kitchen: yup.boolean(),
     balcon: yup.boolean(),
     ascenseur: yup.boolean(),
     garage: yup.boolean(),
-    energyClass: yup
-        .mixed<EnergyClass>()
-        .required('La classe énergétique est attendue'),
+    energyClass: yup.mixed<EnergyClass>(),
 });
 function SideSearch() {
     const [page, setPage] = useState<number>(0);
@@ -99,12 +91,12 @@ function SideSearch() {
         initialValues: {
             ville: '',
             typeBien: 'HOUSE',
-            prixMin: 0,
-            prixMax: 0,
-            surfaceMax: 0,
-            surfaceMin: 0,
-            nbPieces: 0,
-            nbSalleBain: 0,
+            prixMin: 200000,
+            prixMax: 800000,
+            surfaceMax: 200,
+            surfaceMin: 100,
+            nbPieces: 3,
+            nbSalleBain: 2,
             kitchen: false,
             balcon: true,
             ascenseur: false,
@@ -496,7 +488,7 @@ function SideSearch() {
                         <Grid container>
                             <Grid item lg={10}>
                                 <FormLabel id="demo-radio-buttons-group-label">
-                  Classe energy
+                  Classe energétique
                                 </FormLabel>
                                 <Slider
                                     size="medium"
